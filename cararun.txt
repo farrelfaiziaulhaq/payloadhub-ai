@@ -1,0 +1,10 @@
+Cara run sekarang
+# Terminal 1 — backend
+cd /home/farrel/projectflutter/backend && source .venv/bin/activate
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+# Terminal 2 — frontend (Linux desktop)
+cd /home/farrel/projectflutter/frontend
+flutter run -d linux
+Di platform lain tinggal ganti: -d windows / -d macos / -d chrome (web) / HP Android via -d <device-id>.
+Dua catatan

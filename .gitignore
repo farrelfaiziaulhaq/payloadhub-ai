@@ -1,0 +1,25 @@
+# Local provider secrets. Never commit these files.
+api-*
+key-*
+frontend/assets/keys/*
+**/.env
+**/.env.*
+!**/.env.example
+
+# Flutter/Dart generated files
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/build/
+**/.pub-cache/
+
+# Python generated files and virtual environments
+**/.venv/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local IDE and OS files
+.idea/
+*.iml
+.DS_Store
