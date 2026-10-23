@@ -58,9 +58,10 @@ class _MonitoringPageState extends ConsumerState<MonitoringPage> {
 
     final filtered =
         _filter == null ? logs : logs.where((l) => l.level == _filter).toList();
+    final compact = MediaQuery.sizeOf(context).width < 700;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.fromLTRB(16, 16, 16, compact ? 120 : 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -70,42 +71,64 @@ class _MonitoringPageState extends ConsumerState<MonitoringPage> {
                   fontSize: 15,
                   fontWeight: FontWeight.w700)),
           const SizedBox(height: 12),
-          RepaintBoundary(child: _MetricChart(telemetry: t)),
+          RepaintBoundary(child: _MetricChart(telemetry: t, compact: compact)),
           const SizedBox(height: 8),
           _Legend(),
           const SizedBox(height: 24),
-          Row(
-            children: [
-              const Text('Agent Action Logs',
-                  style: TextStyle(
-                      color: AppColors.textPrimary,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700)),
-              const Spacer(),
-              _FilterChip(
-                  label: 'Info',
-                  level: LogLevel.info,
-                  current: _filter,
-                  onTap: _toggleFilter),
-              const SizedBox(width: 6),
-              _FilterChip(
-                  label: 'Warning',
-                  level: LogLevel.warning,
-                  current: _filter,
-                  onTap: _toggleFilter),
-              const SizedBox(width: 6),
-              _FilterChip(
-                  label: 'Exploit Exec',
-                  level: LogLevel.exploitExecution,
-                  current: _filter,
-                  onTap: _toggleFilter),
-            ],
-          ),
+          if (compact) ...[
+            const Text('Agent Action Logs',
+                style: TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700)),
+            const SizedBox(height: 8),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(children: _filterChips()),
+            ),
+          ] else
+            Row(
+              children: [
+                const Text('Agent Action Logs',
+                    style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700)),
+                const Spacer(),
+                ..._filterChips(),
+              ],
+            ),
           const SizedBox(height: 10),
-          _TerminalLog(entries: filtered, scrollController: _logScroll),
+          _TerminalLog(
+            entries: filtered,
+            scrollController: _logScroll,
+            compact: compact,
+          ),
         ],
       ),
     );
+  }
+
+  List<Widget> _filterChips() {
+    return [
+      _FilterChip(
+          label: 'Info',
+          level: LogLevel.info,
+          current: _filter,
+          onTap: _toggleFilter),
+      const SizedBox(width: 6),
+      _FilterChip(
+          label: 'Warning',
+          level: LogLevel.warning,
+          current: _filter,
+          onTap: _toggleFilter),
+      const SizedBox(width: 6),
+      _FilterChip(
+          label: 'Exploit Exec',
+          level: LogLevel.exploitExecution,
+          current: _filter,
+          onTap: _toggleFilter),
+    ];
   }
 
   void _toggleFilter(LogLevel level) {
@@ -117,18 +140,19 @@ class _MonitoringPageState extends ConsumerState<MonitoringPage> {
 // Multi-line metric chart (CPU / RAM / Disk / Temp)
 // ---------------------------------------------------------------------------
 class _MetricChart extends StatelessWidget {
-  const _MetricChart({required this.telemetry});
+  const _MetricChart({required this.telemetry, required this.compact});
 
   final TelemetryData telemetry;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: compact ? 180 : 200,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(compact ? 16 : 10),
         border: Border.all(color: AppColors.border),
       ),
       child: CustomPaint(
@@ -239,10 +263,15 @@ class _Legend extends StatelessWidget {
 // Terminal-style log viewer
 // ---------------------------------------------------------------------------
 class _TerminalLog extends StatelessWidget {
-  const _TerminalLog({required this.entries, required this.scrollController});
+  const _TerminalLog({
+    required this.entries,
+    required this.scrollController,
+    required this.compact,
+  });
 
   final List<AgentLog> entries;
   final ScrollController scrollController;
+  final bool compact;
 
   Color _colorOf(LogLevel level) {
     switch (level) {
@@ -258,10 +287,10 @@ class _TerminalLog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 320,
+      height: compact ? 260 : 320,
       decoration: BoxDecoration(
         color: const Color(0xFF000000),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(compact ? 16 : 10),
         border:
             Border.all(color: const Color(0xFF00FF00).withValues(alpha: 0.25)),
       ),

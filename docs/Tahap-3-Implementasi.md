@@ -114,30 +114,36 @@ flowchart TB
 ```dart
 final compact = MediaQuery.sizeOf(context).width < 700;
 // ...
-Row(
-  children: [
-    if (!compact) const AppSidebar(),
-    Expanded(child: /* top bar + halaman + footer */),
-  ],
-)
+if (compact)
+  MobileAppHeader(...)   // brand + riwayat + menu overflow
+else
+  AppTopBar(...);        // toolbar desktop
 // ...
 if (compact) _MobileNavigation(...)
 ```
 
-- **Layar < 700 px:** bottom navigation 5 tab, tanpa sidebar, footer disembunyikan, `SafeArea` aktif.
-- **Layar ≥ 700 px:** sidebar 228 px + konten.
+- **Layar < 700 px:** header aplikasi, bottom navigation 5 tab, tanpa sidebar,
+  footer disembunyikan, `SafeArea` aktif, FAB bantuan berbentuk bulat 52 px.
+- **Layar ≥ 700 px:** sidebar 228 px + toolbar desktop + konten.
 - **Halaman:** `IndexedStack` agar state tidak hilang saat berpindah tab.
 
 ### 4.2 Dashboard responsif
 
-- **< 1000 px:** satu kolom gulir vertikal berisi Studio → Nmap → Aktivitas → Library → Threat → Monitoring. Tidak ada *horizontal scroll*.
+- **< 700 px (ponsel):** kartu sambutan “Mobile Security Studio”, alat cepat
+  horizontal (One-Liner, Exploit, Monitor), lalu satu kolom gulir vertikal
+  Studio → Riwayat → Nmap → Library → Threat → Monitoring.
+- **700–999 px (tablet):** satu kolom tanpa hero, padding 14 px.
 - **≥ 1000 px:** tiga kolom (6:4:3) dengan masing-masing kolom dapat digulir.
+
+Breakpoint 700 px mengubah **struktur** (header, FAB, padding), bukan sekadar
+mengecilkan ukuran. Tidak ada *horizontal scroll* pada 390 × 844.
 
 ### 4.3 Halaman dan komponen utama
 
 | File | Tanggung jawab |
 |---|---|
-| `app_top_bar.dart` | Judul halaman + aksi riwayat/ekspor/tentang yang berfungsi |
+| `app_top_bar.dart` | Toolbar desktop: judul halaman + aksi riwayat/ekspor/tentang |
+| `mobile_app_header.dart` | Header mobile: brand, judul halaman, badge riwayat, menu overflow |
 | `app_sidebar.dart` | Menu desktop + pintasan riwayat |
 | `panel_card.dart` | Kartu konsisten (judul, subtitle, aksi) |
 | `script_generator_page.dart` | Tab generator, validasi form, simpan riwayat |

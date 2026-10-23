@@ -273,8 +273,8 @@ Hasil build final (23 Oktober 2026):
 |---|---|
 | Status | **Berhasil** |
 | Berkas | `frontend/build/app/outputs/flutter-apk/app-release.apk` |
-| Ukuran | 57.876.933 byte (55,2 MB) |
-| SHA-256 | `7F71676147E77EA323B26D172C99F7BA30C3CF7C0B6252E06263EFDAB15B1479` |
+| Ukuran | 58.156.477 byte (55,5 MB) |
+| SHA-256 | `3114C3AA027C19C6C3BA6FDC564AEF0EAC38062CE359C42F269089651C25811B` |
 
 Verifikasi ulang setelah perubahan konfigurasi Android: `flutter analyze`
 tanpa temuan dan 16 pengujian lulus. Instalasi pada perangkat fisik belum
@@ -300,6 +300,6 @@ dicatat; lihat Tahap 5 §7.
 | Analyzer bersih | **[C]** | Output `flutter analyze` |
 | Bug diperbaiki | **[C]** | Diff kode + test regresi |
 | Pengujian pengguna | **[S]** | Belum dilaksanakan; format tersedia |
-| Ukuran APK & instalasi perangkat | **[C]** ukuran; **[S]** instalasi | Build APK 55,2 MB; perangkat fisik belum dicatat |
+| Ukuran APK & instalasi perangkat | **[C]** ukuran; **[S]** instalasi | Build APK 55,5 MB; perangkat fisik belum dicatat |
 
 **VERDICT: request_changes** — kualitas teknis baik, tetapi pengujian pengguna dan verifikasi pada perangkat fisik wajib diselesaikan sebelum Tahap 5 dinyatakan final.

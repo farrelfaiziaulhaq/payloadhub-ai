@@ -12,6 +12,7 @@ italic, code, and links. It is deterministic and does not touch the network.
 from __future__ import annotations
 
 import re
+from io import BytesIO
 from pathlib import Path
 from typing import Iterable, List, Optional, Tuple
 
@@ -41,6 +42,7 @@ SOURCES = [
 INLINE_RE = re.compile(
     r"(<https?://[^>]+>|\*\*.+?\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\)|\*[^*]+\*)",
 )
+IMAGE_RE = re.compile(r"^!\[([^\]]*)\]\(([^)]+)\)$")
 TABLE_SEPARATOR_RE = re.compile(r"^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)$")
 ORDERED_RE = re.compile(r"^\s*(\d+)[.)]\s+(.*)$")
@@ -218,6 +220,47 @@ def convert(markdown_path: Path, output_path: Path) -> None:
         if line.strip() == "<!-- pagebreak -->":
             flush_table()
             document.add_page_break()
+            index += 1
+            continue
+
+        image_match = IMAGE_RE.match(line.strip())
+        if image_match:
+            flush_table()
+            alt, source = image_match.groups()
+            image_path = (markdown_path.parent / source).resolve()
+            if image_path.suffix.lower() == ".svg":
+                label = alt.strip() or image_path.stem
+                document.add_paragraph(f"Diagram: {label} ({source})")
+                index += 1
+                continue
+            if image_path.exists():
+                width = Inches(2.6)
+                try:
+                    from PIL import Image as PILImage
+
+                    with PILImage.open(image_path) as picture:
+                        if picture.width / max(picture.height, 1) > 1.5:
+                            width = Inches(5.9)
+                except Exception:
+                    width = Inches(2.6)
+                picture_paragraph = document.add_paragraph()
+                picture_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                picture_paragraph.paragraph_format.space_before = Pt(6)
+                picture_paragraph.paragraph_format.space_after = Pt(3)
+                with open(image_path, "rb") as image_file:
+                    picture_paragraph.add_run().add_picture(
+                        BytesIO(image_file.read()), width=width
+                    )
+                if alt.strip():
+                    caption = document.add_paragraph()
+                    caption.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    caption.paragraph_format.space_after = Pt(10)
+                    caption_run = caption.add_run(alt.strip())
+                    caption_run.italic = True
+                    caption_run.font.size = Pt(8.5)
+                    caption_run.font.color.rgb = RGBColor(0x66, 0x66, 0x66)
+            else:
+                document.add_paragraph(f"[Gambar tidak ditemukan: {source}]")
             index += 1
             continue
 

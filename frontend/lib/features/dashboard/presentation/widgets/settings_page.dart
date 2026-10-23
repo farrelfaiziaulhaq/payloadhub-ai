@@ -115,8 +115,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final compact = MediaQuery.sizeOf(context).width < 700;
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.fromLTRB(16, 16, 16, compact ? 124 : 24),
       child: Form(
         key: _formKey,
         child: Column(
@@ -153,7 +154,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                           ? null
                           : validateIpv4(v),
                       style: const TextStyle(
-                          color: AppColors.textPrimary, fontSize: 12),
+                          color: AppColors.textPrimary, fontSize: 14),
                     ),
                   );
                   final lportField = _LabeledField(
@@ -166,7 +167,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       style: const TextStyle(
-                          color: AppColors.textPrimary, fontSize: 12),
+                          color: AppColors.textPrimary, fontSize: 14),
                     ),
                   );
                   if (constraints.maxWidth < 360) {
@@ -231,13 +232,16 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ),
             const SizedBox(height: 16),
             SizedBox(
-              height: 46,
+              height: 50,
               child: FilledButton(
                 onPressed: _save,
                 style: FilledButton.styleFrom(
                   backgroundColor: AppColors.accent,
                   foregroundColor: const Color(0xFF0D1117),
                   textStyle: const TextStyle(fontWeight: FontWeight.w700),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                 ),
                 child: const Text('Save Settings'),
               ),
@@ -258,26 +262,29 @@ class _SectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compact = MediaQuery.sizeOf(context).width < 700;
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(compact ? 16 : 14),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(compact ? 18 : 10),
         border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title,
-              style: const TextStyle(
+              style: TextStyle(
                   color: AppColors.textPrimary,
-                  fontSize: 14,
+                  fontSize: compact ? 15 : 14,
                   fontWeight: FontWeight.w700)),
           if (subtitle != null) ...[
-            const SizedBox(height: 2),
+            const SizedBox(height: 3),
             Text(subtitle!,
-                style: const TextStyle(
-                    color: AppColors.textSecondary, fontSize: 11)),
+                style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: compact ? 12 : 11,
+                    height: 1.35)),
           ],
           const SizedBox(height: 12),
           child,
@@ -302,7 +309,7 @@ class _SecretField extends StatelessWidget {
         child: TextField(
           controller: controller,
           obscureText: true,
-          style: const TextStyle(color: AppColors.textPrimary, fontSize: 12),
+          style: const TextStyle(color: AppColors.textPrimary, fontSize: 14),
         ),
       ),
     );
@@ -321,13 +328,16 @@ class _LabeledField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,
-            style: const TextStyle(color: AppColors.textPrimary, fontSize: 12)),
+            style: const TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 13,
+                fontWeight: FontWeight.w600)),
         const SizedBox(height: 6),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: AppColors.bgElevated,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(color: AppColors.border),
           ),
           child: child,

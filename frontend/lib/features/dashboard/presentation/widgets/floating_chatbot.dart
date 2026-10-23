@@ -63,6 +63,43 @@ class _FloatingChatbotState extends ConsumerState<FloatingChatbot> {
   }
 
   Widget _collapsedFab(BuildContext context) {
+    final compact = MediaQuery.sizeOf(context).width < 700;
+    if (compact) {
+      return Material(
+        color: AppColors.card,
+        elevation: 8,
+        shape: const CircleBorder(
+          side: BorderSide(color: AppColors.border),
+        ),
+        child: InkWell(
+          onTap: () => setState(() => _open = true),
+          customBorder: const CircleBorder(),
+          child: SizedBox(
+            width: 52,
+            height: 52,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                const Icon(Icons.smart_toy_outlined,
+                    color: AppColors.accent, size: 22),
+                Positioned(
+                  top: 12,
+                  right: 12,
+                  child: Container(
+                    width: 7,
+                    height: 7,
+                    decoration: const BoxDecoration(
+                      color: AppColors.accent,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
     return Material(
       color: AppColors.card,
       elevation: 6,
@@ -102,10 +139,12 @@ class _FloatingChatbotState extends ConsumerState<FloatingChatbot> {
 
   Widget _chatWindow(BuildContext context) {
     final state = ref.watch(freeChatControllerProvider);
-    final maxHeight = MediaQuery.of(context).size.height * 0.6;
+    final screen = MediaQuery.sizeOf(context);
+    final panelWidth = screen.width < 380 ? screen.width - 24 : 340.0;
+    final maxHeight = screen.height * (screen.width < 700 ? 0.7 : 0.6);
 
     return Container(
-      width: 340,
+      width: panelWidth,
       constraints: BoxConstraints(maxHeight: maxHeight),
       decoration: BoxDecoration(
         color: AppColors.card,

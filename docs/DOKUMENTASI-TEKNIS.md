@@ -200,8 +200,8 @@ Build final yang tercatat:
 
 | Atribut | Nilai |
 |---|---|
-| Ukuran | 57.876.933 byte (55,2 MB) |
-| SHA-256 | `7F71676147E77EA323B26D172C99F7BA30C3CF7C0B6252E06263EFDAB15B1479` |
+| Ukuran | 58.156.477 byte (55,5 MB) |
+| SHA-256 | `3114C3AA027C19C6C3BA6FDC564AEF0EAC38062CE359C42F269089651C25811B` |
 | applicationId | `id.farrel.payloadhubai` |
 | minSdk | 21 |
 | targetSdk | 36 |
@@ -460,6 +460,20 @@ class InMemoryActivityRepository implements ActivityRepository {
   }
 }
 ```
+
+### 11.1 Membuat screenshot antarmuka
+
+Screenshot pada laporan diambil dari build web yang berjalan, bukan mockup:
+
+```powershell
+cd frontend
+flutter build web --release
+python -m http.server 8099 --bind 127.0.0.1 --directory build/web
+```
+
+Buka `http://127.0.0.1:8099` dengan viewport **390 × 844**, lalu ambil
+tangkapan layar Dashboard, Generator, Exploit, Riwayat, Settings, dan
+Monitoring. Simpan sebagai PNG di `docs/assets/screenshots/`.
 
 ## 12. Keamanan
 

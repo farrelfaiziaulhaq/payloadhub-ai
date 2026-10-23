@@ -16,17 +16,24 @@ class ScriptGeneratorPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final compact = MediaQuery.sizeOf(context).width < 700;
     return DefaultTabController(
       length: 2,
       child: Column(
         children: [
           Container(
             color: AppColors.bgElevated,
-            child: const TabBar(
+            child: TabBar(
+              isScrollable: compact,
+              tabAlignment: compact ? TabAlignment.start : TabAlignment.fill,
               indicatorColor: AppColors.accent,
               labelColor: AppColors.textPrimary,
               unselectedLabelColor: AppColors.textSecondary,
-              tabs: [
+              labelStyle: TextStyle(
+                fontSize: compact ? 13 : 14,
+                fontWeight: FontWeight.w600,
+              ),
+              tabs: const [
                 Tab(text: 'One-Liner Generator'),
                 Tab(text: 'Custom Python Exploit Builder'),
               ],
@@ -121,25 +128,47 @@ class _OneLinerTabState extends ConsumerState<_OneLinerTab> {
   Widget build(BuildContext context) {
     final s = ref.watch(scriptGenProvider);
     final c = ref.read(scriptGenProvider.notifier);
+    final compact = MediaQuery.sizeOf(context).width < 700;
+    final chips = [
+      for (final cat in OneLinerCategory.values)
+        _CatChip(
+          label: _catName(cat),
+          selected: s.category == cat,
+          onTap: () => c.setCategory(cat),
+        ),
+    ];
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.fromLTRB(16, 16, 16, compact ? 124 : 24),
       child: Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Wrap(
-              spacing: 8,
-              children: [
-                for (final cat in OneLinerCategory.values)
-                  _CatChip(
-                    label: _catName(cat),
-                    selected: s.category == cat,
-                    onTap: () => c.setCategory(cat),
-                  ),
-              ],
+            const Text(
+              'Payload deterministik dari library internal. Tidak memerlukan '
+              'koneksi ke backend.',
+              style: TextStyle(
+                color: AppColors.textSecondary,
+                fontSize: 12,
+                height: 1.4,
+              ),
             ),
+            const SizedBox(height: 14),
+            if (compact)
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    for (var i = 0; i < chips.length; i++) ...[
+                      if (i > 0) const SizedBox(width: 8),
+                      chips[i],
+                    ],
+                  ],
+                ),
+              )
+            else
+              Wrap(spacing: 8, runSpacing: 8, children: chips),
             const SizedBox(height: 16),
             _LabeledField(
               label: 'Payload Type',
@@ -174,7 +203,7 @@ class _OneLinerTabState extends ConsumerState<_OneLinerTab> {
                     hintStyle: TextStyle(
                         color: AppColors.textSecondary, fontSize: 12)),
                 style:
-                    const TextStyle(color: AppColors.textPrimary, fontSize: 12),
+                    const TextStyle(color: AppColors.textPrimary, fontSize: 14),
               ),
             ),
             const SizedBox(height: 12),
@@ -195,12 +224,12 @@ class _OneLinerTabState extends ConsumerState<_OneLinerTab> {
                     hintStyle: TextStyle(
                         color: AppColors.textSecondary, fontSize: 12)),
                 style:
-                    const TextStyle(color: AppColors.textPrimary, fontSize: 12),
+                    const TextStyle(color: AppColors.textPrimary, fontSize: 14),
               ),
             ),
             const SizedBox(height: 16),
             SizedBox(
-              height: 46,
+              height: 50,
               child: FilledButton(
                 onPressed: _generate,
                 style: FilledButton.styleFrom(
@@ -329,9 +358,10 @@ class _PythonBuilderTabState extends ConsumerState<_PythonBuilderTab> {
     final s = ref.watch(scriptGenProvider);
     final c = ref.read(scriptGenProvider.notifier);
     final pyCode = s.pyResult?.codeBlocks;
+    final compact = MediaQuery.sizeOf(context).width < 700;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.fromLTRB(16, 16, 16, compact ? 124 : 24),
       child: Form(
         key: _formKey,
         child: Column(
@@ -348,7 +378,7 @@ class _PythonBuilderTabState extends ConsumerState<_PythonBuilderTab> {
                     hintStyle: TextStyle(
                         color: AppColors.textSecondary, fontSize: 12)),
                 style:
-                    const TextStyle(color: AppColors.textPrimary, fontSize: 12),
+                    const TextStyle(color: AppColors.textPrimary, fontSize: 14),
               ),
             ),
             const SizedBox(height: 12),
@@ -365,7 +395,7 @@ class _PythonBuilderTabState extends ConsumerState<_PythonBuilderTab> {
                     hintStyle: TextStyle(
                         color: AppColors.textSecondary, fontSize: 12)),
                 style:
-                    const TextStyle(color: AppColors.textPrimary, fontSize: 12),
+                    const TextStyle(color: AppColors.textPrimary, fontSize: 14),
               ),
             ),
             const SizedBox(height: 12),
@@ -379,7 +409,7 @@ class _PythonBuilderTabState extends ConsumerState<_PythonBuilderTab> {
                     hintStyle: TextStyle(
                         color: AppColors.textSecondary, fontSize: 12)),
                 style:
-                    const TextStyle(color: AppColors.textPrimary, fontSize: 12),
+                    const TextStyle(color: AppColors.textPrimary, fontSize: 14),
               ),
             ),
             const SizedBox(height: 12),
@@ -404,7 +434,7 @@ class _PythonBuilderTabState extends ConsumerState<_PythonBuilderTab> {
             ),
             const SizedBox(height: 16),
             SizedBox(
-              height: 46,
+              height: 50,
               child: FilledButton(
                 onPressed:
                     s.pyStatus == ScriptStatus.loading ? null : _generate,
@@ -456,13 +486,13 @@ class _LabeledField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,
-            style: const TextStyle(color: AppColors.textPrimary, fontSize: 12)),
+            style: const TextStyle(color: AppColors.textPrimary, fontSize: 14)),
         const SizedBox(height: 6),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: AppColors.bgElevated,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(color: AppColors.border),
           ),
           child: child,

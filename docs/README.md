@@ -27,6 +27,7 @@ dokumen teknis dan panduan presentasi sesuai kebutuhan.
 | Wireframe riwayat | [`assets/wireframe-history.svg`](assets/wireframe-history.svg) | Daftar, detail, ekspor |
 | Wireframe settings | [`assets/wireframe-settings.svg`](assets/wireframe-settings.svg) | Key, preferensi, About |
 | Purwarupa interaktif | [`prototipe/index.html`](prototipe/index.html) | Buka di browser, tanpa server |
+| Screenshot mobile | [`assets/screenshots/`](assets/screenshots) | 8 tampilan nyata pada viewport 390×844 |
 | Generator wireframe | [`tools/gen_wireframes.py`](tools/gen_wireframes.py) | Regenerasi semua SVG |
 | Konversi DOCX | [`tools/md_to_docx.py`](tools/md_to_docx.py) | Regenerasi laporan Word |
 
@@ -44,7 +45,7 @@ python docs/tools/md_to_docx.py
 ```text
 flutter analyze  → No issues found!
 flutter test     → 16 tests passed
-APK rilis        → 55,2 MB (57.876.933 byte)
+APK rilis        → 55,5 MB (58.156.477 byte)
 ```
 
 Detail dan tanggal build ada di [Tahap 5 §4](Tahap-5-Laporan-Akhir.md#4-artefak-rilis).

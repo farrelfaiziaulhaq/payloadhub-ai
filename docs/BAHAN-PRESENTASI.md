@@ -210,7 +210,7 @@ FastAPI (Pydantic, Agent, Tools)
 | Kasus uji fungsional | 24 |
 | Kasus nonfungsional | 7 |
 | Bug ditemukan | 9 |
-| APK | 55,2 MB, build berhasil |
+| APK | 55,5 MB, build berhasil |
 
 **Catatan:**
 

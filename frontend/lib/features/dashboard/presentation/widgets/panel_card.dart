@@ -21,26 +21,28 @@ class PanelCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compact = MediaQuery.sizeOf(context).width < 700;
     return Container(
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(compact ? 18 : 10),
         border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(14, 12, 8, 8),
+            padding:
+                EdgeInsets.fromLTRB(compact ? 16 : 14, compact ? 15 : 12, 8, 8),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
+                      fontSize: compact ? 16 : 15,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -50,16 +52,27 @@ class PanelCard extends StatelessWidget {
           ),
           if (subtitle != null)
             Padding(
-              padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
+              padding: EdgeInsets.fromLTRB(compact ? 16 : 14, 0, 14, 6),
               child: Text(
                 subtitle!,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textSecondary,
-                  fontSize: 12,
+                  fontSize: compact ? 12.5 : 12,
                 ),
               ),
             ),
-          if (body != null) Padding(padding: padding, child: body!),
+          if (body != null)
+            Padding(
+              padding: compact
+                  ? EdgeInsets.fromLTRB(
+                      padding.resolve(Directionality.of(context)).left,
+                      4,
+                      padding.resolve(Directionality.of(context)).right,
+                      16,
+                    )
+                  : padding,
+              child: body!,
+            ),
         ],
       ),
     );

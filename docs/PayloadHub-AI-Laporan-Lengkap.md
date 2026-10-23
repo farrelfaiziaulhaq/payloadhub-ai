@@ -28,7 +28,8 @@ APK rilis: <https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/v1.0
 6. Tahap 5 — Finalisasi dan Hasil
 7. Dokumentasi Teknis Ringkas
 8. Panduan Demo dan Presentasi
-9. Lampiran
+9. Hasil Implementasi dan Pembahasan
+10. Lampiran
 
 <!-- pagebreak -->
 
@@ -49,7 +50,7 @@ dan UI, implementasi Flutter, pengujian, dan finalisasi. Hasil utamanya:
 | Backend | FastAPI + agent dengan guardrail dan tool deterministik |
 | Fitur | 12 fitur utama, termasuk Riwayat Aktivitas terenkripsi |
 | Kualitas | `flutter analyze` bersih, 16 pengujian otomatis lulus |
-| Rilis | APK 55,2 MB, applicationId `id.farrel.payloadhubai` |
+| Rilis | APK 55,5 MB, applicationId `id.farrel.payloadhubai` |
 | Dokumentasi | Laporan Tahap 1–5, wireframe, prototipe, panduan demo |
 
 Nilai pembeda proyek ini adalah kombinasi **deterministik** dan **mobile-first**:
@@ -413,7 +414,7 @@ riwayat), observasi, lalu kuesioner.
 
 | Artefak | Keterangan |
 |---|---|
-| APK rilis | 55,2 MB, dapat dipasang di Android 5.0+ |
+| APK rilis | 55,5 MB, dapat dipasang di Android 5.0+ |
 | Kode sumber | Flutter + FastAPI di repository GitHub |
 | Laporan Tahap 1–5 | Markdown dan Word |
 | Wireframe | 5 berkas SVG |
@@ -426,8 +427,8 @@ riwayat), observasi, lalu kuesioner.
 | Atribut | Nilai |
 |---|---|
 | Berkas | `app-release.apk` |
-| Ukuran | 57.876.933 byte (55,2 MB) |
-| SHA-256 | `7F71676147E77EA323B26D172C99F7BA30C3CF7C0B6252E06263EFDAB15B1479` |
+| Ukuran | 58.156.477 byte (55,5 MB) |
+| SHA-256 | `3114C3AA027C19C6C3BA6FDC564AEF0EAC38062CE359C42F269089651C25811B` |
 | applicationId | `id.farrel.payloadhubai` |
 | Label | PayloadHub-AI |
 | minSdk | 21 |
@@ -477,7 +478,7 @@ PayloadHub-AI memenuhi luaran lima tahap proyek akhir. Aplikasi berjalan
 sebagai klien Flutter responsif dengan backend FastAPI, memiliki fitur yang
 relevan dengan domain keamanan, dan menambahkan Riwayat Aktivitas terenkripsi
 sebagai peningkatan pengalaman mobile. Kualitas teknis dibuktikan dengan
-analyzer bersih, 16 pengujian otomatis lulus, dan APK rilis 55,2 MB yang
+analyzer bersih, 16 pengujian otomatis lulus, dan APK rilis 55,5 MB yang
 berhasil dibangun. Keterbatasan lapangan dinyatakan terbuka, bukan dikarang.
 
 <!-- pagebreak -->
@@ -622,9 +623,99 @@ video cadangan siap, API key tidak terlihat di layar.
 
 <!-- pagebreak -->
 
-## 9. Lampiran
+## 9. Hasil Implementasi dan Pembahasan
 
-### 9.1 Perintah Reproduksi
+Screenshot berikut diambil dari **build Flutter yang benar-benar berjalan**
+pada viewport ponsel **390 × 844** (bukan mockup Figma). Data yang tampil
+merupakan data demonstrasi yang dibuat melalui alur aplikasi sendiri:
+payload `10.10.14.8:9001`, satu entri riwayat, dan katalog exploit bawaan.
+Tampilan desktop tetap tersedia, tetapi fokus dokumen ini adalah pengalaman
+mobile.
+
+### 9.1 Dashboard Mobile
+
+![Gambar 9.1 — Dashboard mobile: header aplikasi, kartu sambutan, alat cepat, dan bottom navigation](assets/screenshots/mobile-dashboard.png)
+
+Perubahan utama dari tampilan bergaya web:
+
+- header desktop dengan tiga tombol bulat diganti **header aplikasi** berisi
+  identitas produk, judul halaman, ikon riwayat dengan badge, dan menu
+  overflow;
+- ditambahkan **kartu sambutan** berisi CTA “Buat Payload” dan “Riwayat”;
+- **alat cepat** horizontal menuju generator, exploit, dan monitoring;
+- kartu tersusun satu kolom dengan sudut membulat dan padding sentuh yang
+  lebih besar;
+- **bottom navigation** berlabel Indonesia (Beranda, Exploit, Generator,
+  Monitor, Setelan) dengan ikon terisi saat aktif.
+
+### 9.2 Script Generator
+
+![Gambar 9.2 — Generator mobile setelah payload dibuat; hasil, tombol salin, dan riwayat langsung tersedia](assets/screenshots/mobile-generator-result.png)
+
+Form memakai validasi IPv4/port, chip kategori yang dapat digeser
+horizontal, dan tombol setinggi 50 dp. Setelah payload dibuat, hasil muncul
+di blok kode dengan tombol **Copy** dan **Save**, lalu otomatis masuk ke
+riwayat. Perhatikan badge riwayat di header berubah menjadi **1** tanpa perlu
+membuka halaman lain.
+
+### 9.3 Exploit Library
+
+![Gambar 9.3 — Daftar exploit pada ponsel; kartu besar, kategori berwarna, dan pencarian di atas](assets/screenshots/mobile-exploits.png)
+
+![Gambar 9.4 — Detail exploit sebagai halaman penuh: CVSS, referensi, PoC, dan tombol Send to Studio](assets/screenshots/mobile-exploit-detail.png)
+
+Pada layar sempit, daftar exploit menguasai layar dan detail dibuka sebagai
+**rute penuh**, bukan panel separuh layar. Kode PoC dapat digeser horizontal
+agar sintaks panjang tetap terbaca.
+
+### 9.4 Riwayat Aktivitas Terenkripsi
+
+![Gambar 9.5 — Riwayat aktivitas: kartu entri, jenis, cuplikan payload, dan waktu](assets/screenshots/mobile-history.png)
+
+![Gambar 9.6 — Detail riwayat sebagai bottom sheet dengan tombol salin](assets/screenshots/mobile-history-detail.png)
+
+Riwayat menampilkan jenis aktivitas, judul, cuplikan payload, dan waktu.
+Ketuk entri untuk membuka bottom sheet; geser ke kiri untuk menghapus;
+ikon hapus di AppBar menghapus semua dengan konfirmasi. Data disimpan
+terenkripsi dan tetap ada setelah aplikasi ditutup.
+
+### 9.5 Settings dan Monitoring
+
+![Gambar 9.7 — Settings mobile: kartu bagian, field besar, dan penyimpanan aman](assets/screenshots/mobile-settings.png)
+
+![Gambar 9.8 — Monitoring mobile: grafik resource dan log agent dengan filter](assets/screenshots/mobile-monitoring.png)
+
+Settings memakai kartu bagian yang lega dan field lebih besar agar mudah
+diketik. Monitoring menampilkan grafik resource dan log agent; filter
+dipindahkan ke baris horizontal agar tidak bertabrakan dengan judul pada
+layar 390 px.
+
+### 9.6 Pembahasan: Desain Awal vs Implementasi
+
+| Aspek | Rancangan awal | Implementasi akhir | Alasan perubahan |
+|---|---|---|---|
+| Navigasi | Sidebar di semua ukuran | Sidebar desktop, bottom nav mobile | Ibu jari menjangkau bawah |
+| Header | Top bar + tiga tombol ikon | Header brand + riwayat + menu overflow | Identitas aplikasi dan ruang layar |
+| Dashboard | Tiga kolom | Satu kolom + hero + alat cepat | Tidak ada scroll horizontal |
+| Kartu | Sudut 10 px, padding 14 | Sudut 18 px, padding 16 | Target sentuh dan estetika mobile |
+| Detail exploit | Dua panel | Rute penuh di ponsel | Kode dan CVSS tetap terbaca |
+| Tombol bantuan | Pill “Info Bot” lebar | FAB bulat 52 px | Tidak menutupi konten |
+| Form | Field kecil 12 px | Field 14 px, tinggi 50 px | Mengurangi salah ketik |
+
+**Kekuatan hasil:** alur utama (generate → salin → riwayat) dapat
+diselesaikan dengan satu tangan; tidak ada overflow pada 390 × 844;
+perubahan state langsung terlihat lewat badge dan SnackBar.
+
+**Keterbatasan tampilan:** screenshot diambil dari build web karena emulator
+Android tidak dapat dijalankan stabil di mesin build; widget test tetap
+memverifikasi layout 390 × 844. Status bar sistem, gesture navigasi Android,
+dan keyboard virtual belum terlihat pada screenshot.
+
+<!-- pagebreak -->
+
+## 10. Lampiran
+
+### 10.1 Perintah Reproduksi
 
 ```bash
 git clone https://github.com/farrelfaiziaulhaq/payloadhub-ai.git
@@ -644,7 +735,7 @@ flutter test
 flutter build apk --release
 ```
 
-### 9.2 Berkas Utama
+### 10.2 Berkas Utama
 
 ```text
 payloadhub-ai/
@@ -656,13 +747,13 @@ payloadhub-ai/
 └── README.md
 ```
 
-### 9.3 Status Verifikasi
+### 10.3 Status Verifikasi
 
 | Klaim | Status | Bukti |
 |---|---|---|
 | Analyzer bersih | **[C]** | Output `flutter analyze` |
 | 16 test lulus | **[C]** | Output `flutter test` |
-| APK 55,2 MB | **[C]** | Berkas APK + log build |
+| APK 55,5 MB | **[C]** | Berkas APK + log build |
 | SHA-256 APK | **[C]** | `Get-FileHash` |
 | Layout dua viewport | **[C]** | Widget test |
 | Instalasi perangkat fisik | **[S]** | Belum dicatat |
@@ -672,11 +763,11 @@ payloadhub-ai/
 Keterangan: **[C]** terverifikasi, **[I]** inferensi, **[S]** belum
 terverifikasi.
 
-### 9.4 Pernyataan Integritas
+### 10.4 Pernyataan Integritas
 
 Dokumen ini disusun berdasarkan kode dan hasil pengujian yang benar-benar
 dijalankan. Tidak ada data pengujian pengguna, tangkapan layar palsu, atau
 angka hasil yang dikarang. Butir yang belum selesai dinyatakan terbuka pada
-Bagian 6.4 dan 9.3.
+Bagian 6.4 dan 10.3.
 
 **PayloadHub-AI — Farrel Faizi Aulhaq — 2026**

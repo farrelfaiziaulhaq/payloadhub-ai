@@ -199,7 +199,10 @@ void main() {
 
     // Bottom navigation is present, sidebar is not.
     expect(find.byType(NavigationBar), findsOneWidget);
-    expect(find.text('PayloadHub-AI'), findsNothing);
+    // Mobile header keeps the product identity; the desktop sidebar is hidden.
+    expect(find.text('PayloadHub-AI'), findsOneWidget);
+    expect(find.text('Mobile Security Studio'), findsOneWidget);
+    expect(find.text('Alat Cepat'), findsOneWidget);
 
     await tester.tap(find.text('Generator').last);
     await _settleDrain(tester);

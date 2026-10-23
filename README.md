@@ -18,7 +18,7 @@ pengujian keamanan yang memiliki otorisasi. Project ini terdiri dari:
 
 | Tahap | Dokumen |
 |---|---|
-| **Laporan lengkap (gabungan)** | [`MD`](docs/PayloadHub-AI-Laporan-Lengkap.md) · [`DOCX`](docs/docx/PayloadHub-AI-Laporan-Lengkap.docx) |
+| **Laporan lengkap (gabungan)** | [`MD`](docs/PayloadHub-AI-Laporan-Lengkap.md) · [`DOCX`](docs/docx/PayloadHub-AI-Laporan-Lengkap-FINAL.docx) |
 | 1 — Analisis kebutuhan | [`docs/Tahap-1-Analisis-Kebutuhan.md`](docs/Tahap-1-Analisis-Kebutuhan.md) |
 | 2 — Perancangan sistem & UI | [`docs/Tahap-2-Perancangan-Sistem.md`](docs/Tahap-2-Perancangan-Sistem.md) |
 | 3 — Implementasi Flutter | [`docs/Tahap-3-Implementasi.md`](docs/Tahap-3-Implementasi.md) |
@@ -32,6 +32,8 @@ pengujian keamanan yang memiliki otorisasi. Project ini terdiri dari:
 
 ## Fitur utama
 
+- Tampilan **mobile-first**: header aplikasi, kartu sambutan, alat cepat,
+  bottom navigation, dan tombol bantuan bulat di ponsel.
 - Dashboard responsif: kartu bertumpuk di ponsel, tiga kolom di layar lebar.
 - Navigasi adaptif: *bottom navigation* di ponsel, *sidebar* di desktop.
 - Generator one-liner dan payload deterministik dari library internal.
@@ -42,6 +44,17 @@ pengujian keamanan yang memiliki otorisasi. Project ini terdiri dari:
   dan ekspor JSON.
 - Penyimpanan API key di secure storage Flutter; key LLM backend tetap berada
   di server.
+
+## Tampilan mobile
+
+| Dashboard | Generator | Riwayat |
+|---|---|---|
+| ![Dashboard](docs/assets/screenshots/mobile-dashboard.png) | ![Generator](docs/assets/screenshots/mobile-generator-result.png) | ![Riwayat](docs/assets/screenshots/mobile-history.png) |
+
+Screenshot diambil dari build Flutter pada viewport **390 × 844**. Detail
+tampilan dan pembahasan ada di
+[`docs/PayloadHub-AI-Laporan-Lengkap.md`](docs/PayloadHub-AI-Laporan-Lengkap.md)
+Bagian 9.
 
 ## Struktur project
 
@@ -216,7 +229,7 @@ Hasil verifikasi terakhir (23 Oktober 2026):
 ```text
 flutter analyze   → No issues found!
 flutter test      → 00:06 +16: All tests passed!
-flutter build apk → app-release.apk (55,2 MB)
+flutter build apk → app-release.apk (55,5 MB)
 ```
 
 ### Build APK Android
@@ -240,7 +253,7 @@ flutter build apk --release
 
 Keluaran: `frontend/build/app/outputs/flutter-apk/app-release.apk`
 (applicationId `id.farrel.payloadhubai`, minSdk 21, SHA-256
-`7F71676147E77EA323B26D172C99F7BA30C3CF7C0B6252E06263EFDAB15B1479`).
+`3114C3AA027C19C6C3BA6FDC564AEF0EAC38062CE359C42F269089651C25811B`).
 
 APK yang sudah dibangun tersedia sebagai aset rilis:
 <https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/v1.0.0>.

@@ -25,7 +25,7 @@ sistem dan UI, implementasi Flutter, integrasi dan pengujian, serta
 finalisasi. Hasil akhir berupa:
 
 - aplikasi Flutter yang berjalan di Android, web, dan desktop;
-- **APK rilis 55,2 MB** yang dapat dipasang pada Android 5.0+;
+- **APK rilis 55,5 MB** yang dapat dipasang pada Android 5.0+;
 - **16 pengujian otomatis lulus** dan `flutter analyze` tanpa temuan;
 - dokumentasi Tahap 1–5, wireframe SVG, purwarupa interaktif, panduan demo,
   dan bahan presentasi;
@@ -52,7 +52,7 @@ finalisasi. Hasil akhir berupa:
 
 | No | Fitur | Deskripsi | Bukti |
 |---|---|---|---|
-| F-01 | Dashboard responsif | Satu kolom di bawah 1000 px; tiga kolom di layar lebar | Widget test 390×844 & 1440×900 |
+| F-01 | Dashboard responsif | Header mobile, kartu sambutan, alat cepat, satu kolom di ponsel; tiga kolom di layar lebar | Widget test 390×844 & 1440×900 |
 | F-02 | Navigasi adaptif | `NavigationBar` + `SafeArea` di ponsel; sidebar di desktop | Widget test |
 | F-03 | Script Generator | One-liner bash/PowerShell/Python dan payload dari library internal | Widget test + unit test |
 | F-04 | Validasi input | IPv4, port 1–65535, filter digit, pesan error spesifik | 6 unit test |
@@ -104,13 +104,13 @@ sebagai teks biasa. Tidak ada kredensial yang dibundel ke dalam APK.
 |---|---|
 | Nama berkas | `app-release.apk` |
 | Lokasi build | `frontend/build/app/outputs/flutter-apk/app-release.apk` |
-| Ukuran | 57.876.933 byte (**55,2 MB**) |
-| SHA-256 | `7F71676147E77EA323B26D172C99F7BA30C3CF7C0B6252E06263EFDAB15B1479` |
+| Ukuran | 58.156.477 byte (**55,5 MB**) |
+| SHA-256 | `3114C3AA027C19C6C3BA6FDC564AEF0EAC38062CE359C42F269089651C25811B` |
 | Application ID | `id.farrel.payloadhubai` |
 | Label | PayloadHub-AI |
 | Minimum SDK | 21 (Android 5.0) |
 | Izin | `INTERNET` |
-| Tanggal build | 23 Oktober 2026, 22:14 |
+| Tanggal build | 23 Oktober 2026, 23:37 |
 | Unduhan | <https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/v1.0.0> |
 
 Perintah reproduksi:
@@ -141,6 +141,7 @@ lengkap dijelaskan pada [`DOKUMENTASI-TEKNIS.md`](DOKUMENTASI-TEKNIS.md) §6.
 | Wireframe | `docs/assets/wireframe-*.svg` |
 | Purwarupa interaktif | `docs/prototipe/index.html` |
 | Generator wireframe | `docs/tools/gen_wireframes.py` |
+| Screenshot mobile (8) | `docs/assets/screenshots/mobile-*.png` |
 
 ## 5. Hasil Verifikasi Teknis
 
@@ -171,7 +172,7 @@ flutter test
 
 | Target | Perintah | Hasil |
 |---|---|---|
-| Android APK | `flutter build apk --release` | **Berhasil**, 55,2 MB |
+| Android APK | `flutter build apk --release` | **Berhasil**, 55,5 MB |
 | Web | `flutter build web` | Didukung (belum dijalankan pada finalisasi) |
 | Windows | `flutter run -d windows` | Berjalan saat pengembangan |
 | Linux | `flutter build linux` | Didukung oleh kode; toolchain Linux tidak tersedia di mesin build |
@@ -256,7 +257,7 @@ berjalan sebagai klien Flutter responsif dengan backend FastAPI, memiliki
 fitur yang relevan dengan domain keamanan, serta menambahkan Riwayat
 Aktivitas terenkripsi sebagai peningkatan pengalaman mobile. Kualitas teknis
 dibuktikan dengan analyzer bersih, 16 pengujian otomatis yang lulus, dan APK
-rilis 55,2 MB yang berhasil dibangun. Keterbatasan yang tersisa — terutama
+rilis 55,5 MB yang berhasil dibangun. Keterbatasan yang tersisa — terutama
 pengujian pengguna dan verifikasi perangkat fisik — dinyatakan terbuka dan
 tidak memengaruhi keabsahan artefak yang sudah ada.
 
@@ -309,7 +310,7 @@ payloadhub-ai/
 |---|---|---|
 | Analyzer bersih | **[C]** | Output `flutter analyze` |
 | 16 test lulus | **[C]** | Output `flutter test` |
-| APK 55,2 MB berhasil dibangun | **[C]** | Berkas APK + log build |
+| APK 55,5 MB berhasil dibangun | **[C]** | Berkas APK + log build |
 | SHA-256 APK | **[C]** | `Get-FileHash` |
 | Fitur responsif dua viewport | **[C]** | Widget test |
 | Instalasi perangkat fisik | **[S]** | Belum dicatat |
