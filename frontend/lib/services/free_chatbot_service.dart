@@ -151,12 +151,16 @@ class FreeChatbotService {
       final recent = history.length > _maxHistory
           ? history.sublist(history.length - _maxHistory)
           : history;
-      final messages = [...recent, InfoMessage(role: InfoRole.user, text: clipped)];
+      final messages = [
+        ...recent,
+        InfoMessage(role: InfoRole.user, text: clipped)
+      ];
       final provider = await _provider();
 
       var primaryEmitted = false;
       try {
-        await for (final chunk in _streamWithRetry(provider, apiKey, messages)) {
+        await for (final chunk
+            in _streamWithRetry(provider, apiKey, messages)) {
           primaryEmitted = true;
           yield chunk;
         }
@@ -195,12 +199,9 @@ class FreeChatbotService {
   }
 
   Stream<String> _streamWithRetry(
-    FreeChatProvider provider,
-    String apiKey,
-    List<InfoMessage> messages,
-    {String? model}
-  ) async* {
-    for (var attempt = 0; ; attempt++) {
+      FreeChatProvider provider, String apiKey, List<InfoMessage> messages,
+      {String? model}) async* {
+    for (var attempt = 0;; attempt++) {
       var emitted = false;
       try {
         final stream = provider == FreeChatProvider.gemini
@@ -233,7 +234,9 @@ class FreeChatbotService {
       ),
     );
     final stream = response.data;
-    if (stream == null) throw Exception('Provider mengembalikan respons kosong.');
+    if (stream == null) {
+      throw Exception('Provider mengembalikan respons kosong.');
+    }
     return stream;
   }
 
@@ -255,7 +258,9 @@ class FreeChatbotService {
 
   String? _groqStreamText(Map<String, dynamic> data) {
     final choices = data['choices'];
-    if (choices is! List || choices.isEmpty || choices.first is! Map) return null;
+    if (choices is! List || choices.isEmpty || choices.first is! Map) {
+      return null;
+    }
     final choice = choices.first as Map;
     final delta = choice['delta'];
     return delta is Map ? delta['content']?.toString() : null;
@@ -303,11 +308,8 @@ class FreeChatbotService {
     yield* _parseSse(response, 'groq');
   }
 
-  Stream<String> _askGeminiStream(
-    String apiKey,
-    List<InfoMessage> messages,
-    {String? model}
-  ) async* {
+  Stream<String> _askGeminiStream(String apiKey, List<InfoMessage> messages,
+      {String? model}) async* {
     final body = {
       'system_instruction': {
         'parts': [

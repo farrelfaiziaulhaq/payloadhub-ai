@@ -59,7 +59,13 @@ class _StudioConfigPanelState extends ConsumerState<StudioConfigPanel> {
             right: _LabeledDropdown(
               label: 'Bypass Techniques',
               value: studio.bypass,
-              options: const ['Default', 'Base64', 'URL Encoded', 'Hex', 'CharCodes'],
+              options: const [
+                'Default',
+                'Base64',
+                'URL Encoded',
+                'Hex',
+                'CharCodes'
+              ],
               onChanged: controller.setBypass,
             ),
           ),
@@ -74,18 +80,21 @@ class _StudioConfigPanelState extends ConsumerState<StudioConfigPanel> {
           SizedBox(
             height: 42,
             child: FilledButton(
-              onPressed:
-                  studio.status == StudioStatus.loading ? null : controller.generate,
+              onPressed: studio.status == StudioStatus.loading
+                  ? null
+                  : controller.generate,
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.accent,
                 foregroundColor: const Color(0xFF0D1117),
-                textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                textStyle:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
               ),
               child: studio.status == StudioStatus.loading
                   ? const SizedBox(
                       width: 18,
                       height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.bg),
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2, color: AppColors.bg),
                     )
                   : const Text('Generate Payload'),
             ),
@@ -131,7 +140,8 @@ class _OSSelector extends StatelessWidget {
       children: [
         const SizedBox(
           width: 118,
-          child: Text('OS', style: TextStyle(color: AppColors.textPrimary, fontSize: 13)),
+          child: Text('OS',
+              style: TextStyle(color: AppColors.textPrimary, fontSize: 13)),
         ),
         Expanded(
           child: _Segmented(
@@ -182,7 +192,9 @@ class _Segmented extends StatelessWidget {
                   opt,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: selected ? const Color(0xFF0D1117) : AppColors.textSecondary,
+                    color: selected
+                        ? const Color(0xFF0D1117)
+                        : AppColors.textSecondary,
                     fontSize: 12,
                     fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
                   ),
@@ -237,7 +249,8 @@ class _LabeledDropdown extends StatelessWidget {
                     (o) => DropdownMenuItem(
                       value: o,
                       child: Text(o,
-                          style: const TextStyle(color: AppColors.textPrimary, fontSize: 12)),
+                          style: const TextStyle(
+                              color: AppColors.textPrimary, fontSize: 12)),
                     ),
                   )
                   .toList(),
@@ -286,7 +299,9 @@ class _PlaceholderCode extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: Text(
-        offline ? 'Agent unreachable — start the backend (uvicorn).' : 'Configure & press Generate Payload.',
+        offline
+            ? 'Agent unreachable — start the backend (uvicorn).'
+            : 'Configure & press Generate Payload.',
         style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
       ),
     );
@@ -319,10 +334,13 @@ class _AiAgentPromptBar extends StatelessWidget {
               Expanded(
                 child: TextField(
                   controller: controller,
-                  style: const TextStyle(color: AppColors.textPrimary, fontSize: 12.5),
+                  style: const TextStyle(
+                      color: AppColors.textPrimary, fontSize: 12.5),
                   decoration: const InputDecoration(
-                    hintText: 'e.g., Generate a PHP reverse shell to 10.10.14.8',
-                    hintStyle: TextStyle(color: AppColors.textSecondary, fontSize: 12.5),
+                    hintText:
+                        'e.g., Generate a PHP reverse shell to 10.10.14.8',
+                    hintStyle: TextStyle(
+                        color: AppColors.textSecondary, fontSize: 12.5),
                     border: InputBorder.none,
                     isDense: true,
                   ),
@@ -337,7 +355,8 @@ class _AiAgentPromptBar extends StatelessWidget {
                     color: AppColors.accent,
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: const Icon(Icons.arrow_forward, color: Color(0xFF0D1117), size: 16),
+                  child: const Icon(Icons.arrow_forward,
+                      color: Color(0xFF0D1117), size: 16),
                 ),
               ),
             ],

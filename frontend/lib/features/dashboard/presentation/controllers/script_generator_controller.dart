@@ -32,7 +32,8 @@ class ScriptGenController extends StateNotifier<ScriptGenState> {
   void setBuildIp(String v) => state = state.copyWith(buildIp: v);
   void setBuildPort(String v) => state = state.copyWith(buildPort: v);
   void setBuildPath(String v) => state = state.copyWith(buildPath: v);
-  void setBuildPayloadType(String v) => state = state.copyWith(buildPayloadType: v);
+  void setBuildPayloadType(String v) =>
+      state = state.copyWith(buildPayloadType: v);
 
   /// Produce a deterministic one-liner based on the current selection.
   void buildOneLiner() {
@@ -105,15 +106,19 @@ class ScriptGenController extends StateNotifier<ScriptGenState> {
     final path = s.buildPath.trim();
     final ptype = s.buildPayloadType;
     if (ip.isEmpty || port.isEmpty) {
-      state = state.copyWith(pyStatus: ScriptStatus.error, pyError: 'Target IP and Port are required.');
+      state = state.copyWith(
+          pyStatus: ScriptStatus.error,
+          pyError: 'Target IP and Port are required.');
       return;
     }
 
-    state = state.copyWith(pyStatus: ScriptStatus.loading, pyResult: null, pyError: null);
+    state = state.copyWith(
+        pyStatus: ScriptStatus.loading, pyResult: null, pyError: null);
     try {
       final lhost = await _storage.readDefaultLhost();
       final lport = await _storage.readDefaultLport();
-      final prompt = 'Write a single-file exploit.py using requests/pwntools to '
+      final prompt =
+          'Write a single-file exploit.py using requests/pwntools to '
           'attack target=$ip on port=$port vulnerable_path=$path '
           'payload_type=$ptype. Include a main() and clear comments. '
           'Authorized testing only.';
@@ -130,7 +135,8 @@ class ScriptGenController extends StateNotifier<ScriptGenState> {
       state = state.copyWith(pyStatus: ScriptStatus.success, pyResult: result);
     } catch (e) {
       if (_disposed) return;
-      state = state.copyWith(pyStatus: ScriptStatus.error, pyError: e.toString());
+      state =
+          state.copyWith(pyStatus: ScriptStatus.error, pyError: e.toString());
     }
   }
 }

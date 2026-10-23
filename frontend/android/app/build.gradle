@@ -20,10 +20,9 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.payloadhub_ai"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        // Unique Play Store-style identifier for this academic project.
+        applicationId = "id.farrel.payloadhubai"
+        // minSdk/targetSdk follow the Flutter SDK defaults (Android 5.0+).
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -32,8 +31,9 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // The candidate APK for this assignment is signed with the debug
+            // keystore so it installs without extra CI secrets. Replace with a
+            // private release keystore before any public distribution.
             signingConfig = signingConfigs.debug
         }
     }

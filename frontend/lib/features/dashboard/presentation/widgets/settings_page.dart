@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_theme.dart';
@@ -141,44 +142,58 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             _SectionCard(
               title: 'Target Defaults',
               subtitle: 'Auto-filled into the Payload Studio & generators',
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _LabeledField(
-                      label: 'LHOST (pentester IP)',
-                      child: TextFormField(
-                        controller: _lhost,
-                        validator: (v) => (v == null || v.trim().isEmpty)
-                            ? null
-                            : validateIpv4(v),
-                        style: const TextStyle(
-                            color: AppColors.textPrimary, fontSize: 12),
-                      ),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final lhostField = _LabeledField(
+                    label: 'LHOST (pentester IP)',
+                    child: TextFormField(
+                      controller: _lhost,
+                      keyboardType: TextInputType.number,
+                      validator: (v) => (v == null || v.trim().isEmpty)
+                          ? null
+                          : validateIpv4(v),
+                      style: const TextStyle(
+                          color: AppColors.textPrimary, fontSize: 12),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _LabeledField(
-                      label: 'LPORT',
-                      child: TextFormField(
-                        controller: _lport,
-                        validator: (v) => (v == null || v.trim().isEmpty)
-                            ? null
-                            : validatePort(v),
-                        keyboardType: TextInputType.number,
-                        style: const TextStyle(
-                            color: AppColors.textPrimary, fontSize: 12),
-                      ),
+                  );
+                  final lportField = _LabeledField(
+                    label: 'LPORT',
+                    child: TextFormField(
+                      controller: _lport,
+                      validator: (v) => (v == null || v.trim().isEmpty)
+                          ? null
+                          : validatePort(v),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      style: const TextStyle(
+                          color: AppColors.textPrimary, fontSize: 12),
                     ),
-                  ),
-                ],
+                  );
+                  if (constraints.maxWidth < 360) {
+                    return Column(
+                      children: [
+                        lhostField,
+                        const SizedBox(height: 12),
+                        lportField,
+                      ],
+                    );
+                  }
+                  return Row(
+                    children: [
+                      Expanded(child: lhostField),
+                      const SizedBox(width: 12),
+                      Expanded(child: lportField),
+                    ],
+                  );
+                },
               ),
             ),
             const SizedBox(height: 12),
             _SectionCard(
               title: 'LLM Engine Selector',
               child: DropdownButtonFormField<String>(
-                value: _llmEngine,
+                key: ValueKey<String>(_llmEngine),
+                initialValue: _llmEngine,
                 dropdownColor: AppColors.cardAlt,
                 decoration:
                     const InputDecoration(labelText: 'Active LLM backend'),
@@ -332,14 +347,17 @@ class _ToggleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SwitchListTile(
-      title: Text(label,
-          style: const TextStyle(color: AppColors.textPrimary, fontSize: 13)),
-      value: value,
-      activeColor: AppColors.accent,
-      contentPadding: EdgeInsets.zero,
-      dense: true,
-      onChanged: onChanged,
+    return Material(
+      type: MaterialType.transparency,
+      child: SwitchListTile(
+        title: Text(label,
+            style: const TextStyle(color: AppColors.textPrimary, fontSize: 13)),
+        value: value,
+        activeThumbColor: AppColors.accent,
+        contentPadding: EdgeInsets.zero,
+        dense: true,
+        onChanged: onChanged,
+      ),
     );
   }
 }

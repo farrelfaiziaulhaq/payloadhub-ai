@@ -1,11 +1,11 @@
-# PayloadHub-AI
+﻿# PayloadHub-AI
 
 PayloadHub-AI adalah aplikasi **ethical hacking assistant** untuk membantu
 pengujian keamanan yang memiliki otorisasi. Project ini terdiri dari:
 
 - **Frontend:** aplikasi Flutter multiplatform (`frontend/`) dengan dashboard,
-  Exploit Library, Script Generator, Monitoring, Threat Intelligence, dan
-  Settings.
+  Exploit Library, Script Generator, Monitoring, Threat Intelligence,
+  Settings, dan Riwayat Aktivitas lokal.
 - **Backend:** API FastAPI (`backend/`) yang menjalankan agent LangChain dan
   tool deterministik untuk membuat reverse-shell yang tervalidasi, membaca
   hasil Nmap/CVE, menganalisis JWT, mencari katalog ExploitDB, dan meneruskan
@@ -14,30 +14,49 @@ pengujian keamanan yang memiliki otorisasi. Project ini terdiri dari:
 > Gunakan hanya pada sistem milik sendiri, lab, CTF, atau target yang memiliki
 > izin tertulis. Jangan menjalankan hasil aplikasi pada target tanpa otorisasi.
 
+## Dokumentasi Proyek Akhir
+
+| Tahap | Dokumen |
+|---|---|
+| 1 â€” Analisis kebutuhan | [`docs/Tahap-1-Analisis-Kebutuhan.md`](docs/Tahap-1-Analisis-Kebutuhan.md) |
+| 2 â€” Perancangan sistem & UI | [`docs/Tahap-2-Perancangan-Sistem.md`](docs/Tahap-2-Perancangan-Sistem.md) |
+| 3 â€” Implementasi Flutter | [`docs/Tahap-3-Implementasi.md`](docs/Tahap-3-Implementasi.md) |
+| 4 â€” Integrasi & pengujian | [`docs/Tahap-4-Pengujian.md`](docs/Tahap-4-Pengujian.md) |
+| 5 â€” Finalisasi & laporan | [`docs/Tahap-5-Laporan-Akhir.md`](docs/Tahap-5-Laporan-Akhir.md) |
+| Wireframe & purwarupa | [`docs/assets/`](docs/assets), [`docs/prototipe/index.html`](docs/prototipe/index.html) |
+| Panduan demo video | [`docs/PANDUAN-DEMO-VIDEO.md`](docs/PANDUAN-DEMO-VIDEO.md) |
+| Bahan presentasi | [`docs/BAHAN-PRESENTASI.md`](docs/BAHAN-PRESENTASI.md) |
+| Dokumentasi teknis | [`docs/DOKUMENTASI-TEKNIS.md`](docs/DOKUMENTASI-TEKNIS.md) |
+| Versi Word semua laporan | [`docs/docx/`](docs/docx) |
+
 ## Fitur utama
 
-- Dashboard responsif untuk desktop, web, dan mobile.
-- Generator one-liner dan payload berdasarkan library internal deterministik.
+- Dashboard responsif: kartu bertumpuk di ponsel, tiga kolom di layar lebar.
+- Navigasi adaptif: *bottom navigation* di ponsel, *sidebar* di desktop.
+- Generator one-liner dan payload deterministik dari library internal.
 - Agent AI backend dengan validasi input dan guardrail anti-halusinasi.
 - Exploit Library lokal serta pencarian katalog ExploitDB resmi.
 - Threat intelligence VirusTotal untuk URL, file, hash, domain, dan IP.
+- Riwayat aktivitas lokal terenkripsi (maks. 40 entri) dengan salin, hapus,
+  dan ekspor JSON.
 - Penyimpanan API key di secure storage Flutter; key LLM backend tetap berada
   di server.
 
 ## Struktur project
 
 ```text
-projectflutter/
-├── backend/
-│   ├── app/                 # FastAPI, agent, models, dan deterministic tools
-│   ├── requirements.txt
-│   └── .env.example
-├── frontend/
-│   ├── lib/                 # Aplikasi Flutter/Dart
-│   ├── test/
-│   └── pubspec.yaml
-├── BLUEPRINT.md             # Spesifikasi teknis dan kontrak API
-└── README.md
+payloadhub-ai/
+â”œâ”€â”€ backend/
+â”‚   â”œâ”€â”€ app/                 # FastAPI, agent, models, dan deterministic tools
+â”‚   â”œâ”€â”€ requirements.txt
+â”‚   â””â”€â”€ .env.example
+â”œâ”€â”€ frontend/
+â”‚   â”œâ”€â”€ lib/                 # Aplikasi Flutter/Dart
+â”‚   â”œâ”€â”€ test/                # Unit + widget tests
+â”‚   â””â”€â”€ pubspec.yaml
+â”œâ”€â”€ docs/                    # Laporan Tahap 1â€“5, wireframe, purwarupa
+â”œâ”€â”€ BLUEPRINT.md             # Spesifikasi teknis dan kontrak API
+â””â”€â”€ README.md
 ```
 
 ## Prasyarat
@@ -83,7 +102,7 @@ Panduan resmi Android + Flutter:
 ### 1. Backend FastAPI
 
 ```bash
-cd /home/farrel/projectflutter/backend
+cd backend
 python3 -m venv .venv
 source .venv/bin/activate              # Linux/macOS
 # Windows PowerShell: .venv\Scripts\Activate.ps1
@@ -111,7 +130,7 @@ di backend. Jangan commit `.env`, file `api-*`, atau key provider apa pun.
 Buka terminal baru atau keluar dari virtualenv, lalu jalankan:
 
 ```bash
-cd /home/farrel/projectflutter/frontend
+cd frontend
 flutter pub get
 flutter doctor -v
 ```
@@ -127,7 +146,7 @@ dan syntax highlighting.
 Terminal 1:
 
 ```bash
-cd /home/farrel/projectflutter/backend
+cd backend
 source .venv/bin/activate
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
@@ -145,14 +164,14 @@ Response yang benar adalah `{"status":"ok"}`.
 Terminal 2:
 
 ```bash
-cd /home/farrel/projectflutter/frontend
+cd frontend
 flutter run -d linux
 ```
 
 ### Frontend Web
 
 ```bash
-cd /home/farrel/projectflutter/frontend
+cd frontend
 flutter run -d chrome
 ```
 
@@ -161,7 +180,7 @@ flutter run -d chrome
 Pastikan emulator/perangkat terlihat dengan `flutter devices`, lalu:
 
 ```bash
-cd /home/farrel/projectflutter/frontend
+cd frontend
 flutter run -d <device-id>
 ```
 
@@ -182,7 +201,8 @@ Untuk deployment nyata gunakan HTTPS dan batasi `CORS_ALLOW_ORIGINS`.
 
 ```bash
 # Frontend
-cd /home/farrel/projectflutter/frontend
+cd frontend
+flutter pub get
 flutter analyze
 flutter test
 flutter build apk --release       # Android
@@ -190,10 +210,44 @@ flutter build web                 # Web
 flutter build linux               # Linux desktop
 ```
 
+Hasil verifikasi terakhir (23 Oktober 2026):
+
+```text
+flutter analyze   â†’ No issues found!
+flutter test      â†’ 00:06 +16: All tests passed!
+flutter build apk â†’ app-release.apk (55,2 MB)
+```
+
+### Build APK Android
+
+Persyaratan toolchain yang sudah diuji:
+
+| Komponen | Versi |
+|---|---|
+| Flutter | 3.47.2 stable |
+| JDK | OpenJDK **20** (JDK 25 tidak kompatibel dengan Gradle 8.14) |
+| Gradle | 8.14.3 |
+| Android Gradle Plugin | 8.11.1 |
+| Kotlin | 2.2.20 |
+| Android SDK | 36, Build-Tools 35.0.0 |
+
+```bash
+flutter config --jdk-dir="/path/to/jdk-20"
+cd frontend
+flutter build apk --release
+```
+
+Keluaran: `frontend/build/app/outputs/flutter-apk/app-release.apk`
+(applicationId `id.farrel.payloadhubai`, minSdk 21, SHA-256
+`7F71676147E77EA323B26D172C99F7BA30C3CF7C0B6252E06263EFDAB15B1479`).
+
+APK saat ini ditandatangani debug key. Untuk distribusi publik, buat keystore
+rilis dan jangan commit `key.properties` atau berkas `.jks`.
+
 Pengecekan backend dasar:
 
 ```bash
-cd /home/farrel/projectflutter/backend
+cd backend
 source .venv/bin/activate
 python -m compileall -q app
 python -c "from app.main import app; print(app.title)"
@@ -222,10 +276,10 @@ Community API bersifat publik; jangan upload file rahasia.
 
 ## Endpoint backend
 
-- `GET /healthz` — health check.
-- `POST /api/v1/agent/execute` — menjalankan agent dengan prompt dan context.
-- `GET /api/v1/exploitdb/search?q=...` — mencari katalog ExploitDB.
-- `/api/v1/virustotal/*` — status, scan, analysis, dan lookup indikator.
+- `GET /healthz` â€” health check.
+- `POST /api/v1/agent/execute` â€” menjalankan agent dengan prompt dan context.
+- `GET /api/v1/exploitdb/search?q=...` â€” mencari katalog ExploitDB.
+- `/api/v1/virustotal/*` â€” status, scan, analysis, dan lookup indikator.
 
 Dokumentasi OpenAPI tersedia saat backend berjalan di
 <http://127.0.0.1:8000/docs>.

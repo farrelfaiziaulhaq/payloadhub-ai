@@ -11,7 +11,8 @@ enum StudioStatus { idle, loading, success, error }
 /// orchestrates payload generation against the backend agent, and auto-fills
 /// the LHOST/LPORT defaults from the Settings page (stored securely).
 class StudioController extends StateNotifier<StudioState> {
-  StudioController(this._repository, this._storage) : super(const StudioState());
+  StudioController(this._repository, this._storage)
+      : super(const StudioState());
 
   final PayloadRepository _repository;
   final SecureStorageService _storage;
@@ -75,7 +76,8 @@ class StudioController extends StateNotifier<StudioState> {
 
   Future<void> generate() async {
     if (_disposed) return;
-    state = state.copyWith(status: StudioStatus.loading, result: null, error: null);
+    state =
+        state.copyWith(status: StudioStatus.loading, result: null, error: null);
     try {
       final lhost = await _storage.readDefaultLhost();
       final lport = await _storage.readDefaultLport();

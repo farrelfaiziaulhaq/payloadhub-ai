@@ -32,7 +32,8 @@ class DonutGauge extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           CustomPaint(
-            painter: _GaugePainter(value: value, color: color, thickness: thickness),
+            painter:
+                _GaugePainter(value: value, color: color, thickness: thickness),
           ),
           Center(
             child: Column(
@@ -64,7 +65,8 @@ class DonutGauge extends StatelessWidget {
 }
 
 class _GaugePainter extends CustomPainter {
-  _GaugePainter({required this.value, required this.color, required this.thickness});
+  _GaugePainter(
+      {required this.value, required this.color, required this.thickness});
 
   final double value;
   final Color color;

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../controllers/navigation_controller.dart';
+import 'history_panel.dart';
 
 /// Left navigation sidebar with brand identity and an interactive vertical
 /// menu that drives the main canvas via [NavigationController].
@@ -59,6 +60,16 @@ class AppSidebar extends ConsumerWidget {
                   selected: current == AppPage.settings,
                   onTap: () => nav.select(AppPage.settings),
                 ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  child: Divider(height: 1, color: AppColors.border),
+                ),
+                _SidebarItem(
+                  icon: Icons.history,
+                  label: 'Riwayat Aktivitas',
+                  selected: false,
+                  onTap: () => openHistory(context),
+                ),
               ],
             ),
           ),
@@ -85,7 +96,8 @@ class _BrandHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: AppColors.accent, width: 1.4),
             ),
-            child: const Icon(Icons.view_in_ar, color: AppColors.accent, size: 20),
+            child:
+                const Icon(Icons.view_in_ar, color: AppColors.accent, size: 20),
           ),
           const SizedBox(width: 10),
           const Expanded(
@@ -144,7 +156,9 @@ class _SidebarItem extends StatelessWidget {
               child: Text(
                 label,
                 style: TextStyle(
-                  color: selected ? AppColors.textPrimary : AppColors.textSecondary,
+                  color: selected
+                      ? AppColors.textPrimary
+                      : AppColors.textSecondary,
                   fontSize: 13.5,
                   fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
                 ),

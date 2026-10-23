@@ -23,3 +23,9 @@ frontend/assets/keys/*
 .idea/
 *.iml
 .DS_Store
+
+# Local build/verification artifacts
+docx_dump.txt
+dist/
+*.apk
+*.log

@@ -63,8 +63,12 @@ class PayloadCodeView extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              _HeaderButton(label: 'Copy', icon: Icons.copy, onTap: () => _copy(context)),
-              _HeaderButton(label: 'Save', icon: Icons.save_outlined, onTap: () => _save(context)),
+              _HeaderButton(
+                  label: 'Copy', icon: Icons.copy, onTap: () => _copy(context)),
+              _HeaderButton(
+                  label: 'Save',
+                  icon: Icons.save_outlined,
+                  onTap: () => _save(context)),
             ],
           ),
           const Divider(height: 1, color: AppColors.border),

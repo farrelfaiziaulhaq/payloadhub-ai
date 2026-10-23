@@ -50,13 +50,15 @@ class FooterStatusBar extends ConsumerWidget {
               ' (${telemetry.networkConnections})',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+              style:
+                  const TextStyle(color: AppColors.textSecondary, fontSize: 12),
             ),
           ),
           const SizedBox(width: 14),
           Text(
             'Uptime: ${_fmt(telemetry.uptime)}',
-            style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+            style:
+                const TextStyle(color: AppColors.textSecondary, fontSize: 12),
           ),
         ],
       ),

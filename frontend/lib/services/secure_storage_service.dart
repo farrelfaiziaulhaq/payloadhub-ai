@@ -31,6 +31,7 @@ class SecureStorageService {
   static const _kTglow = 'ui_glow';
   static const _kTerminalFont = 'ui_terminal_font';
   static const _kSound = 'ui_sound';
+  static const _kActivityLog = 'activity_log';
 
   // ---- API key -----------------------------------------------------------
   Future<void> writeApiKey(String value) =>
@@ -121,6 +122,14 @@ class SecureStorageService {
 
   Future<bool> readSound() async =>
       (await _storage.read(key: _kSound)) == 'true';
+
+  // ---- Activity history (JSON array, encrypted at rest) ------------------
+  Future<void> writeActivityLog(String value) =>
+      _storage.write(key: _kActivityLog, value: value);
+
+  Future<String?> readActivityLog() => _storage.read(key: _kActivityLog);
+
+  Future<void> deleteActivityLog() => _storage.delete(key: _kActivityLog);
 
   // ---- Wipe all ----------------------------------------------------------
   Future<void> clearAll() => _storage.deleteAll();

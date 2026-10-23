@@ -59,8 +59,7 @@ class PanelCard extends StatelessWidget {
                 ),
               ),
             ),
-          if (body != null)
-            Padding(padding: padding, child: body!),
+          if (body != null) Padding(padding: padding, child: body!),
         ],
       ),
     );

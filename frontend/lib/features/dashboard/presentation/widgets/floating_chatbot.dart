@@ -28,8 +28,8 @@ class _FloatingChatbotState extends ConsumerState<FloatingChatbot> {
   @override
   void initState() {
     super.initState();
-    _chatSub =
-        ref.listenManual<FreeChatState>(freeChatControllerProvider, (_, __) => _scrollToEnd());
+    _chatSub = ref.listenManual<FreeChatState>(
+        freeChatControllerProvider, (_, __) => _scrollToEnd());
   }
 
   @override
@@ -75,7 +75,8 @@ class _FloatingChatbotState extends ConsumerState<FloatingChatbot> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.smart_toy_outlined, color: AppColors.accent, size: 20),
+              const Icon(Icons.smart_toy_outlined,
+                  color: AppColors.accent, size: 20),
               const SizedBox(width: 8),
               const Text(
                 'Info Bot',
@@ -89,7 +90,8 @@ class _FloatingChatbotState extends ConsumerState<FloatingChatbot> {
               Container(
                 width: 8,
                 height: 8,
-                decoration: const BoxDecoration(color: AppColors.accent, shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                    color: AppColors.accent, shape: BoxShape.circle),
               ),
             ],
           ),
@@ -108,9 +110,11 @@ class _FloatingChatbotState extends ConsumerState<FloatingChatbot> {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.08), width: 0.6),
+        border:
+            Border.all(color: Colors.white.withValues(alpha: 0.08), width: 0.6),
         boxShadow: const [
-          BoxShadow(color: Color(0x88000000), blurRadius: 20, offset: Offset(0, 6)),
+          BoxShadow(
+              color: Color(0x88000000), blurRadius: 20, offset: Offset(0, 6)),
         ],
       ),
       child: Column(
@@ -139,7 +143,8 @@ class _FloatingChatbotState extends ConsumerState<FloatingChatbot> {
       padding: const EdgeInsets.fromLTRB(12, 10, 6, 8),
       child: Row(
         children: [
-          const Icon(Icons.smart_toy_outlined, color: AppColors.accent, size: 18),
+          const Icon(Icons.smart_toy_outlined,
+              color: AppColors.accent, size: 18),
           const SizedBox(width: 8),
           const Expanded(
             child: Text(
@@ -152,7 +157,8 @@ class _FloatingChatbotState extends ConsumerState<FloatingChatbot> {
             ),
           ),
           _MiniButton(icon: Icons.settings_outlined, onTap: _configure),
-          _MiniButton(icon: Icons.close, onTap: () => setState(() => _open = false)),
+          _MiniButton(
+              icon: Icons.close, onTap: () => setState(() => _open = false)),
         ],
       ),
     );
@@ -169,14 +175,17 @@ class _FloatingChatbotState extends ConsumerState<FloatingChatbot> {
           Expanded(
             child: TextField(
               controller: _inputController,
-              style: const TextStyle(color: AppColors.textPrimary, fontSize: 12.5),
+              style:
+                  const TextStyle(color: AppColors.textPrimary, fontSize: 12.5),
               decoration: InputDecoration(
                 hintText: 'Ask a general cybersecurity question...',
-                hintStyle: const TextStyle(color: AppColors.textSecondary, fontSize: 12.5),
+                hintStyle: const TextStyle(
+                    color: AppColors.textSecondary, fontSize: 12.5),
                 filled: true,
                 fillColor: AppColors.bgElevated,
                 isDense: true,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: BorderSide.none,
@@ -252,13 +261,16 @@ class _MessageBubble extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 4),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isUser ? AppColors.accentDim.withValues(alpha: 0.25) : AppColors.bgElevated,
+          color: isUser
+              ? AppColors.accentDim.withValues(alpha: 0.25)
+              : AppColors.bgElevated,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: AppColors.border, width: 0.5),
         ),
         child: Text(
           message.text,
-          style: const TextStyle(color: AppColors.textPrimary, fontSize: 12.5, height: 1.4),
+          style: const TextStyle(
+              color: AppColors.textPrimary, fontSize: 12.5, height: 1.4),
         ),
       ),
     );
@@ -280,7 +292,8 @@ class _TypingBubble extends StatelessWidget {
             SizedBox(
               width: 12,
               height: 12,
-              child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.accent),
+              child: CircularProgressIndicator(
+                  strokeWidth: 2, color: AppColors.accent),
             ),
             SizedBox(width: 8),
             Text('Thinking...',
@@ -341,7 +354,8 @@ class _FreeChatConfigDialogState extends State<_FreeChatConfigDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             DropdownButtonFormField<String>(
-              value: _provider,
+              key: ValueKey<String>(_provider),
+              initialValue: _provider,
               decoration: const InputDecoration(labelText: 'Provider'),
               items: [
                 for (final e in FreeChatbotService.providerLabels.entries)
@@ -368,7 +382,9 @@ class _FreeChatConfigDialogState extends State<_FreeChatConfigDialog> {
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
+        TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel')),
         FilledButton(onPressed: _save, child: const Text('Save')),
       ],
     );
