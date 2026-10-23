@@ -35,10 +35,11 @@ SOURCES = [
     "PANDUAN-DEMO-VIDEO.md",
     "BAHAN-PRESENTASI.md",
     "README.md",
+    "PayloadHub-AI-Laporan-Lengkap.md",
 ]
 
 INLINE_RE = re.compile(
-    r"(\*\*.+?\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\)|\*[^*]+\*)",
+    r"(<https?://[^>]+>|\*\*.+?\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\)|\*[^*]+\*)",
 )
 TABLE_SEPARATOR_RE = re.compile(r"^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)$")
@@ -64,6 +65,14 @@ def add_inline(paragraph, text: str, base_bold: bool = False) -> None:
             run = paragraph.add_run(text[position : match.start()])
             run.bold = base_bold
         token = match.group(0)
+        if token.startswith("<http") and token.endswith(">"):
+            url = token[1:-1]
+            run = paragraph.add_run(url)
+            run.underline = True
+            run.font.color.rgb = RGBColor(0x1A, 0x4F, 0x8B)
+            run.font.size = Pt(9.5)
+            position = match.end()
+            continue
         if token.startswith("**") and token.endswith("**"):
             run = paragraph.add_run(token[2:-2])
             run.bold = True
@@ -206,6 +215,12 @@ def convert(markdown_path: Path, output_path: Path) -> None:
             index += 1
             continue
 
+        if line.strip() == "<!-- pagebreak -->":
+            flush_table()
+            document.add_page_break()
+            index += 1
+            continue
+
         if line.strip().startswith("|") and "|" in line:
             table_lines.append(line.strip())
             index += 1
@@ -295,6 +310,11 @@ def convert(markdown_path: Path, output_path: Path) -> None:
     footer_run = footer.add_run("PayloadHub-AI — Farrel Faizi Aulhaq")
     footer_run.font.size = Pt(8)
     footer_run.font.color.rgb = RGBColor(0x88, 0x88, 0x88)
+
+    document.core_properties.title = markdown_path.stem.replace("-", " ")
+    document.core_properties.author = "Farrel Faizi Aulhaq"
+    document.core_properties.subject = "Proyek Akhir Pemrograman Mobile"
+    document.core_properties.language = "id-ID"
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     document.save(output_path)

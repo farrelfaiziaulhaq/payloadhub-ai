@@ -7,6 +7,7 @@ dokumen teknis dan panduan presentasi sesuai kebutuhan.
 
 | Urutan | Dokumen | Untuk siapa | Isi |
 |---:|---|---|---|
+| 0 | [Laporan Lengkap (gabungan)](PayloadHub-AI-Laporan-Lengkap.md) | Dosen, pengumpulan | **Satu dokumen utuh** ringkasan Tahap 1–5 + teknis + demo |
 | 1 | [Tahap 1 — Analisis Kebutuhan](Tahap-1-Analisis-Kebutuhan.md) | Dosen, penguji | Latar belakang, persona, kebutuhan, etika, prioritas |
 | 2 | [Tahap 2 — Perancangan Sistem](Tahap-2-Perancangan-Sistem.md) | Dosen, penguji | Arsitektur, navigasi, design system, wireframe |
 | 3 | [Tahap 3 — Implementasi](Tahap-3-Implementasi.md) | Pengembang | Struktur kode, fitur, keputusan teknis |

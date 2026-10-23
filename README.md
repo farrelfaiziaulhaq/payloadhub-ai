@@ -1,4 +1,4 @@
-﻿# PayloadHub-AI
+# PayloadHub-AI
 
 PayloadHub-AI adalah aplikasi **ethical hacking assistant** untuk membantu
 pengujian keamanan yang memiliki otorisasi. Project ini terdiri dari:
@@ -18,11 +18,12 @@ pengujian keamanan yang memiliki otorisasi. Project ini terdiri dari:
 
 | Tahap | Dokumen |
 |---|---|
-| 1 â€” Analisis kebutuhan | [`docs/Tahap-1-Analisis-Kebutuhan.md`](docs/Tahap-1-Analisis-Kebutuhan.md) |
-| 2 â€” Perancangan sistem & UI | [`docs/Tahap-2-Perancangan-Sistem.md`](docs/Tahap-2-Perancangan-Sistem.md) |
-| 3 â€” Implementasi Flutter | [`docs/Tahap-3-Implementasi.md`](docs/Tahap-3-Implementasi.md) |
-| 4 â€” Integrasi & pengujian | [`docs/Tahap-4-Pengujian.md`](docs/Tahap-4-Pengujian.md) |
-| 5 â€” Finalisasi & laporan | [`docs/Tahap-5-Laporan-Akhir.md`](docs/Tahap-5-Laporan-Akhir.md) |
+| **Laporan lengkap (gabungan)** | [`MD`](docs/PayloadHub-AI-Laporan-Lengkap.md) · [`DOCX`](docs/docx/PayloadHub-AI-Laporan-Lengkap.docx) |
+| 1 — Analisis kebutuhan | [`docs/Tahap-1-Analisis-Kebutuhan.md`](docs/Tahap-1-Analisis-Kebutuhan.md) |
+| 2 — Perancangan sistem & UI | [`docs/Tahap-2-Perancangan-Sistem.md`](docs/Tahap-2-Perancangan-Sistem.md) |
+| 3 — Implementasi Flutter | [`docs/Tahap-3-Implementasi.md`](docs/Tahap-3-Implementasi.md) |
+| 4 — Integrasi & pengujian | [`docs/Tahap-4-Pengujian.md`](docs/Tahap-4-Pengujian.md) |
+| 5 — Finalisasi & laporan | [`docs/Tahap-5-Laporan-Akhir.md`](docs/Tahap-5-Laporan-Akhir.md) |
 | Wireframe & purwarupa | [`docs/assets/`](docs/assets), [`docs/prototipe/index.html`](docs/prototipe/index.html) |
 | Panduan demo video | [`docs/PANDUAN-DEMO-VIDEO.md`](docs/PANDUAN-DEMO-VIDEO.md) |
 | Bahan presentasi | [`docs/BAHAN-PRESENTASI.md`](docs/BAHAN-PRESENTASI.md) |
@@ -46,17 +47,17 @@ pengujian keamanan yang memiliki otorisasi. Project ini terdiri dari:
 
 ```text
 payloadhub-ai/
-â”œâ”€â”€ backend/
-â”‚   â”œâ”€â”€ app/                 # FastAPI, agent, models, dan deterministic tools
-â”‚   â”œâ”€â”€ requirements.txt
-â”‚   â””â”€â”€ .env.example
-â”œâ”€â”€ frontend/
-â”‚   â”œâ”€â”€ lib/                 # Aplikasi Flutter/Dart
-â”‚   â”œâ”€â”€ test/                # Unit + widget tests
-â”‚   â””â”€â”€ pubspec.yaml
-â”œâ”€â”€ docs/                    # Laporan Tahap 1â€“5, wireframe, purwarupa
-â”œâ”€â”€ BLUEPRINT.md             # Spesifikasi teknis dan kontrak API
-â””â”€â”€ README.md
+├── backend/
+│   ├── app/                 # FastAPI, agent, models, dan deterministic tools
+│   ├── requirements.txt
+│   └── .env.example
+├── frontend/
+│   ├── lib/                 # Aplikasi Flutter/Dart
+│   ├── test/                # Unit + widget tests
+│   └── pubspec.yaml
+├── docs/                    # Laporan Tahap 1–5, wireframe, purwarupa
+├── BLUEPRINT.md             # Spesifikasi teknis dan kontrak API
+└── README.md
 ```
 
 ## Prasyarat
@@ -213,9 +214,9 @@ flutter build linux               # Linux desktop
 Hasil verifikasi terakhir (23 Oktober 2026):
 
 ```text
-flutter analyze   â†’ No issues found!
-flutter test      â†’ 00:06 +16: All tests passed!
-flutter build apk â†’ app-release.apk (55,2 MB)
+flutter analyze   → No issues found!
+flutter test      → 00:06 +16: All tests passed!
+flutter build apk → app-release.apk (55,2 MB)
 ```
 
 ### Build APK Android
@@ -279,10 +280,10 @@ Community API bersifat publik; jangan upload file rahasia.
 
 ## Endpoint backend
 
-- `GET /healthz` â€” health check.
-- `POST /api/v1/agent/execute` â€” menjalankan agent dengan prompt dan context.
-- `GET /api/v1/exploitdb/search?q=...` â€” mencari katalog ExploitDB.
-- `/api/v1/virustotal/*` â€” status, scan, analysis, dan lookup indikator.
+- `GET /healthz` — health check.
+- `POST /api/v1/agent/execute` — menjalankan agent dengan prompt dan context.
+- `GET /api/v1/exploitdb/search?q=...` — mencari katalog ExploitDB.
+- `/api/v1/virustotal/*` — status, scan, analysis, dan lookup indikator.
 
 Dokumentasi OpenAPI tersedia saat backend berjalan di
 <http://127.0.0.1:8000/docs>.
