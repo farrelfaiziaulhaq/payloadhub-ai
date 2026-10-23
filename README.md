@@ -241,6 +241,9 @@ Keluaran: `frontend/build/app/outputs/flutter-apk/app-release.apk`
 (applicationId `id.farrel.payloadhubai`, minSdk 21, SHA-256
 `7F71676147E77EA323B26D172C99F7BA30C3CF7C0B6252E06263EFDAB15B1479`).
 
+APK yang sudah dibangun tersedia sebagai aset rilis:
+<https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/v1.0.0>.
+
 APK saat ini ditandatangani debug key. Untuk distribusi publik, buat keystore
 rilis dan jangan commit `key.properties` atau berkas `.jks`.
 

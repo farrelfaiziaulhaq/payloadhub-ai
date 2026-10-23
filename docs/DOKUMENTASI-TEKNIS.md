@@ -206,6 +206,7 @@ Build final yang tercatat:
 | minSdk | 21 |
 | targetSdk | 36 |
 | Izin | `INTERNET` |
+| Aset rilis | <https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/v1.0.0> |
 
 ### 6.2 Konfigurasi Gradle
 
