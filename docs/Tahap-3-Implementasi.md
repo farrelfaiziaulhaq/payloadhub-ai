@@ -282,7 +282,7 @@ Disimpan melalui `SecureStorageService`:
 | `android/app/src/main/AndroidManifest.xml` | `INTERNET`, label `PayloadHub-AI`, `usesCleartextTraffic` | Akses backend HTTP di jaringan lokal |
 | `android/app/build.gradle` | `applicationId = id.farrel.payloadhubai`, komentar signing | Identitas aplikasi & kejelasan build |
 | `android/gradle/wrapper/gradle-wrapper.properties` | Gradle 8.14.3 | Memenuhi minimum Flutter 3.47 |
-| `android/settings.gradle` | AGP 8.11.1, Kotlin 2.1.0 | Kompatibel dengan Gradle 8.14 dan Java 17–20 |
+| `android/settings.gradle` | AGP 8.11.1, Kotlin 2.2.20 | Kompatibel dengan Gradle 8.14 dan Java 17-20 |
 
 > **Catatan build:** Gradle 8.14 + AGP 8.11 membutuhkan JDK 17–20. Pada mesin pengembangan dipakai JDK 20 melalui `flutter config --jdk-dir`. Untuk distribusi publik, ganti `signingConfigs.debug` dengan keystore rilis.
 

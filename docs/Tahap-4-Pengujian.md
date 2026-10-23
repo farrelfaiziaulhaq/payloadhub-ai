@@ -120,7 +120,7 @@ validasi kosong, serta penyimpanan riwayat.
 | BUG-05 | API Flutter usang (`value`, `activeColor`) | Rendah | Template lama | Ganti ke `initialValue`/`activeThumbColor` + `key` | `flutter analyze` bersih |
 | BUG-06 | Tombol top bar tidak berfungsi (dekorasi) | Sedang (UX) | Belum ada handler | Sambungkan ke riwayat, ekspor JSON, dan dialog About | Widget test + manual |
 | BUG-07 | Detail exploit di ponsel hanya separuh layar | Sedang (UX) | Layout dua panel dipaksakan | Rute penuh `_ExploitDetailScreen` | Manual pada 390 px |
-| BUG-08 | Build APK gagal: Gradle 8.3 < minimum Flutter 3.47 | Tinggi (rilis) | Template Android tertinggal | Gradle 8.14.3, AGP 8.11.1, Kotlin 2.1.0, JDK 20 | Build APK |
+| BUG-08 | Build APK gagal: Gradle 8.3 < minimum Flutter 3.47 | Tinggi (rilis) | Template Android tertinggal | Gradle 8.14.3, AGP 8.11.1, Kotlin 2.2.20, JDK 20 | Build APK |
 | BUG-09 | Tidak ada riwayat pekerjaan setelah aplikasi ditutup | Tinggi (fungsional) | Belum ada penyimpanan | `ActivityEntry` + repository terenkripsi + panel + halaman | Unit + widget test |
 
 ### 5.1 Dokumentasi perbaikan BUG-01
