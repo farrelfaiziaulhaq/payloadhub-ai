@@ -84,9 +84,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     await storage.writeTerminalFont(_terminalFont);
     await storage.writeSound(_sound);
 
-    // Convenience: expose the stored Gemini key to the isolated Info Bot.
+    // Prefer the user's DeepSeek key for the isolated, text-only Info Bot.
+    final deepSeek = _deepSeek.text.trim();
     final gemini = _gemini.text.trim();
-    if (gemini.isNotEmpty) {
+    if (deepSeek.isNotEmpty) {
+      await storage.writeChatProvider('deepseek');
+      await storage.writeChatApiKey(deepSeek);
+    } else if (gemini.isNotEmpty) {
       await storage.writeChatProvider('gemini');
       await storage.writeChatApiKey(gemini);
     }

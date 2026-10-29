@@ -1,0 +1,40 @@
+{
+  "source": "Real Android APK in Pixel 5 API 30 x64 emulator",
+  "capture": "adb screenrecord",
+  "output": "PayloadHub-AI-Demo-Android.mp4",
+  "resolution": [
+    900,
+    1800
+  ],
+  "fps": 25,
+  "expected_duration_seconds": 104.5,
+  "editing": "Two real recordings joined; idle gaps trimmed; no speed changes",
+  "source_segments": [
+    {
+      "file": "raw/android-part1.mp4",
+      "start": 0,
+      "end": 33
+    },
+    {
+      "file": "raw/android-part2.mp4",
+      "start": 18,
+      "end": 33
+    },
+    {
+      "file": "raw/android-part2.mp4",
+      "start": 46,
+      "end": 61
+    },
+    {
+      "file": "raw/android-part2.mp4",
+      "start": 101,
+      "end": 142
+    }
+  ],
+  "direct_deepseek_chat_shown": true,
+  "backend_dynamic_generator_shown": false,
+  "shodan_or_virustotal_shown": false,
+  "audio": "No narration; Indonesian captions",
+  "credentials_recorded": false,
+  "cover": "cover.jpg"
+}

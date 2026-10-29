@@ -1,0 +1,59 @@
+1
+00:00:00,000 --> 00:00:05,085
+PayloadHub-AI | Demo langsung
+Flutter dalam browser, viewport mobile 390 x 844
+
+2
+00:00:05,085 --> 00:00:09,151
+Beranda mobile
+Header aplikasi, alat cepat, dan navigasi bawah
+
+3
+00:00:09,151 --> 00:00:13,306
+Script Generator
+Membuat payload deterministik tanpa backend AI
+
+4
+00:00:13,306 --> 00:00:22,456
+Validasi input
+Field kosong ditolak sebelum payload dibuat
+
+5
+00:00:22,456 --> 00:00:26,288
+Masukkan konfigurasi lab
+LHOST 10.10.14.8 dan LPORT 9001
+
+6
+00:00:26,288 --> 00:00:34,514
+Ketuk Generate
+Hasil nyata ditampilkan dan disimpan ke riwayat
+
+7
+00:00:34,514 --> 00:00:38,635
+Riwayat Aktivitas
+Entri berasal dari payload yang baru dibuat
+
+8
+00:00:38,635 --> 00:00:44,168
+Detail riwayat
+Bottom sheet menampilkan payload dan tombol salin
+
+9
+00:00:44,168 --> 00:00:48,257
+Exploit Library
+Katalog bawaan untuk referensi pengujian berizin
+
+10
+00:00:48,257 --> 00:00:54,189
+Detail penuh di ponsel
+CVSS, referensi, dan PoC; tidak dieksekusi
+
+11
+00:00:54,189 --> 00:00:59,337
+Setelan aplikasi
+Konfigurasi API dan preferensi tanpa key yang dibundel
+
+12
+00:00:59,337 --> 00:01:04,356
+Gunakan hanya pada lab atau target berizin
+Demo UI asli; bukan rekaman perangkat Android fisik

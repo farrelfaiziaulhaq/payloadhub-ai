@@ -1,5 +1,8 @@
 # Panduan Demo Video — PayloadHub-AI
 
+> **Video jadi:** [`demo/PayloadHub-AI-Demo-Android.mp4`](demo/PayloadHub-AI-Demo-Android.mp4)
+> — rekaman APK asli di emulator Android, 1 menit 44 detik.
+
 **Durasi target:** 8–10 menit
 **Rasio:** 16:9, 1080p, 30 fps
 **Bahasa:** Indonesia

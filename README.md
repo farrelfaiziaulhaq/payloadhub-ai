@@ -26,6 +26,7 @@ pengujian keamanan yang memiliki otorisasi. Project ini terdiri dari:
 | 5 — Finalisasi & laporan | [`docs/Tahap-5-Laporan-Akhir.md`](docs/Tahap-5-Laporan-Akhir.md) |
 | Wireframe & purwarupa | [`docs/assets/`](docs/assets), [`docs/prototipe/index.html`](docs/prototipe/index.html) |
 | Panduan demo video | [`docs/PANDUAN-DEMO-VIDEO.md`](docs/PANDUAN-DEMO-VIDEO.md) |
+| **Video demo Android** | [`docs/demo/PayloadHub-AI-Demo-Android.mp4`](docs/demo/PayloadHub-AI-Demo-Android.mp4) |
 | Bahan presentasi | [`docs/BAHAN-PRESENTASI.md`](docs/BAHAN-PRESENTASI.md) |
 | Dokumentasi teknis | [`docs/DOKUMENTASI-TEKNIS.md`](docs/DOKUMENTASI-TEKNIS.md) |
 | Versi Word semua laporan | [`docs/docx/`](docs/docx) |
@@ -253,7 +254,7 @@ flutter build apk --release
 
 Keluaran: `frontend/build/app/outputs/flutter-apk/app-release.apk`
 (applicationId `id.farrel.payloadhubai`, minSdk 21, SHA-256
-`3114C3AA027C19C6C3BA6FDC564AEF0EAC38062CE359C42F269089651C25811B`).
+`302D47DEEB6A9AEAD3153173B1EC8431F94C97BCA61123D690A2267020EE5624`).
 
 APK yang sudah dibangun tersedia sebagai aset rilis:
 <https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/v1.0.0>.

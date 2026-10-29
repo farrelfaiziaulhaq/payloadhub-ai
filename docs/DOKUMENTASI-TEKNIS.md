@@ -201,7 +201,7 @@ Build final yang tercatat:
 | Atribut | Nilai |
 |---|---|
 | Ukuran | 58.156.477 byte (55,5 MB) |
-| SHA-256 | `3114C3AA027C19C6C3BA6FDC564AEF0EAC38062CE359C42F269089651C25811B` |
+| SHA-256 | `302D47DEEB6A9AEAD3153173B1EC8431F94C97BCA61123D690A2267020EE5624` |
 | applicationId | `id.farrel.payloadhubai` |
 | minSdk | 21 |
 | targetSdk | 36 |

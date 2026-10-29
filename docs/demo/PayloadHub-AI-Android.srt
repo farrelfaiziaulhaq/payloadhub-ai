@@ -1,0 +1,29 @@
+1
+00:00:00,000 --> 00:00:05,000
+PayloadHub-AI | APK asli di emulator Android
+Rekaman layar langsung, bukan mockup
+
+2
+00:00:05,000 --> 00:00:33,000
+Generator mobile
+Input lab, payload deterministik, dan hasil asli
+
+3
+00:00:33,000 --> 00:00:48,000
+Riwayat aktivitas dan detail
+Entri dibuat dari proses generate sebelumnya
+
+4
+00:00:48,000 --> 00:01:03,000
+Exploit Library dan detail layar penuh
+Referensi bawaan; PoC tidak dieksekusi
+
+5
+00:01:03,000 --> 00:01:36,000
+Info Bot dengan DeepSeek
+Pertanyaan dan respons langsung di Android
+
+6
+00:01:36,000 --> 00:01:44,000
+Jawaban DeepSeek tampil di aplikasi
+Gunakan hanya untuk lab dan target berizin

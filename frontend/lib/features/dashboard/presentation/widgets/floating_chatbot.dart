@@ -386,7 +386,7 @@ class _FreeChatConfigDialogState extends State<_FreeChatConfigDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Info Bot — Free LLM'),
+      title: const Text('Info Bot — Provider AI'),
       content: SizedBox(
         width: 360,
         child: Column(
@@ -408,7 +408,7 @@ class _FreeChatConfigDialogState extends State<_FreeChatConfigDialog> {
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'API Key (stored encrypted via Keystore)',
-                hintText: 'gsk_... / AIza...',
+                hintText: 'Key provider yang dipilih',
               ),
             ),
             const SizedBox(height: 6),

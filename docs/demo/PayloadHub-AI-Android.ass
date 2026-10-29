@@ -1,0 +1,16 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 900
+PlayResY: 1800
+WrapStyle: 0
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,28,&H00FFFFFF,&H00FFFFFF,&H0017110D,&H0017110D,0,0,0,0,100,100,0,0,1,1,0,2,35,35,75,1
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,PayloadHub-AI | APK asli di emulator Android\NRekaman layar langsung, bukan mockup
+Dialogue: 0,0:00:05.00,0:00:33.00,Default,,0,0,0,,Generator mobile\NInput lab, payload deterministik, dan hasil asli
+Dialogue: 0,0:00:33.00,0:00:48.00,Default,,0,0,0,,Riwayat aktivitas dan detail\NEntri dibuat dari proses generate sebelumnya
+Dialogue: 0,0:00:48.00,0:01:03.00,Default,,0,0,0,,Exploit Library dan detail layar penuh\NReferensi bawaan; PoC tidak dieksekusi
+Dialogue: 0,0:01:03.00,0:01:36.00,Default,,0,0,0,,Info Bot dengan DeepSeek\NPertanyaan dan respons langsung di Android
+Dialogue: 0,0:01:36.00,0:01:44.00,Default,,0,0,0,,Jawaban DeepSeek tampil di aplikasi\NGunakan hanya untuk lab dan target berizin

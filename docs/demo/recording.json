@@ -1,0 +1,29 @@
+{
+  "file": "PayloadHub-AI-Demo.mp4",
+  "duration_seconds": 64.36,
+  "viewport": [
+    390,
+    844
+  ],
+  "output": [
+    1080,
+    1920
+  ],
+  "source": "Real Flutter web build in Chrome; not native Android capture",
+  "audio": "No audio; Indonesian captions",
+  "raw": "docs\\demo\\raw\\page@e351a9f842c8f524032219e3dc40b86d.webm",
+  "actions": [
+    "PayloadHub-AI | Demo langsung\nFlutter dalam browser, viewport mobile 390 x 844",
+    "Beranda mobile\nHeader aplikasi, alat cepat, dan navigasi bawah",
+    "Script Generator\nMembuat payload deterministik tanpa backend AI",
+    "Validasi input\nField kosong ditolak sebelum payload dibuat",
+    "Masukkan konfigurasi lab\nLHOST 10.10.14.8 dan LPORT 9001",
+    "Ketuk Generate\nHasil nyata ditampilkan dan disimpan ke riwayat",
+    "Riwayat Aktivitas\nEntri berasal dari payload yang baru dibuat",
+    "Detail riwayat\nBottom sheet menampilkan payload dan tombol salin",
+    "Exploit Library\nKatalog bawaan untuk referensi pengujian berizin",
+    "Detail penuh di ponsel\nCVSS, referensi, dan PoC; tidak dieksekusi",
+    "Setelan aplikasi\nKonfigurasi API dan preferensi tanpa key yang dibundel",
+    "Gunakan hanya pada lab atau target berizin\nDemo UI asli; bukan rekaman perangkat Android fisik"
+  ]
+}

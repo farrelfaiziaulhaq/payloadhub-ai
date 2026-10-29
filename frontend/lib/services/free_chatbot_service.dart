@@ -17,7 +17,7 @@ class InfoMessage {
 
 /// Free info-chatbot provider (both are Free-Tier, OpenAI/Google compatible
 /// REST endpoints). This layer is strictly ISOLATED from the agent backend.
-enum FreeChatProvider { groq, gemini }
+enum FreeChatProvider { groq, gemini, deepseek }
 
 /// STRICT SECURITY BOUNDARY — this chatbot must NEVER be able to:
 ///   * read / write / execute local files, the OS, a DB, or PayloadHub-AI
@@ -47,6 +47,7 @@ class FreeChatbotService {
       'untuk pertanyaan lainnya. Jangan menampilkan proses berpikir internal.';
 
   static const Map<String, String> providerLabels = {
+    'deepseek': 'DeepSeek',
     'groq': 'Groq (Free Tier)',
     'gemini': 'Google Gemini (Free Tier)',
   };
@@ -111,6 +112,7 @@ class FreeChatbotService {
   /// Read the configured provider (defaults to Groq).
   Future<FreeChatProvider> _provider() async {
     final raw = await _storage.readChatProvider();
+    if (raw == 'deepseek') return FreeChatProvider.deepseek;
     if (raw == 'gemini') return FreeChatProvider.gemini;
     return FreeChatProvider.groq;
   }
@@ -140,7 +142,13 @@ class FreeChatbotService {
           ? trimmed.substring(0, _maxInputLen)
           : trimmed;
 
-      final apiKey = await _storage.readChatApiKey();
+      final configuredProvider = await _storage.readChatProvider();
+      final deepSeekKey = await _storage.readDeepSeekKey();
+      final useDeepSeek = configuredProvider == 'deepseek' ||
+          (configuredProvider == null && (deepSeekKey?.isNotEmpty ?? false));
+      final apiKey = useDeepSeek
+          ? deepSeekKey ?? await _storage.readChatApiKey()
+          : await _storage.readChatApiKey();
       if (apiKey == null || apiKey.isEmpty) {
         throw Exception(
           'Info Bot belum dikonfigurasi. Masukkan API key panduan melalui '
@@ -155,7 +163,8 @@ class FreeChatbotService {
         ...recent,
         InfoMessage(role: InfoRole.user, text: clipped)
       ];
-      final provider = await _provider();
+      final provider =
+          useDeepSeek ? FreeChatProvider.deepseek : await _provider();
 
       var primaryEmitted = false;
       try {
@@ -206,7 +215,8 @@ class FreeChatbotService {
       try {
         final stream = provider == FreeChatProvider.gemini
             ? _askGeminiStream(apiKey, messages, model: model)
-            : _askGroqStream(apiKey, messages);
+            : _askGroqStream(apiKey, messages,
+                deepSeek: provider == FreeChatProvider.deepseek);
         await for (final chunk in stream) {
           emitted = true;
           yield chunk;
@@ -280,10 +290,12 @@ class FreeChatbotService {
 
   Stream<String> _askGroqStream(
     String apiKey,
-    List<InfoMessage> messages,
-  ) async* {
+    List<InfoMessage> messages, {
+    bool deepSeek = false,
+  }) async* {
     final body = {
-      'model': _providerModels[FreeChatProvider.groq],
+      'model':
+          deepSeek ? 'deepseek-chat' : _providerModels[FreeChatProvider.groq],
       'temperature': 0.2,
       'max_tokens': _maxOutputTokens,
       'stream': true,
@@ -297,7 +309,9 @@ class FreeChatbotService {
       ],
     };
     final response = await _postStream(
-      'https://api.groq.com/openai/v1/chat/completions',
+      deepSeek
+          ? 'https://api.deepseek.com/chat/completions'
+          : 'https://api.groq.com/openai/v1/chat/completions',
       body,
       {
         'Authorization': 'Bearer $apiKey',

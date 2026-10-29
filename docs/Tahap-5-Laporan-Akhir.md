@@ -105,7 +105,7 @@ sebagai teks biasa. Tidak ada kredensial yang dibundel ke dalam APK.
 | Nama berkas | `app-release.apk` |
 | Lokasi build | `frontend/build/app/outputs/flutter-apk/app-release.apk` |
 | Ukuran | 58.156.477 byte (**55,5 MB**) |
-| SHA-256 | `3114C3AA027C19C6C3BA6FDC564AEF0EAC38062CE359C42F269089651C25811B` |
+| SHA-256 | `302D47DEEB6A9AEAD3153173B1EC8431F94C97BCA61123D690A2267020EE5624` |
 | Application ID | `id.farrel.payloadhubai` |
 | Label | PayloadHub-AI |
 | Minimum SDK | 21 (Android 5.0) |
@@ -142,6 +142,7 @@ lengkap dijelaskan pada [`DOKUMENTASI-TEKNIS.md`](DOKUMENTASI-TEKNIS.md) §6.
 | Purwarupa interaktif | `docs/prototipe/index.html` |
 | Generator wireframe | `docs/tools/gen_wireframes.py` |
 | Screenshot mobile (8) | `docs/assets/screenshots/mobile-*.png` |
+| Video demo Android | `docs/demo/PayloadHub-AI-Demo-Android.mp4` |
 
 ## 5. Hasil Verifikasi Teknis
 

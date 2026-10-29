@@ -15,6 +15,7 @@ dokumen teknis dan panduan presentasi sesuai kebutuhan.
 | 5 | [Tahap 5 — Laporan Akhir](Tahap-5-Laporan-Akhir.md) | Semua | Ringkasan hasil, artefak rilis, rubrik, keterbatasan |
 | — | [Dokumentasi Teknis](DOKUMENTASI-TEKNIS.md) | Pengembang | Setup, build, API, storage, troubleshooting |
 | — | [Panduan Demo Video](PANDUAN-DEMO-VIDEO.md) | Presenter | Naskah 8–10 menit dan checklist rekaman |
+| — | [Video Demo Android](demo/PayloadHub-AI-Demo-Android.mp4) | Presenter, dosen | Rekaman APK asli di emulator, 1 menit 44 detik |
 | — | [Bahan Presentasi](BAHAN-PRESENTASI.md) | Presenter | 14 slide, catatan pembicara, Q&A |
 
 ## Aset desain

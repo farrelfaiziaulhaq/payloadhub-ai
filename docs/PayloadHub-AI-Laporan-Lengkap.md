@@ -428,7 +428,7 @@ riwayat), observasi, lalu kuesioner.
 |---|---|
 | Berkas | `app-release.apk` |
 | Ukuran | 58.156.477 byte (55,5 MB) |
-| SHA-256 | `3114C3AA027C19C6C3BA6FDC564AEF0EAC38062CE359C42F269089651C25811B` |
+| SHA-256 | `302D47DEEB6A9AEAD3153173B1EC8431F94C97BCA61123D690A2267020EE5624` |
 | applicationId | `id.farrel.payloadhubai` |
 | Label | PayloadHub-AI |
 | minSdk | 21 |
@@ -620,6 +620,17 @@ video cadangan siap, API key tidak terlihat di layar.
 | Kenapa APK 55 MB? | Flutter engine + dependensi, masih < 60 MB |
 | Sudah uji pengguna? | Belum; instrumen siap, data akan diisi |
 | Kenapa Gradle 8.14.3? | Syarat Flutter 3.47; JDK 20 untuk kompatibilitas |
+
+### 8.4 Video Demo yang Sudah Direkam
+
+Video tersedia di `docs/demo/PayloadHub-AI-Demo-Android.mp4` dengan durasi
+**1 menit 44 detik**. Sumbernya APK asli di emulator Android Pixel 5 API 30,
+direkam dengan `adb screenrecord`, bukan mockup atau rekaman browser.
+Alurnya: generator dengan input lab, hasil payload, riwayat dan detail,
+Exploit Library, lalu pertanyaan dan jawaban DeepSeek di Info Bot. Tidak ada
+API key yang terlihat. Rekaman disusun dari dua segmen asli; jeda diam
+dipangkas tanpa mempercepat interaksi. Detail sumber ada di
+`docs/demo/android-recording.json`.
 
 <!-- pagebreak -->
 
