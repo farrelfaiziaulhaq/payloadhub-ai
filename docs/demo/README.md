@@ -12,6 +12,10 @@ kecepatan interaksi dan waktu tunggu respons tidak dipercepat. Subtitle
 Indonesia ditempatkan di luar area layar Android. Tidak ada narasi suara.
 Resolusi keluaran 900 × 1800, durasi **1 menit 44 detik**.
 
+> Emulator pada mesin ini menangkap sekitar 2 fps saat `screenrecord`.
+> Gerakan UI karena itu tidak mulus, tetapi setiap frame berasal dari APK
+> yang benar-benar berjalan; tidak ada frame animasi buatan.
+
 Versi browser: `PayloadHub-AI-Demo.mp4`.
 
 Rekaman interaksi langsung aplikasi Flutter dengan tampilan HP potret
