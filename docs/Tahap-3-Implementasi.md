@@ -17,7 +17,7 @@
 | Penyorotan kode | `flutter_highlight` + `highlight` |
 | Backend | FastAPI + Pydantic + LangChain-style agent |
 | Build | Android APK (`flutter build apk --release`), Web (`flutter build web`) |
-| Pengujian | `flutter analyze` bersih; 16 pengujian otomatis lulus |
+| Pengujian | `flutter analyze` bersih; 18 pengujian otomatis lulus |
 
 ## 2. Struktur Proyek
 
@@ -50,7 +50,7 @@ payloadhub-ai/
 │   │       ├── dashboard/       # shell, panel, controller, halaman
 │   │       ├── payload_chat/    # entity, repository, model API
 │   │       └── history/         # model, repository, controller, layar
-│   ├── test/                    # 16 pengujian otomatis
+│   ├── test/                    # 18 pengujian otomatis
 │   ├── android/                 # konfigurasi Android (manifest, Gradle)
 │   └── pubspec.yaml
 ├── docs/                        # laporan Tahap 1–5, wireframe, purwarupa
@@ -346,7 +346,7 @@ flutter build apk --release
 | Klaim | Status | Bukti |
 |---|---|---|
 | `flutter analyze` tanpa issue | **[C]** | `No issues found!` |
-| 16 pengujian lulus | **[C]** | `flutter test` |
+| 18 pengujian lulus | **[C]** | `flutter test` |
 | Riwayat bertahan setelah restart | **[I]** | Diuji melalui *fake* penyimpanan dan alur repository; uji perangkat fisik menyusul |
 | APK rilis terbangun | **[C]/[S]** | Lihat Tahap 4/5 untuk status build final |
 | Data telemetri simulasi | **[C]** | `telemetry_controller.dart` |

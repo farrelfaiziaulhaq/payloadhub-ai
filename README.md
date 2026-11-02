@@ -1,332 +1,396 @@
 # PayloadHub-AI
 
-PayloadHub-AI adalah aplikasi **ethical hacking assistant** untuk membantu
-pengujian keamanan yang memiliki otorisasi. Project ini terdiri dari:
+Aplikasi **ethical hacking assistant** untuk pengujian keamanan yang memiliki
+otorisasi. Klien Flutter berjalan di **Android dan desktop**; backend FastAPI
+menyediakan agent AI, katalog ExploitDB, dan threat intelligence.
 
-- **Frontend:** aplikasi Flutter multiplatform (`frontend/`) dengan dashboard,
-  Exploit Library, Script Generator, Monitoring, Threat Intelligence,
-  Settings, dan Riwayat Aktivitas lokal.
-- **Backend:** API FastAPI (`backend/`) yang menjalankan agent LangChain dan
-  tool deterministik untuk membuat reverse-shell yang tervalidasi, membaca
-  hasil Nmap/CVE, menganalisis JWT, mencari katalog ExploitDB, dan meneruskan
-  permintaan VirusTotal.
+> Gunakan hanya pada sistem milik sendiri, lab, CTF, atau target dengan izin
+> tertulis. Jangan menjalankan payload ke target tanpa otorisasi.
 
-> Gunakan hanya pada sistem milik sendiri, lab, CTF, atau target yang memiliki
-> izin tertulis. Jangan menjalankan hasil aplikasi pada target tanpa otorisasi.
+## Pilih cara menjalankan
 
-## Dokumentasi Proyek Akhir
-
-| Tahap | Dokumen |
-|---|---|
-| **Laporan lengkap (gabungan)** | [`MD`](docs/PayloadHub-AI-Laporan-Lengkap.md) · [`DOCX`](docs/docx/PayloadHub-AI-Laporan-Lengkap-FINAL.docx) |
-| 1 — Analisis kebutuhan | [`docs/Tahap-1-Analisis-Kebutuhan.md`](docs/Tahap-1-Analisis-Kebutuhan.md) |
-| 2 — Perancangan sistem & UI | [`docs/Tahap-2-Perancangan-Sistem.md`](docs/Tahap-2-Perancangan-Sistem.md) |
-| 3 — Implementasi Flutter | [`docs/Tahap-3-Implementasi.md`](docs/Tahap-3-Implementasi.md) |
-| 4 — Integrasi & pengujian | [`docs/Tahap-4-Pengujian.md`](docs/Tahap-4-Pengujian.md) |
-| 5 — Finalisasi & laporan | [`docs/Tahap-5-Laporan-Akhir.md`](docs/Tahap-5-Laporan-Akhir.md) |
-| Wireframe & purwarupa | [`docs/assets/`](docs/assets), [`docs/prototipe/index.html`](docs/prototipe/index.html) |
-| Panduan demo video | [`docs/PANDUAN-DEMO-VIDEO.md`](docs/PANDUAN-DEMO-VIDEO.md) |
-| **Video demo Android** | [`docs/demo/PayloadHub-AI-Demo-Android.mp4`](docs/demo/PayloadHub-AI-Demo-Android.mp4) |
-| Bahan presentasi | [`docs/BAHAN-PRESENTASI.md`](docs/BAHAN-PRESENTASI.md) |
-| Dokumentasi teknis | [`docs/DOKUMENTASI-TEKNIS.md`](docs/DOKUMENTASI-TEKNIS.md) |
-| Versi Word semua laporan | [`docs/docx/`](docs/docx) |
-
-## Fitur utama
-
-- Tampilan **mobile-first**: header aplikasi, kartu sambutan, alat cepat,
-  bottom navigation, dan tombol bantuan bulat di ponsel.
-- Dashboard responsif: kartu bertumpuk di ponsel, tiga kolom di layar lebar.
-- Navigasi adaptif: *bottom navigation* di ponsel, *sidebar* di desktop.
-- Generator one-liner dan payload deterministik dari library internal.
-- Agent AI backend dengan validasi input dan guardrail anti-halusinasi.
-- Exploit Library lokal serta pencarian katalog ExploitDB resmi.
-- Threat intelligence VirusTotal untuk URL, file, hash, domain, dan IP.
-- Riwayat aktivitas lokal terenkripsi (maks. 40 entri) dengan salin, hapus,
-  dan ekspor JSON.
-- Penyimpanan API key di secure storage Flutter; key LLM backend tetap berada
-  di server.
-
-## Tampilan mobile
-
-| Dashboard | Generator | Riwayat |
+| Saya ingin... | Jalur | Waktu |
 |---|---|---|
-| ![Dashboard](docs/assets/screenshots/mobile-dashboard.png) | ![Generator](docs/assets/screenshots/mobile-generator-result.png) | ![Riwayat](docs/assets/screenshots/mobile-history.png) |
+| Langsung mencoba di HP | **APK jadi** — tidak perlu build | ±2 menit |
+| Demo di laptop Windows | **Desktop** + backend | ±10 menit |
+| Ngoding Android | **Android dari source** | ±15 menit |
+| Demo di Linux/macOS | **Desktop** + backend | ±10 menit |
 
-Screenshot diambil dari build Flutter pada viewport **390 × 844**. Detail
-tampilan dan pembahasan ada di
-[`docs/PayloadHub-AI-Laporan-Lengkap.md`](docs/PayloadHub-AI-Laporan-Lengkap.md)
-Bagian 9.
+Panduan langkah demi langkah dari komputer kosong ada di
+**[`docs/INSTALASI.md`](docs/INSTALASI.md)**.
+
+---
+
+## Quick start (setelah Flutter & Python terpasang)
+
+Dari root repository:
+
+```bash
+python scripts/payloadhub.py setup
+```
+
+Lalu buka **dua terminal**:
+
+```bash
+# Terminal 1 — backend
+python scripts/payloadhub.py backend
+
+# Terminal 2 — aplikasi desktop
+python scripts/payloadhub.py desktop
+```
+
+Android:
+
+```bash
+python scripts/payloadhub.py android
+```
+
+Cek semua tool:
+
+```bash
+python scripts/payloadhub.py doctor
+```
+
+Windows PowerShell bisa memakai `.\setup.ps1`; Linux/macOS memakai
+`./setup.sh`.
+
+---
+
+## 1. Prasyarat
+
+| Tool | Versi yang diuji | Wajib untuk |
+|---|---|---|
+| Python | 3.10+ | Backend |
+| Flutter | 3.47.2 stable | Aplikasi |
+| JDK | **20** | Build Android |
+| Android Studio + SDK | 36 / Build-Tools 35 | Android |
+| Visual Studio 2022 | Desktop development with C++ | Desktop Windows |
+| Xcode + CocoaPods | terbaru | Desktop/iOS macOS |
+
+- Install Flutter: <https://docs.flutter.dev/install>
+- Install Android Studio: <https://developer.android.com/studio>
+- Install Python: <https://www.python.org/downloads/>
+- Install JDK 20: <https://adoptium.net/temurin/releases/?version=20>
+
+Setelah instalasi, buka terminal baru:
+
+```bash
+flutter doctor -v
+flutter doctor --android-licenses
+```
+
+Android SDK Manager perlu: **Platform 36**, **Build-Tools 35.0.0**,
+**Command-line Tools**, dan **NDK 28.2.13676358**. Tanpa NDK, build APK
+akan berhenti pada tahap lisensi.
+
+Arahkan Flutter ke JDK 20 (Windows example):
+
+```powershell
+flutter config --jdk-dir="C:\Program Files\Java\jdk-20"
+```
+
+> JDK 25 dapat membuat build Android gagal. Gunakan JDK 20.
+
+Prasyarat desktop:
+
+- **Windows:** Visual Studio 2022 → workload **Desktop development with C++**.
+- **Linux (Ubuntu/Debian):**
+
+  ```bash
+  sudo apt update
+  sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev libstdc++-12-dev
+  ```
+
+- **macOS:** `xcode-select --install`, `sudo xcodebuild -license accept`,
+  `sudo gem install cocoapods`.
+
+---
+
+## 2. Setup project
+
+```bash
+git clone https://github.com/farrelfaiziaulhaq/payloadhub-ai.git
+cd payloadhub-ai
+```
+
+Windows:
+
+```powershell
+.\setup.ps1
+```
+
+Jika PowerShell memblokir script:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\setup.ps1
+```
+
+Linux/macOS:
+
+```bash
+chmod +x setup.sh
+./setup.sh
+```
+
+Atau langsung:
+
+```bash
+python scripts/payloadhub.py setup
+```
+
+Script membuat `backend/.venv`, memasang dependency, menyalin
+`backend/.env.example` → `backend/.env` (jika belum ada), dan menjalankan
+`flutter pub get`.
+
+### Isi `backend/.env`
+
+```dotenv
+LLM_API_KEY=isi_key_provider_anda
+LLM_BASE_URL=https://api.deepseek.com
+LLM_MODEL=deepseek-chat
+VIRUSTOTAL_API_KEY=
+```
+
+`LLM_API_KEY` hanya diperlukan untuk fitur AI. Tanpa key:
+
+- dashboard, generator, exploit library, riwayat, dan Settings tetap jalan;
+- Info Bot/agent menampilkan pesan error yang jelas.
+
+Jangan commit `.env`. File tersebut sudah masuk `.gitignore`.
+
+---
+
+## 3. Android (APK jadi, paling cepat)
+
+1. Download APK dari
+   [Releases v1.0.0](https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/v1.0.0).
+2. Pindahkan ke HP.
+3. Buka APK → izinkan **Install unknown apps** → **Install**.
+4. Buka **PayloadHub-AI**.
+
+| Atribut | Nilai |
+|---|---|
+| Application ID | `id.farrel.payloadhubai` |
+| Minimum Android | 5.0 (API 21) |
+| Ukuran | ±55,5 MB |
+| Signature | debug key (demo/lab) |
+
+Fitur offline langsung tersedia. Untuk AI di HP fisik, lihat
+[Koneksi backend](#7-koneksi-backend).
+
+---
+
+## 4. Android dari source
+
+```bash
+python scripts/payloadhub.py setup
+flutter devices
+python scripts/payloadhub.py android
+```
+
+Pilih perangkat tertentu:
+
+```bash
+python scripts/payloadhub.py android --device emulator-5554
+```
+
+Build APK:
+
+```bash
+python scripts/payloadhub.py apk
+```
+
+Output:
+
+```text
+frontend/build/app/outputs/flutter-apk/app-release.apk
+```
+
+Pasang manual:
+
+```bash
+adb install -r frontend/build/app/outputs/flutter-apk/app-release.apk
+```
+
+---
+
+## 5. Desktop
+
+Windows:
+
+```powershell
+flutter config --enable-windows-desktop
+python scripts/payloadhub.py desktop
+```
+
+Linux:
+
+```bash
+flutter config --enable-linux-desktop
+python scripts/payloadhub.py desktop
+```
+
+macOS:
+
+```bash
+flutter config --enable-macos-desktop
+python scripts/payloadhub.py desktop
+```
+
+Atau manual:
+
+```bash
+cd frontend
+flutter run -d windows     # atau linux / macos
+```
+
+Build rilis:
+
+```bash
+cd frontend
+flutter build windows      # atau linux / macos
+```
+
+---
+
+## 6. Backend
+
+```bash
+python scripts/payloadhub.py backend
+```
+
+Manual:
+
+```bash
+# Windows
+backend\.venv\Scripts\Activate.ps1
+cd backend
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+# Linux/macOS
+source backend/.venv/bin/activate
+cd backend
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Verifikasi:
+
+```bash
+curl http://127.0.0.1:8000/healthz
+# {"status":"ok"}
+```
+
+Dokumentasi API: <http://127.0.0.1:8000/docs>
+
+---
+
+## 7. Koneksi backend
+
+| Target | Default | Kapan diubah |
+|---|---|---|
+| Desktop / web | `http://localhost:8000` | Jika backend di komputer lain |
+| Emulator Android | `http://10.0.2.2:8000` | Tidak perlu diubah |
+| HP Android fisik | `http://IP-LAN:8000` | **Wajib** diatur |
+
+Untuk HP fisik:
+
+1. HP dan komputer di Wi-Fi yang sama.
+2. Backend berjalan dengan `--host 0.0.0.0`.
+3. Izinkan port 8000 di firewall.
+4. Aplikasi → **Settings → Backend Server**.
+5. Isi `http://192.168.1.10:8000` (sesuaikan IP komputer).
+6. Simpan → tutup dan buka ulang aplikasi.
+7. Uji dari browser HP: `http://192.168.1.10:8000/healthz`.
+
+Tidak perlu edit kode. Untuk produksi gunakan HTTPS dan batasi
+`CORS_ALLOW_ORIGINS`.
+
+---
+
+## 8. Verifikasi
+
+```bash
+python scripts/payloadhub.py doctor
+cd frontend
+flutter analyze
+flutter test
+```
+
+Checklist:
+
+- [ ] Aplikasi terbuka.
+- [ ] Bottom navigation (HP) / sidebar (desktop) berfungsi.
+- [ ] Generator menghasilkan payload `10.10.14.8:9001`.
+- [ ] Payload masuk **Riwayat Aktivitas**.
+- [ ] Settings menyimpan LHOST/LPORT dan URL backend.
+- [ ] Backend `/healthz` mengembalikan `{"status":"ok"}`.
+- [ ] Jika memakai AI, Info Bot menjawab.
+
+---
+
+## 9. Troubleshooting singkat
+
+| Masalah | Solusi |
+|---|---|
+| `flutter` tidak dikenali | Tambah `flutter/bin` ke PATH, buka terminal baru |
+| `No devices found` | Nyalakan emulator / aktifkan USB debugging |
+| Build APK gagal | Pakai JDK 20, jalankan `flutter doctor -v` |
+| Visual Studio tidak ditemukan | Install workload C++ |
+| HP tidak connect ke backend | Pakai IP LAN, bukan `localhost`; cek firewall |
+| Emulator tidak connect | Gunakan `10.0.2.2:8000` |
+| AI 401/403 | Isi `LLM_API_KEY`, restart backend |
+| APK tidak bisa install | Izinkan install dari sumber tidak dikenal |
+
+Panduan lengkap: [`docs/INSTALASI.md`](docs/INSTALASI.md).
+
+---
+
+## Fitur
+
+- Dashboard mobile-first: header aplikasi, kartu sambutan, alat cepat,
+  bottom navigation, dan FAB bantuan.
+- Layout desktop tiga kolom + sidebar.
+- Script Generator deterministik dan tervalidasi.
+- Exploit Library lokal + pencarian ExploitDB.
+- Agent AI dengan guardrail dan deterministic tool calling.
+- Threat Intelligence VirusTotal.
+- Riwayat aktivitas lokal terenkripsi (maks. 40 entri).
+- Settings aman: API key di secure storage, URL backend bisa diubah dari UI.
 
 ## Struktur project
 
 ```text
 payloadhub-ai/
 ├── backend/
-│   ├── app/                 # FastAPI, agent, models, dan deterministic tools
+│   ├── app/                 # FastAPI, agent, tools, model
 │   ├── requirements.txt
 │   └── .env.example
 ├── frontend/
-│   ├── lib/                 # Aplikasi Flutter/Dart
-│   ├── test/                # Unit + widget tests
+│   ├── lib/                 # Flutter
+│   ├── test/                # unit + widget tests
 │   └── pubspec.yaml
-├── docs/                    # Laporan Tahap 1–5, wireframe, purwarupa
-├── BLUEPRINT.md             # Spesifikasi teknis dan kontrak API
+├── scripts/
+│   └── payloadhub.py        # setup/run/build helper
+├── docs/                    # laporan, instalasi, screenshot, demo
+├── setup.ps1 / setup.sh
 └── README.md
 ```
 
-## Prasyarat
+## Dokumentasi
 
-### Wajib
-
-- Git.
-- **Flutter SDK stable** dengan Dart SDK yang memenuhi `>=3.3.0 <4.0.0`.
-- Python 3.10 atau lebih baru untuk backend.
-- Koneksi internet saat mengambil dependency dan saat memakai provider cloud.
-
-Panduan resmi instalasi Flutter tersedia di
-<https://docs.flutter.dev/install>. Setelah instalasi, pastikan perintah
-`flutter` dan `dart` tersedia di `PATH`.
-
-### Linux desktop (opsional, untuk `flutter run -d linux`)
-
-Pada Ubuntu/Debian, install toolchain berikut sesuai panduan Flutter:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libstdc++-12-dev
-```
-
-Referensi resmi: <https://docs.flutter.dev/platform-integration/linux/setup>.
-
-### Android (opsional)
-
-Install Android Studio stable, Android SDK, Android SDK Platform-Tools, dan
-buat emulator atau hubungkan perangkat fisik dengan USB debugging aktif.
-Kemudian jalankan:
-
-```bash
-flutter doctor --android-licenses
-flutter doctor -v
-```
-
-Panduan resmi Android + Flutter:
-<https://docs.flutter.dev/platform-integration/android/setup>.
-
-## Instalasi dependency
-
-### 1. Backend FastAPI
-
-```bash
-cd backend
-python3 -m venv .venv
-source .venv/bin/activate              # Linux/macOS
-# Windows PowerShell: .venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-cp .env.example .env
-```
-
-Edit `backend/.env` dan isi minimal konfigurasi LLM. Contoh default project
-menggunakan DeepSeek yang kompatibel dengan API OpenAI:
-
-```dotenv
-LLM_API_KEY=isi_api_key_anda
-LLM_BASE_URL=https://api.deepseek.com
-LLM_MODEL=deepseek-chat
-LLM_TEMPERATURE=0.0
-```
-
-`LLM_API_KEY` wajib diisi bila memakai fitur agent AI. `VIRUSTOTAL_API_KEY`
-bersifat opsional; key dapat dimasukkan dari menu Settings atau dikonfigurasi
-di backend. Jangan commit `.env`, file `api-*`, atau key provider apa pun.
-
-### 2. Frontend Flutter
-
-Buka terminal baru atau keluar dari virtualenv, lalu jalankan:
-
-```bash
-cd frontend
-flutter pub get
-flutter doctor -v
-```
-
-Dependency utama frontend dideklarasikan di `frontend/pubspec.yaml`, antara
-lain Flutter Riverpod, Dio, Flutter Secure Storage, File Picker, Google Fonts,
-dan syntax highlighting.
-
-## Menjalankan aplikasi
-
-### Backend
-
-Terminal 1:
-
-```bash
-cd backend
-source .venv/bin/activate
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-Verifikasi backend dari terminal lain:
-
-```bash
-curl http://127.0.0.1:8000/healthz
-```
-
-Response yang benar adalah `{"status":"ok"}`.
-
-### Frontend Linux desktop
-
-Terminal 2:
-
-```bash
-cd frontend
-flutter run -d linux
-```
-
-### Frontend Web
-
-```bash
-cd frontend
-flutter run -d chrome
-```
-
-### Frontend Android
-
-Pastikan emulator/perangkat terlihat dengan `flutter devices`, lalu:
-
-```bash
-cd frontend
-flutter run -d <device-id>
-```
-
-Konfigurasi URL backend saat ini adalah:
-
-| Target | URL default |
+| Dokumen | Isi |
 |---|---|
-| Linux, Windows, macOS, Web | `http://localhost:8000` |
-| Android Emulator | `http://10.0.2.2:8000` |
-| Android fisik | IP LAN komputer, misalnya `http://192.168.1.10:8000` |
-
-Untuk perangkat fisik, ubah `defaultBaseUrl` di
-`frontend/lib/features/dashboard/presentation/dashboard_providers.dart`,
-jalankan backend pada `0.0.0.0`, dan pastikan firewall mengizinkan port 8000.
-Untuk deployment nyata gunakan HTTPS dan batasi `CORS_ALLOW_ORIGINS`.
-
-## Pengujian dan build
-
-```bash
-# Frontend
-cd frontend
-flutter pub get
-flutter analyze
-flutter test
-flutter build apk --release       # Android
-flutter build web                 # Web
-flutter build linux               # Linux desktop
-```
-
-Hasil verifikasi terakhir (23 Oktober 2026):
-
-```text
-flutter analyze   → No issues found!
-flutter test      → 00:06 +16: All tests passed!
-flutter build apk → app-release.apk (55,5 MB)
-```
-
-### Build APK Android
-
-Persyaratan toolchain yang sudah diuji:
-
-| Komponen | Versi |
-|---|---|
-| Flutter | 3.47.2 stable |
-| JDK | OpenJDK **20** (JDK 25 tidak kompatibel dengan Gradle 8.14) |
-| Gradle | 8.14.3 |
-| Android Gradle Plugin | 8.11.1 |
-| Kotlin | 2.2.20 |
-| Android SDK | 36, Build-Tools 35.0.0 |
-
-```bash
-flutter config --jdk-dir="/path/to/jdk-20"
-cd frontend
-flutter build apk --release
-```
-
-Keluaran: `frontend/build/app/outputs/flutter-apk/app-release.apk`
-(applicationId `id.farrel.payloadhubai`, minSdk 21, SHA-256
-`302D47DEEB6A9AEAD3153173B1EC8431F94C97BCA61123D690A2267020EE5624`).
-
-APK yang sudah dibangun tersedia sebagai aset rilis:
-<https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/v1.0.0>.
-
-APK saat ini ditandatangani debug key. Untuk distribusi publik, buat keystore
-rilis dan jangan commit `key.properties` atau berkas `.jks`.
-
-Pengecekan backend dasar:
-
-```bash
-cd backend
-source .venv/bin/activate
-python -m compileall -q app
-python -c "from app.main import app; print(app.title)"
-```
-
-## Konfigurasi environment
-
-Semua konfigurasi backend dibaca dari `backend/.env`:
-
-| Variable | Wajib | Keterangan |
-|---|---:|---|
-| `LLM_API_KEY` | Ya untuk agent | Key provider LLM di server |
-| `LLM_BASE_URL` | Tidak | Base URL OpenAI-compatible |
-| `LLM_MODEL` | Tidak | Default model yang digunakan agent |
-| `LLM_TEMPERATURE` | Tidak | Default `0.0` untuk hasil konsisten |
-| `AGENT_MAX_ITERATIONS` | Tidak | Batas iterasi tool agent |
-| `AGENT_TIMEOUT_SECONDS` | Tidak | Batas waktu agent |
-| `VIRUSTOTAL_API_KEY` | Tidak | Mengaktifkan lookup/scan VirusTotal |
-| `VIRUSTOTAL_MAX_FILE_BYTES` | Tidak | Batas ukuran upload |
-| `EXPLOITDB_CSV_URL` | Tidak | Sumber katalog ExploitDB |
-| `CORS_ALLOW_ORIGINS` | Tidak | Origin frontend yang diizinkan |
-
-Frontend menyimpan key yang diisi pengguna memakai `flutter_secure_storage`.
-Tidak ada credential yang dibundel ke aplikasi. Upload file ke VirusTotal
-Community API bersifat publik; jangan upload file rahasia.
-
-## Endpoint backend
-
-- `GET /healthz` — health check.
-- `POST /api/v1/agent/execute` — menjalankan agent dengan prompt dan context.
-- `GET /api/v1/exploitdb/search?q=...` — mencari katalog ExploitDB.
-- `/api/v1/virustotal/*` — status, scan, analysis, dan lookup indikator.
-
-Dokumentasi OpenAPI tersedia saat backend berjalan di
-<http://127.0.0.1:8000/docs>.
-
-## Troubleshooting
-
-### `flutter: command not found`
-
-Tambahkan folder `flutter/bin` ke `PATH`, buka terminal baru, lalu jalankan
-`flutter doctor -v`.
-
-### Frontend tidak terhubung ke backend
-
-Pastikan Uvicorn aktif di port 8000, cek `/healthz`, dan gunakan URL sesuai
-target pada tabel di atas. Android Emulator tidak memakai `localhost` untuk
-mengakses host komputer; gunakan `10.0.2.2`.
-
-### Agent mengembalikan error provider
-
-Periksa `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL`, koneksi internet, dan log
-terminal Uvicorn. VirusTotal juga membutuhkan key terpisah untuk fitur
-Threat Intelligence.
-
-### `flutter doctor` memberi warning platform
-
-Warning platform yang tidak ditargetkan dapat diabaikan. Selesaikan hanya
-toolchain target yang ingin digunakan, misalnya Linux desktop atau Android.
+| [`docs/INSTALASI.md`](docs/INSTALASI.md) | Instalasi lengkap Android/desktop/backend || [`docs/DOKUMENTASI-TEKNIS.md`](docs/DOKUMENTASI-TEKNIS.md) | Arsitektur, API, storage, build |
+| [`docs/Tahap-1-Analisis-Kebutuhan.md`](docs/Tahap-1-Analisis-Kebutuhan.md) | Analisis kebutuhan |
+| [`docs/Tahap-2-Perancangan-Sistem.md`](docs/Tahap-2-Perancangan-Sistem.md) | Perancangan & UI |
+| [`docs/Tahap-3-Implementasi.md`](docs/Tahap-3-Implementasi.md) | Implementasi |
+| [`docs/Tahap-4-Pengujian.md`](docs/Tahap-4-Pengujian.md) | Pengujian |
+| [`docs/Tahap-5-Laporan-Akhir.md`](docs/Tahap-5-Laporan-Akhir.md) | Laporan akhir |
+| [`docs/PayloadHub-AI-Laporan-Lengkap.md`](docs/PayloadHub-AI-Laporan-Lengkap.md) | Laporan gabungan |
+| [`docs/demo/PayloadHub-AI-Demo-Android.mp4`](docs/demo/PayloadHub-AI-Demo-Android.mp4) | Video demo Android |
+| [`docs/docx/`](docs/docx) | Versi Word |
 
 ## Lisensi
 
-Belum ada file lisensi di repository ini. Tambahkan lisensi yang sesuai
-sebelum distribusi publik atau penggunaan komersial.
+Belum ada file lisensi. Tambahkan lisensi yang sesuai sebelum distribusi
+publik atau komersial.

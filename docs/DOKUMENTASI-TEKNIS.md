@@ -73,7 +73,7 @@ frontend/
 │       ├── secure_storage_service.dart
 │       ├── free_chatbot_service.dart
 │       └── auto_key_loader.dart
-├── test/                                 # 16 pengujian otomatis
+├── test/                                 # 18 pengujian otomatis
 └── android/                              # manifest + Gradle
 backend/
 └── app/                                  # main, models, agent, tools, ...
@@ -158,21 +158,24 @@ flutter run -d emulator-5554
 
 ## 5. Konfigurasi URL Backend
 
-`defaultBaseUrl` ditentukan di
-`lib/features/dashboard/presentation/dashboard_providers.dart`:
+Default platform ada di `lib/core/config/backend_config.dart`:
 
-| Target | URL |
+| Target | URL default |
 |---|---|
 | Windows, Linux, macOS, Web | `http://localhost:8000` |
 | Android Emulator | `http://10.0.2.2:8000` |
-| Android fisik | IP LAN komputer, mis. `http://192.168.1.10:8000` |
+| Android fisik | Diatur pengguna dari Settings |
 
-Untuk perangkat fisik:
+Untuk perangkat fisik, pengguna tidak perlu mengedit kode:
 
 1. Jalankan backend dengan `--host 0.0.0.0`.
-2. Izinkan port 8000 pada firewall.
-3. Ubah `defaultBaseUrl` atau simpan URL kustom melalui Settings.
-4. Untuk produksi gunakan HTTPS dan hapus `usesCleartextTraffic`.
+2. Izinkan port 8000 pada firewall dan gunakan Wi-Fi yang sama.
+3. Buka **Settings → Backend Server**.
+4. Isi `http://IP-LAN-KOMPUTER:8000`.
+5. Simpan lalu buka ulang aplikasi.
+
+Nilai disimpan di secure storage (`backend_base_url`) dan dibaca saat startup.
+Untuk produksi gunakan HTTPS dan hapus `usesCleartextTraffic`.
 
 > `usesCleartextTraffic="true"` hanya untuk lab lokal. Jangan dipakai pada
 > distribusi publik.
@@ -201,7 +204,7 @@ Build final yang tercatat:
 | Atribut | Nilai |
 |---|---|
 | Ukuran | 58.156.477 byte (55,5 MB) |
-| SHA-256 | `302D47DEEB6A9AEAD3153173B1EC8431F94C97BCA61123D690A2267020EE5624` |
+| SHA-256 | `89DCCB9580B1049A198D7DC247C75C59F803222EEE23FDD9D44AFE90CB66FCAD` |
 | applicationId | `id.farrel.payloadhubai` |
 | minSdk | 21 |
 | targetSdk | 36 |
@@ -440,7 +443,7 @@ flutter test test/widget_test.dart --reporter expanded
 
 | Berkas | Fokus |
 |---|---|
-| `validators_test.dart` | IPv4 valid/invalid, port, pesan error |
+| `validators_test.dart` | IPv4 valid/invalid, port, URL backend, pesan error |
 | `activity_history_test.dart` | JSON, data rusak, urutan, batas 40, kegagalan simpan |
 | `widget_test.dart` | Desktop 1440×900, ponsel 390×844, navigasi, form, riwayat |
 | `assets_test.dart` | Tidak ada kredensial ter-bundle |
@@ -518,7 +521,7 @@ menyalin payload.
 | Klaim | Status | Bukti |
 |---|---|---|
 | Analyzer bersih | **[C]** | `flutter analyze` |
-| 16 test lulus | **[C]** | `flutter test` |
+| 18 test lulus | **[C]** | `flutter test` |
 | APK build | **[C]** | Berkas + log build |
 | Skema storage | **[C]** | `secure_storage_service.dart`, `activity_entry.dart` |
 | Endpoint backend | **[C]** | `backend/app/main.py` |

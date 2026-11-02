@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/config/backend_config.dart';
 import '../../../core/network/dio_client.dart';
 import '../../../services/free_chatbot_service.dart';
 import '../../../services/secure_storage_service.dart';
@@ -13,14 +13,8 @@ import 'controllers/studio_controller.dart';
 import 'controllers/telemetry_controller.dart';
 import '../domain/models/dashboard_models.dart';
 
-/// Platform-aware default backend base URL.
-/// Android emulator reaches the host via 10.0.2.2; everything else uses localhost.
-String get defaultBaseUrl {
-  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
-    return 'http://10.0.2.2:8000';
-  }
-  return 'http://localhost:8000';
-}
+/// Platform-aware default backend base URL, optionally overridden in Settings.
+String get defaultBaseUrl => BackendConfig.baseUrl;
 
 final secureStorageProvider = Provider<SecureStorageService>(
   (ref) => SecureStorageService.instance,

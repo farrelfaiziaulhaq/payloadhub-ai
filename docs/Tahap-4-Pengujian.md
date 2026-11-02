@@ -79,23 +79,23 @@ Perintah:
 
 ```text
 flutter analyze   → No issues found! (ran in 9.2s)
-flutter test      → 00:04 +16: All tests passed!
+flutter test      → 00:04 +18: All tests passed!
 ```
 
 | Berkas uji | Jumlah | Cakupan | Hasil |
 |---|---:|---|---|
-| `test/validators_test.dart` | 6 | IPv4 valid/invalid, port 1–65535, pesan error | **Lulus** |
+| `test/validators_test.dart` | 8 | IPv4, port 1–65535, URL backend, pesan error | **Lulus** |
 | `test/activity_history_test.dart` | 7 | Serialisasi JSON, data rusak, urutan, tambah/hapus/bersihkan, batas 40, kegagalan simpan | **Lulus** |
 | `test/widget_test.dart` | 2 | Navigasi desktop 5 halaman, validasi form, generate payload, riwayat, shell ponsel, rute riwayat | **Lulus** |
 | `test/assets_test.dart` | 1 | Startup tidak membutuhkan kredensial ter-bundle | **Lulus** |
-| **Total** | **16** | | **Lulus semua** |
+| **Total** | **18** | | **Lulus semua** |
 
 ### 4.1 Detail eksekusi widget test
 
 ```
-00:03 +15: desktop dashboard pages, validation and history work
-00:04 +16: mobile shell uses bottom navigation and stacked dashboard
-00:04 +16: All tests passed!
+00:03 +17: desktop dashboard pages, validation and history work
+00:04 +18: mobile shell uses bottom navigation and stacked dashboard
+00:04 +18: All tests passed!
 ```
 
 Test ponsel memakai viewport **390×844** dan memverifikasi:
@@ -267,22 +267,22 @@ Kendala yang ditemukan dan diselesaikan: JDK 25 tidak kompatibel dengan Gradle
 8.3, lalu Flutter 3.47 menolak Gradle < 8.14 dan Kotlin < 2.2.20 (BUG-08).
 Solusi akhir: **JDK 20 + Gradle 8.14.3 + AGP 8.11.1 + Kotlin 2.2.20**.
 
-Hasil build final (23 Oktober 2026):
+Hasil build final (2 November 2026):
 
 | Atribut | Nilai |
 |---|---|
 | Status | **Berhasil** |
 | Berkas | `frontend/build/app/outputs/flutter-apk/app-release.apk` |
 | Ukuran | 58.156.477 byte (55,5 MB) |
-| SHA-256 | `302D47DEEB6A9AEAD3153173B1EC8431F94C97BCA61123D690A2267020EE5624` |
+| SHA-256 | `89DCCB9580B1049A198D7DC247C75C59F803222EEE23FDD9D44AFE90CB66FCAD` |
 
 Verifikasi ulang setelah perubahan konfigurasi Android: `flutter analyze`
-tanpa temuan dan 16 pengujian lulus. Instalasi pada perangkat fisik belum
+tanpa temuan dan 18 pengujian lulus. Instalasi pada perangkat fisik belum
 dicatat; lihat Tahap 5 §7.
 
 ## 10. Kesimpulan Pengujian
 
-- Seluruh **16 pengujian otomatis** lulus dan `flutter analyze` bersih.
+- Seluruh **18 pengujian otomatis** lulus dan `flutter analyze` bersih.
 - Sembilan masalah nyata ditemukan; delapan sudah diperbaiki dan diverifikasi,
   satu (pengujian pengguna) masih menunggu pelaksanaan sesi.
 - Perbaikan berfokus pada tiga area: **kestabilan** (BUG-01/08),
@@ -296,7 +296,7 @@ dicatat; lihat Tahap 5 §7.
 
 | Klaim | Status | Bukti |
 |---|---|---|
-| 16 test lulus | **[C]** | Output `flutter test` |
+| 18 test lulus | **[C]** | Output `flutter test` |
 | Analyzer bersih | **[C]** | Output `flutter analyze` |
 | Bug diperbaiki | **[C]** | Diff kode + test regresi |
 | Pengujian pengguna | **[S]** | Belum dilaksanakan; format tersedia |

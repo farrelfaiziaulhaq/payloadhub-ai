@@ -49,7 +49,7 @@ dan UI, implementasi Flutter, pengujian, dan finalisasi. Hasil utamanya:
 | Klien | Flutter 3.47.2, berjalan di Android, web, dan desktop |
 | Backend | FastAPI + agent dengan guardrail dan tool deterministik |
 | Fitur | 12 fitur utama, termasuk Riwayat Aktivitas terenkripsi |
-| Kualitas | `flutter analyze` bersih, 16 pengujian otomatis lulus |
+| Kualitas | `flutter analyze` bersih, 18 pengujian otomatis lulus |
 | Rilis | APK 55,5 MB, applicationId `id.farrel.payloadhubai` |
 | Dokumentasi | Laporan Tahap 1–5, wireframe, prototipe, panduan demo |
 
@@ -353,16 +353,16 @@ Total: **24 kasus fungsional** dan **7 kasus nonfungsional**.
 
 ```text
 flutter analyze   → No issues found! (ran in 32.6s)
-flutter test      → 00:06 +16: All tests passed!
+flutter test      → 00:06 +18: All tests passed!
 ```
 
 | Berkas | Jumlah | Cakupan |
 |---|---:|---|
-| `validators_test.dart` | 6 | IPv4 dan port |
+| `validators_test.dart` | 8 | IPv4, port, URL backend |
 | `activity_history_test.dart` | 7 | Serialisasi, data rusak, batas 40, kegagalan simpan |
 | `widget_test.dart` | 2 | Desktop 1440×900 dan ponsel 390×844 |
 | `assets_test.dart` | 1 | Tidak ada kredensial ter-bundle |
-| **Total** | **16** | **Lulus semua** |
+| **Total** | **18** | **Lulus semua** |
 
 ### 5.5 Bug yang Ditemukan dan Diperbaiki
 
@@ -428,7 +428,7 @@ riwayat), observasi, lalu kuesioner.
 |---|---|
 | Berkas | `app-release.apk` |
 | Ukuran | 58.156.477 byte (55,5 MB) |
-| SHA-256 | `302D47DEEB6A9AEAD3153173B1EC8431F94C97BCA61123D690A2267020EE5624` |
+| SHA-256 | `89DCCB9580B1049A198D7DC247C75C59F803222EEE23FDD9D44AFE90CB66FCAD` |
 | applicationId | `id.farrel.payloadhubai` |
 | Label | PayloadHub-AI |
 | minSdk | 21 |
@@ -444,7 +444,7 @@ APK ditandatangani debug key. Untuk distribusi publik perlu keystore rilis.
 | Kelengkapan analisis | Persona, 12 FR, 12 NFR, batasan etika, prioritas |
 | Kualitas perancangan | Arsitektur, navigasi, design system, wireframe, prototipe |
 | Fungsionalitas | 12 fitur berjalan; alur utama tetap jalan tanpa backend |
-| Kualitas kode | Struktur berlapis, analyzer bersih, 16 test |
+| Kualitas kode | Struktur berlapis, analyzer bersih, 18 test |
 | Responsivitas | Breakpoint 700/1000 px, bottom nav, SafeArea |
 | Keamanan | Secure storage, tanpa key di bundle, guardrail |
 | Pengujian | 24 kasus fungsional, 7 nonfungsional, 9 bug |
@@ -478,7 +478,7 @@ PayloadHub-AI memenuhi luaran lima tahap proyek akhir. Aplikasi berjalan
 sebagai klien Flutter responsif dengan backend FastAPI, memiliki fitur yang
 relevan dengan domain keamanan, dan menambahkan Riwayat Aktivitas terenkripsi
 sebagai peningkatan pengalaman mobile. Kualitas teknis dibuktikan dengan
-analyzer bersih, 16 pengujian otomatis lulus, dan APK rilis 55,5 MB yang
+analyzer bersih, 18 pengujian otomatis lulus, dan APK rilis 55,5 MB yang
 berhasil dibangun. Keterbatasan lapangan dinyatakan terbuka, bukan dikarang.
 
 <!-- pagebreak -->
@@ -605,7 +605,7 @@ video cadangan siap, API key tidak terlihat di layar.
 7. Desain UI dan responsivitas.
 8. Riwayat terenkripsi.
 9. Demo.
-10. Pengujian: analyzer, 16 test, 24 kasus, 9 bug.
+10. Pengujian: analyzer, 18 test, 24 kasus, 9 bug.
 11. Keterbatasan dan rencana.
 12. Kesimpulan dan Q&A.
 
@@ -752,7 +752,7 @@ flutter build apk --release
 payloadhub-ai/
 ├── backend/app/          # FastAPI, agent, tools, models
 ├── frontend/lib/         # core, features, services
-├── frontend/test/        # 16 pengujian
+├── frontend/test/        # 18 pengujian
 ├── docs/                 # laporan, wireframe, prototipe, DOCX
 ├── BLUEPRINT.md
 └── README.md
@@ -763,7 +763,7 @@ payloadhub-ai/
 | Klaim | Status | Bukti |
 |---|---|---|
 | Analyzer bersih | **[C]** | Output `flutter analyze` |
-| 16 test lulus | **[C]** | Output `flutter test` |
+| 18 test lulus | **[C]** | Output `flutter test` |
 | APK 55,5 MB | **[C]** | Berkas APK + log build |
 | SHA-256 APK | **[C]** | `Get-FileHash` |
 | Layout dua viewport | **[C]** | Widget test |

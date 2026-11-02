@@ -27,6 +27,7 @@ DOCS_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = DOCS_DIR / "docx"
 
 SOURCES = [
+    "INSTALASI.md",
     "Tahap-1-Analisis-Kebutuhan.md",
     "Tahap-2-Perancangan-Sistem.md",
     "Tahap-3-Implementasi.md",

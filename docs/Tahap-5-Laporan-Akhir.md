@@ -4,7 +4,7 @@
 **Jenis:** Proyek Akhir Mata Kuliah Pemrograman Mobile
 **Penulis:** Farrel Faizi Aulhaq
 **Repository:** <https://github.com/farrelfaiziaulhaq/payloadhub-ai>
-**Tanggal finalisasi:** 23 Oktober 2026
+**Tanggal finalisasi:** 2 November 2026
 **Status:** MVP selesai, APK rilis berhasil dibangun; pengujian pengguna belum
 dilaksanakan (lihat §7).
 
@@ -26,7 +26,7 @@ finalisasi. Hasil akhir berupa:
 
 - aplikasi Flutter yang berjalan di Android, web, dan desktop;
 - **APK rilis 55,5 MB** yang dapat dipasang pada Android 5.0+;
-- **16 pengujian otomatis lulus** dan `flutter analyze` tanpa temuan;
+- **18 pengujian otomatis lulus** dan `flutter analyze` tanpa temuan;
 - dokumentasi Tahap 1–5, wireframe SVG, purwarupa interaktif, panduan demo,
   dan bahan presentasi;
 - riwayat aktivitas lokal terenkripsi dengan pencarian, salin, hapus, dan
@@ -105,12 +105,12 @@ sebagai teks biasa. Tidak ada kredensial yang dibundel ke dalam APK.
 | Nama berkas | `app-release.apk` |
 | Lokasi build | `frontend/build/app/outputs/flutter-apk/app-release.apk` |
 | Ukuran | 58.156.477 byte (**55,5 MB**) |
-| SHA-256 | `302D47DEEB6A9AEAD3153173B1EC8431F94C97BCA61123D690A2267020EE5624` |
+| SHA-256 | `89DCCB9580B1049A198D7DC247C75C59F803222EEE23FDD9D44AFE90CB66FCAD` |
 | Application ID | `id.farrel.payloadhubai` |
 | Label | PayloadHub-AI |
 | Minimum SDK | 21 (Android 5.0) |
 | Izin | `INTERNET` |
-| Tanggal build | 23 Oktober 2026, 23:37 |
+| Tanggal build | 2 November 2026, 08:27 |
 | Unduhan | <https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/v1.0.0> |
 
 Perintah reproduksi:
@@ -158,16 +158,16 @@ No issues found! (ran in 32.6s)
 
 ```text
 flutter test
-00:06 +16: All tests passed!
+00:12 +18: All tests passed!
 ```
 
 | Berkas | Jumlah | Cakupan |
 |---|---:|---|
-| `test/validators_test.dart` | 6 | Validasi IPv4 dan port |
+| `test/validators_test.dart` | 8 | Validasi IPv4, port, dan URL backend |
 | `test/activity_history_test.dart` | 7 | Serialisasi, data rusak, urutan, batas 40, kegagalan simpan |
 | `test/widget_test.dart` | 2 | Desktop 1440×900 dan ponsel 390×844 |
 | `test/assets_test.dart` | 1 | Tidak ada kredensial ter-bundle |
-| **Total** | **16** | Semua lulus |
+| **Total** | **18** | Semua lulus |
 
 ### 5.3 Build
 
@@ -201,7 +201,7 @@ Sembilan masalah nyata ditemukan; delapan diperbaiki dan diverifikasi:
 | **Kelengkapan analisis** | Tahap 1: persona, pain point, 24 kebutuhan fungsional, nonfungsional, batasan etika, prioritas MoSCoW |
 | **Kualitas perancangan** | Tahap 2: arsitektur, alur navigasi, design system, 5 wireframe, purwarupa interaktif |
 | **Fungsionalitas aplikasi** | 12 fitur berjalan; alur utama dapat diselesaikan tanpa backend (generator deterministik) |
-| **Kualitas kode** | Struktur fitur berlapis, analyzer bersih, 16 test, tidak ada placeholder |
+| **Kualitas kode** | Struktur fitur berlapis, analyzer bersih, 18 test, tidak ada placeholder |
 | **Responsivitas mobile** | Breakpoint 700/1000 px, bottom navigation, `SafeArea`, widget test dua viewport |
 | **Keamanan** | Secure storage, tanpa kredensial ter-bundle, validasi input, guardrail backend, peringatan etika |
 | **Pengujian** | 24 kasus fungsional, 7 nonfungsional, 9 bug, evaluasi heuristik, instrumen uji pengguna |
@@ -257,7 +257,7 @@ PayloadHub-AI memenuhi seluruh luaran lima tahap proyek akhir. Aplikasi
 berjalan sebagai klien Flutter responsif dengan backend FastAPI, memiliki
 fitur yang relevan dengan domain keamanan, serta menambahkan Riwayat
 Aktivitas terenkripsi sebagai peningkatan pengalaman mobile. Kualitas teknis
-dibuktikan dengan analyzer bersih, 16 pengujian otomatis yang lulus, dan APK
+dibuktikan dengan analyzer bersih, 18 pengujian otomatis yang lulus, dan APK
 rilis 55,5 MB yang berhasil dibangun. Keterbatasan yang tersisa — terutama
 pengujian pengguna dan verifikasi perangkat fisik — dinyatakan terbuka dan
 tidak memengaruhi keabsahan artefak yang sudah ada.
@@ -299,7 +299,7 @@ payloadhub-ai/
 │   │   ├── history/              # riwayat terenkripsi
 │   │   └── payload_chat/         # entity, repository, model API
 │   └── services/                 # secure storage, chatbot, key loader
-├── frontend/test/                # 16 pengujian
+├── frontend/test/                # 18 pengujian
 ├── docs/                         # laporan, wireframe, purwarupa, panduan
 ├── BLUEPRINT.md
 └── README.md
@@ -310,7 +310,7 @@ payloadhub-ai/
 | Klaim | Status | Bukti |
 |---|---|---|
 | Analyzer bersih | **[C]** | Output `flutter analyze` |
-| 16 test lulus | **[C]** | Output `flutter test` |
+| 18 test lulus | **[C]** | Output `flutter test` |
 | APK 55,5 MB berhasil dibangun | **[C]** | Berkas APK + log build |
 | SHA-256 APK | **[C]** | `Get-FileHash` |
 | Fitur responsif dua viewport | **[C]** | Widget test |

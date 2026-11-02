@@ -1,0 +1,6 @@
+# Keep shell scripts LF so they run in Git Bash/Linux/WSL.
+*.sh text eol=lf
+*.py text eol=lf
+
+# PowerShell works with CRLF on Windows.
+*.ps1 text eol=crlf

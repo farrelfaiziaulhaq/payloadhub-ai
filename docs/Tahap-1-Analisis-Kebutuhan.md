@@ -164,7 +164,7 @@ Pendekatan ini menghilangkan halusinasi pada keluaran inti karena sintaks dan da
 | Aplikasi Flutter memiliki 5 halaman utama + riwayat | **[C]** | `frontend/lib/features/dashboard/presentation/controllers/navigation_controller.dart`, `history_screen.dart` |
 | Validasi IPv4/port diterapkan | **[C]** | `frontend/lib/core/utils/validators.dart`, `backend/app/models.py` |
 | Riwayat tersimpan di secure storage | **[C]** | `frontend/lib/features/history/data/activity_repository.dart` |
-| Pengujian otomatis lulus | **[C]** | `flutter test` → 16 test lulus (Tahap 4) |
+| Pengujian otomatis lulus | **[C]** | `flutter test` → 18 test lulus (Tahap 4) |
 | Target waktu respons < 3 detik | **[S]** | Ditetapkan sebagai target NFR; belum diukur pada perangkat fisik |
 
 **VERDICT: approve** — kebutuhan, pengguna, fitur, dan batasan sudah konsisten dengan implementasi yang ada di repositori.

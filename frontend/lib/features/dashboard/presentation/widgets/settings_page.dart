@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/config/backend_config.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/validators.dart';
 import '../dashboard_providers.dart';
@@ -24,6 +25,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   final _virusTotal = TextEditingController();
   final _lhost = TextEditingController();
   final _lport = TextEditingController();
+  final _baseUrl = TextEditingController();
 
   String _llmEngine = 'deepseek';
   bool _glow = false;
@@ -50,6 +52,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       storage.readUiGlow(),
       storage.readTerminalFont(),
       storage.readSound(),
+      storage.readBaseUrl(),
     ]);
     if (!mounted) return;
     setState(() {
@@ -64,6 +67,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       _glow = values[8] as bool;
       _terminalFont = values[9] as bool;
       _sound = values[10] as bool;
+      _baseUrl.text = values[11] as String? ?? '';
     });
   }
 
@@ -83,6 +87,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     await storage.writeUiGlow(_glow);
     await storage.writeTerminalFont(_terminalFont);
     await storage.writeSound(_sound);
+    await BackendConfig.save(_baseUrl.text);
 
     // Prefer the user's DeepSeek key for the isolated, text-only Info Bot.
     final deepSeek = _deepSeek.text.trim();
@@ -100,8 +105,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         const SnackBar(
-            content: Text('Settings saved securely'),
-            duration: Duration(seconds: 2)),
+            content: Text(
+                'Settings saved securely. Restart the app after changing the backend URL.'),
+            duration: Duration(seconds: 3)),
       );
   }
 
@@ -114,6 +120,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     _virusTotal.dispose();
     _lhost.dispose();
     _lport.dispose();
+    _baseUrl.dispose();
     super.dispose();
   }
 
@@ -191,6 +198,28 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     ],
                   );
                 },
+              ),
+            ),
+            const SizedBox(height: 12),
+            _SectionCard(
+              title: 'Backend Server',
+              subtitle:
+                  'URL API FastAPI. Kosongkan untuk default: 10.0.2.2 (emulator Android) atau localhost (desktop). Restart aplikasi setelah mengubah.',
+              child: _LabeledField(
+                label: 'Base URL',
+                child: TextFormField(
+                  controller: _baseUrl,
+                  keyboardType: TextInputType.url,
+                  autocorrect: false,
+                  validator: validateBackendUrl,
+                  style: const TextStyle(
+                      color: AppColors.textPrimary, fontSize: 14),
+                  decoration: const InputDecoration(
+                    hintText: 'http://192.168.1.10:8000',
+                    hintStyle: TextStyle(
+                        color: AppColors.textSecondary, fontSize: 12),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 12),

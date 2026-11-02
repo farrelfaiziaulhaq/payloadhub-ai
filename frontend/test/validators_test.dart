@@ -48,4 +48,19 @@ void main() {
       expect(validatePort('8080'), isNull);
     });
   });
+
+  group('backend URL validation', () {
+    test('accepts empty, HTTP, HTTPS and scheme-less hosts', () {
+      expect(validateBackendUrl(''), isNull);
+      expect(validateBackendUrl('http://192.168.1.10:8000'), isNull);
+      expect(validateBackendUrl('https://api.example.com'), isNull);
+      expect(validateBackendUrl('192.168.1.10:8000'), isNull);
+    });
+
+    test('rejects unsupported or incomplete URLs', () {
+      expect(validateBackendUrl('ftp://192.168.1.10'), isNotNull);
+      expect(validateBackendUrl('http://'), isNotNull);
+      expect(validateBackendUrl('http://:8000'), isNotNull);
+    });
+  });
 }

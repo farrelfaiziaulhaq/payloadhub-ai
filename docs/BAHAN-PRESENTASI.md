@@ -263,7 +263,7 @@ FastAPI (Pydantic, Agent, Tools)
 - Kesimpulan:
   - lima tahap selesai;
   - 12 fitur berjalan;
-  - kualitas terbukti (analyzer, 16 test, APK);
+  - kualitas terbukti (analyzer, 18 test, APK);
   - etika terlihat di produk.
 
 **Catatan:**
