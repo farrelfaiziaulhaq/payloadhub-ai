@@ -110,7 +110,7 @@ sebagai teks biasa. Tidak ada kredensial yang dibundel ke dalam APK.
 | Label | PayloadHub-AI |
 | Minimum SDK | 21 (Android 5.0) |
 | Izin | `INTERNET` |
-| Tanggal build | 2 November 2026, 08:27 |
+| Tanggal build | 2 November 2026, 08:36 |
 | Unduhan | <https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/v1.0.0> |
 
 Perintah reproduksi:
