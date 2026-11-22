@@ -1,4 +1,4 @@
-# PayloadHub-AI
+﻿# PayloadHub-AI
 
 Aplikasi **ethical hacking assistant** untuk pengujian keamanan yang memiliki
 otorisasi. Klien Flutter berjalan di **Android dan desktop**; backend FastAPI
@@ -11,10 +11,10 @@ menyediakan agent AI, katalog ExploitDB, dan threat intelligence.
 
 | Saya ingin... | Jalur | Waktu |
 |---|---|---|
-| Langsung mencoba di HP | **APK jadi** — tidak perlu build | ±2 menit |
-| Demo di laptop Windows | **Desktop** + backend | ±10 menit |
-| Ngoding Android | **Android dari source** | ±15 menit |
-| Demo di Linux/macOS | **Desktop** + backend | ±10 menit |
+| Langsung mencoba di HP | **APK jadi** â€” tidak perlu build | Â±2 menit |
+| Demo di laptop Windows | **Desktop** + backend | Â±10 menit |
+| Ngoding Android | **Android dari source** | Â±15 menit |
+| Demo di Linux/macOS | **Desktop** + backend | Â±10 menit |
 
 Panduan langkah demi langkah dari komputer kosong ada di
 **[`docs/INSTALASI.md`](docs/INSTALASI.md)**.
@@ -32,10 +32,10 @@ python scripts/payloadhub.py setup
 Lalu buka **dua terminal**:
 
 ```bash
-# Terminal 1 — backend
+# Terminal 1 â€” backend
 python scripts/payloadhub.py backend
 
-# Terminal 2 — aplikasi desktop
+# Terminal 2 â€” aplikasi desktop
 python scripts/payloadhub.py desktop
 ```
 
@@ -93,7 +93,7 @@ flutter config --jdk-dir="C:\Program Files\Java\jdk-20"
 
 Prasyarat desktop:
 
-- **Windows:** Visual Studio 2022 → workload **Desktop development with C++**.
+- **Windows:** Visual Studio 2022 â†’ workload **Desktop development with C++**.
 - **Linux (Ubuntu/Debian):**
 
   ```bash
@@ -139,7 +139,7 @@ python scripts/payloadhub.py setup
 ```
 
 Script membuat `backend/.venv`, memasang dependency, menyalin
-`backend/.env.example` → `backend/.env` (jika belum ada), dan menjalankan
+`backend/.env.example` â†’ `backend/.env` (jika belum ada), dan menjalankan
 `flutter pub get`.
 
 ### Isi `backend/.env`
@@ -165,14 +165,14 @@ Jangan commit `.env`. File tersebut sudah masuk `.gitignore`.
 1. Download APK dari
    [Releases v1.0.0](https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/v1.0.0).
 2. Pindahkan ke HP.
-3. Buka APK → izinkan **Install unknown apps** → **Install**.
+3. Buka APK â†’ izinkan **Install unknown apps** â†’ **Install**.
 4. Buka **PayloadHub-AI**.
 
 | Atribut | Nilai |
 |---|---|
 | Application ID | `id.farrel.payloadhubai` |
 | Minimum Android | 5.0 (API 21) |
-| Ukuran | ±55,5 MB |
+| Ukuran | Â±55,5 MB |
 | Signature | debug key (demo/lab) |
 
 Fitur offline langsung tersedia. Untuk AI di HP fisik, lihat
@@ -297,9 +297,9 @@ Untuk HP fisik:
 1. HP dan komputer di Wi-Fi yang sama.
 2. Backend berjalan dengan `--host 0.0.0.0`.
 3. Izinkan port 8000 di firewall.
-4. Aplikasi → **Settings → Backend Server**.
+4. Aplikasi â†’ **Settings â†’ Backend Server**.
 5. Isi `http://192.168.1.10:8000` (sesuaikan IP komputer).
-6. Simpan → tutup dan buka ulang aplikasi.
+6. Simpan â†’ tutup dan buka ulang aplikasi.
 7. Uji dari browser HP: `http://192.168.1.10:8000/healthz`.
 
 Tidak perlu edit kode. Untuk produksi gunakan HTTPS dan batasi
@@ -361,19 +361,19 @@ Panduan lengkap: [`docs/INSTALASI.md`](docs/INSTALASI.md).
 
 ```text
 payloadhub-ai/
-├── backend/
-│   ├── app/                 # FastAPI, agent, tools, model
-│   ├── requirements.txt
-│   └── .env.example
-├── frontend/
-│   ├── lib/                 # Flutter
-│   ├── test/                # unit + widget tests
-│   └── pubspec.yaml
-├── scripts/
-│   └── payloadhub.py        # setup/run/build helper
-├── docs/                    # laporan, instalasi, screenshot, demo
-├── setup.ps1 / setup.sh
-└── README.md
+â”œâ”€â”€ backend/
+â”‚   â”œâ”€â”€ app/                 # FastAPI, agent, tools, model
+â”‚   â”œâ”€â”€ requirements.txt
+â”‚   â””â”€â”€ .env.example
+â”œâ”€â”€ frontend/
+â”‚   â”œâ”€â”€ lib/                 # Flutter
+â”‚   â”œâ”€â”€ test/                # unit + widget tests
+â”‚   â””â”€â”€ pubspec.yaml
+â”œâ”€â”€ scripts/
+â”‚   â””â”€â”€ payloadhub.py        # setup/run/build helper
+â”œâ”€â”€ docs/                    # laporan, instalasi, screenshot, demo
+â”œâ”€â”€ setup.ps1 / setup.sh
+â””â”€â”€ README.md
 ```
 
 ## Dokumentasi
@@ -396,3 +396,4 @@ payloadhub-ai/
 
 Belum ada file lisensi. Tambahkan lisensi yang sesuai sebelum distribusi
 publik atau komersial.
+
