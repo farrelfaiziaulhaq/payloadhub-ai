@@ -158,7 +158,11 @@ def add_table(document: Document, rows: List[List[str]]) -> None:
     document.add_paragraph()
 
 
-def convert(markdown_path: Path, output_path: Path) -> None:
+def convert(
+    markdown_path: Path,
+    output_path: Path,
+    footer_text: str = "PayloadHub-AI - Farrel Faizi Aulhaq",
+) -> None:
     text = markdown_path.read_text(encoding="utf-8")
     lines = text.splitlines()
 
@@ -182,6 +186,7 @@ def convert(markdown_path: Path, output_path: Path) -> None:
 
     index = 0
     in_code = False
+    cover_mode = False
     code_lines: List[str] = []
     table_lines: List[str] = []
     first_heading = True
@@ -218,6 +223,17 @@ def convert(markdown_path: Path, output_path: Path) -> None:
             index += 1
             continue
 
+        if line.strip() == "<!-- cover -->":
+            cover_mode = True
+            index += 1
+            continue
+
+        if line.strip() == "<!-- /cover -->":
+            cover_mode = False
+            document.add_page_break()
+            index += 1
+            continue
+
         if line.strip() == "<!-- pagebreak -->":
             flush_table()
             document.add_page_break()
@@ -235,24 +251,28 @@ def convert(markdown_path: Path, output_path: Path) -> None:
                 index += 1
                 continue
             if image_path.exists():
-                width = Inches(2.6)
+                width = Inches(1.35) if cover_mode else Inches(2.6)
                 try:
                     from PIL import Image as PILImage
 
                     with PILImage.open(image_path) as picture:
-                        if picture.width / max(picture.height, 1) > 1.5:
+                        if not cover_mode and picture.width / max(picture.height, 1) > 1.5:
                             width = Inches(5.9)
                 except Exception:
-                    width = Inches(2.6)
+                    pass
                 picture_paragraph = document.add_paragraph()
                 picture_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                picture_paragraph.paragraph_format.space_before = Pt(6)
-                picture_paragraph.paragraph_format.space_after = Pt(3)
+                picture_paragraph.paragraph_format.space_before = (
+                    Pt(10) if cover_mode else Pt(6)
+                )
+                picture_paragraph.paragraph_format.space_after = (
+                    Pt(10) if cover_mode else Pt(3)
+                )
                 with open(image_path, "rb") as image_file:
                     picture_paragraph.add_run().add_picture(
                         BytesIO(image_file.read()), width=width
                     )
-                if alt.strip():
+                if alt.strip() and not cover_mode:
                     caption = document.add_paragraph()
                     caption.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     caption.paragraph_format.space_after = Pt(10)
@@ -270,6 +290,26 @@ def convert(markdown_path: Path, output_path: Path) -> None:
             index += 1
             continue
         flush_table()
+
+        if cover_mode:
+            content = HEADING_RE.match(line)
+            if content:
+                cover_text = content.group(2).strip()
+                cover_size = Pt(14)
+            else:
+                cover_text = line.strip().replace("**", "")
+                cover_size = Pt(12)
+            if cover_text:
+                paragraph = document.add_paragraph()
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                paragraph.paragraph_format.line_spacing = 1.5
+                paragraph.paragraph_format.space_after = Pt(6)
+                add_inline(paragraph, cover_text, base_bold=True)
+                for run in paragraph.runs:
+                    run.bold = True
+                    run.font.size = cover_size
+            index += 1
+            continue
 
         if not line.strip():
             index += 1
@@ -351,7 +391,7 @@ def convert(markdown_path: Path, output_path: Path) -> None:
 
     footer = section.footer.paragraphs[0]
     footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    footer_run = footer.add_run("PayloadHub-AI — Farrel Faizi Aulhaq")
+    footer_run = footer.add_run(footer_text)
     footer_run.font.size = Pt(8)
     footer_run.font.color.rgb = RGBColor(0x88, 0x88, 0x88)
 

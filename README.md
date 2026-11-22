@@ -380,7 +380,9 @@ payloadhub-ai/
 
 | Dokumen | Isi |
 |---|---|
-| [`docs/INSTALASI.md`](docs/INSTALASI.md) | Instalasi lengkap Android/desktop/backend || [`docs/DOKUMENTASI-TEKNIS.md`](docs/DOKUMENTASI-TEKNIS.md) | Arsitektur, API, storage, build |
+| [`docs/INSTALASI.md`](docs/INSTALASI.md) | Instalasi lengkap Android/desktop/backend |
+| [`docs/DOKUMENTASI-TEKNIS.md`](docs/DOKUMENTASI-TEKNIS.md) | Arsitektur, API, storage, build |
+| [`docs/pertemuan-11/`](docs/pertemuan-11) | Laporan dan screenshot CRUD Mahasiswa |
 | [`docs/Tahap-1-Analisis-Kebutuhan.md`](docs/Tahap-1-Analisis-Kebutuhan.md) | Analisis kebutuhan |
 | [`docs/Tahap-2-Perancangan-Sistem.md`](docs/Tahap-2-Perancangan-Sistem.md) | Perancangan & UI |
 | [`docs/Tahap-3-Implementasi.md`](docs/Tahap-3-Implementasi.md) | Implementasi |
