@@ -1,0 +1,300 @@
+name: Build All Devices
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_release:
+        description: "Terbitkan hasil build sebagai GitHub Release"
+        required: true
+        default: true
+        type: boolean
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+env:
+  FLUTTER_VERSION: "3.47.2"
+  JAVA_VERSION: "20"
+
+jobs:
+  quality:
+    name: Analyze and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - name: PayloadHub quality checks
+        working-directory: frontend
+        run: |
+          flutter pub get
+          flutter analyze
+          flutter test --concurrency=1
+      - name: CRUD Mahasiswa quality checks
+        working-directory: crud_mahasiswa
+        run: |
+          flutter pub get
+          flutter analyze
+          flutter test --concurrency=1
+
+  android:
+    name: Android APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - name: Prepare Android SDK
+        run: |
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
+          sdkmanager "platforms;android-36" "build-tools;35.0.0" "ndk;28.2.13676358" >/dev/null
+      - name: Build PayloadHub-AI APK
+        working-directory: frontend
+        run: |
+          flutter pub get
+          flutter build apk --release
+      - name: Upload PayloadHub-AI APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: PayloadHub-AI-Android
+          path: frontend/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+
+  windows:
+    name: Windows desktop
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - name: Build Windows desktop
+        working-directory: frontend
+        run: |
+          flutter config --enable-windows-desktop
+          flutter pub get
+          flutter build windows --release
+      - name: Package Windows build
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "frontend/build/windows/x64/runner/Release/*" -DestinationPath "PayloadHub-AI-Windows.zip" -Force
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v4
+        with:
+          name: PayloadHub-AI-Windows
+          path: PayloadHub-AI-Windows.zip
+          if-no-files-found: error
+
+  linux:
+    name: Linux desktop
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - name: Install Linux desktop dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libsecret-1-dev libjsoncpp-dev liblzma-dev
+      - name: Build Linux desktop
+        working-directory: frontend
+        run: |
+          flutter config --enable-linux-desktop
+          flutter pub get
+          flutter build linux --release
+      - name: Package Linux build
+        run: |
+          tar -czf PayloadHub-AI-Linux.tar.gz -C frontend/build/linux/x64/release/bundle .
+      - name: Upload Linux build
+        uses: actions/upload-artifact@v4
+        with:
+          name: PayloadHub-AI-Linux
+          path: PayloadHub-AI-Linux.tar.gz
+          if-no-files-found: error
+
+  macos:
+    name: macOS desktop
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - name: Build macOS desktop
+        working-directory: frontend
+        run: |
+          flutter config --enable-macos-desktop
+          flutter pub get
+          flutter build macos --release
+      - name: Package macOS build
+        run: |
+          APP=$(find frontend/build/macos/Build/Products/Release -maxdepth 1 -name "*.app" -print -quit)
+          test -n "$APP"
+          ditto -c -k --sequesterRsrc --keepParent "$APP" PayloadHub-AI-macOS.zip
+      - name: Upload macOS build
+        uses: actions/upload-artifact@v4
+        with:
+          name: PayloadHub-AI-macOS
+          path: PayloadHub-AI-macOS.zip
+          if-no-files-found: error
+
+  ios:
+    name: iOS unsigned build
+    runs-on: macos-latest
+    timeout-minutes: 45
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - name: Build iOS without codesign
+        working-directory: frontend
+        run: |
+          flutter pub get
+          flutter build ios --release --no-codesign
+      - name: Package iOS app
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent frontend/build/ios/iphoneos/Runner.app PayloadHub-AI-iOS-unsigned.zip
+      - name: Upload iOS build
+        uses: actions/upload-artifact@v4
+        with:
+          name: PayloadHub-AI-iOS-unsigned
+          path: PayloadHub-AI-iOS-unsigned.zip
+          if-no-files-found: warn
+
+  web:
+    name: Web build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - name: Build web
+        working-directory: frontend
+        run: |
+          flutter pub get
+          flutter build web --release
+      - name: Package web
+        run: |
+          cd frontend/build/web
+          zip -r "$GITHUB_WORKSPACE/PayloadHub-AI-Web.zip" .
+      - name: Upload web build
+        uses: actions/upload-artifact@v4
+        with:
+          name: PayloadHub-AI-Web
+          path: PayloadHub-AI-Web.zip
+          if-no-files-found: error
+
+  crud_android:
+    name: CRUD Mahasiswa APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - name: Prepare Android SDK
+        run: |
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
+          sdkmanager "platforms;android-36" "build-tools;35.0.0" "ndk;28.2.13676358" >/dev/null
+      - name: Build CRUD APK
+        working-directory: crud_mahasiswa
+        run: |
+          flutter pub get
+          flutter build apk --release
+      - name: Upload CRUD APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: CRUD-Mahasiswa-Android
+          path: crud_mahasiswa/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+
+  release:
+    name: Publish all-device release
+    if: always() && (github.event_name != 'workflow_dispatch' || github.event.inputs.publish_release == 'true')
+    needs:
+      - android
+      - windows
+      - linux
+      - macos
+      - ios
+      - web
+      - crud_android
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: "*"
+          path: dist
+          merge-multiple: true
+      - name: Generate checksums
+        run: |
+          cd dist
+          if [ -z "$(find . -maxdepth 1 -type f -print -quit)" ]; then
+            echo "Tidak ada artefak yang berhasil dibangun." >&2
+            exit 1
+          fi
+          sha256sum * > SHA256SUMS.txt
+          ls -lh
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: all-devices-${{ github.run_number }}
+          name: "PayloadHub-AI all devices build #${{ github.run_number }}"
+          body: |
+            Build otomatis untuk seluruh target.
+
+            Isi rilis:
+            - PayloadHub-AI Android APK
+            - PayloadHub-AI Windows ZIP
+            - PayloadHub-AI Linux tar.gz
+            - PayloadHub-AI macOS ZIP
+            - PayloadHub-AI iOS unsigned ZIP (perlu signing untuk perangkat nyata)
+            - PayloadHub-AI Web ZIP
+            - CRUD Mahasiswa Android APK
+            - SHA256SUMS.txt
+          files: |
+            dist/*
+          fail_on_unmatched_files: false
+          generate_release_notes: true

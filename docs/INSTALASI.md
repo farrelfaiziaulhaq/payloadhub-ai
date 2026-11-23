@@ -203,7 +203,23 @@ Jika hanya ingin backend dulu:
 python scripts/payloadhub.py setup --skip-flutter
 ```
 
-### 2.1 Isi `backend/.env` (opsional untuk AI)
+### 2.1 Build semua device otomatis
+
+Buka **Actions → Build All Devices → Run workflow**. Workflow membangun
+Android, Windows, Linux, macOS, iOS unsigned, web, dan APK CRUD Mahasiswa,
+lalu menerbitkan artefak serta rilis GitHub. Tidak perlu menyiapkan Flutter
+atau Android SDK di komputer sendiri untuk jalur ini.
+
+Untuk memasang hasil di perangkat:
+
+- Android: unduh APK, izinkan instalasi dari sumber tidak dikenal.
+- Windows: ekstrak ZIP, jalankan `payloadhub_ai.exe`.
+- Linux: ekstrak tar.gz, jalankan `./payloadhub_ai`.
+- macOS: ekstrak ZIP, buka aplikasi. Build belum dinotarisasi.
+- iOS: perlu signing Apple sebelum dapat dipasang di iPhone.
+- Web: ekstrak ZIP, jalankan melalui web server statis.
+
+### 2.2 Isi `backend/.env` (opsional untuk AI)
 
 Buka `backend/.env` dengan editor:
 

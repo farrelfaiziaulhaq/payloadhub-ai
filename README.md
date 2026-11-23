@@ -54,6 +54,35 @@ python scripts/payloadhub.py doctor
 Windows PowerShell bisa memakai `.\setup.ps1`; Linux/macOS memakai
 `./setup.sh`.
 
+## Build semua device lewat GitHub Actions
+
+Workflow manual tersedia di
+[`.github/workflows/build-all-devices.yml`](.github/workflows/build-all-devices.yml).
+Satu kali run akan menyiapkan dependency dan membangun:
+
+| Target | Hasil |
+|---|---|
+| Android | `PayloadHub-AI-Android` APK |
+| Windows | `PayloadHub-AI-Windows.zip` |
+| Linux | `PayloadHub-AI-Linux.tar.gz` |
+| macOS | `PayloadHub-AI-macOS.zip` |
+| iOS | `PayloadHub-AI-iOS-unsigned.zip` |
+| Web | `PayloadHub-AI-Web.zip` |
+| CRUD Mahasiswa | `CRUD-Mahasiswa-Android` APK |
+
+Langkah:
+
+1. Buka tab **Actions** di repository GitHub.
+2. Pilih **Build All Devices**.
+3. Klik **Run workflow**, lalu **Run workflow** lagi.
+4. Tunggu semua job selesai. Artefak tersedia di halaman run.
+5. Secara default hasil build juga diterbitkan sebagai GitHub Release
+   `all-devices-<nomor-run>`.
+
+Job **quality** menjalankan `flutter analyze` dan `flutter test` untuk kedua
+aplikasi. Job **ios** bersifat unsigned, jadi untuk memasang di iPhone perlu
+signing Apple. Build macOS juga belum melalui notarization.
+
 ---
 
 ## 1. Prasyarat
