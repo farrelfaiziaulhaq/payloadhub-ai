@@ -210,6 +210,9 @@ Android, Windows, Linux, macOS, iOS unsigned, web, dan APK CRUD Mahasiswa,
 lalu menerbitkan artefak serta rilis GitHub. Tidak perlu menyiapkan Flutter
 atau Android SDK di komputer sendiri untuk jalur ini.
 
+Contoh hasil lengkap:
+<https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/all-devices-4>.
+
 Untuk memasang hasil di perangkat:
 
 - Android: unduh APK, izinkan instalasi dari sumber tidak dikenal.

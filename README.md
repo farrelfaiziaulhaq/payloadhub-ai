@@ -77,7 +77,8 @@ Langkah:
 3. Klik **Run workflow**, lalu **Run workflow** lagi.
 4. Tunggu semua job selesai. Artefak tersedia di halaman run.
 5. Secara default hasil build juga diterbitkan sebagai GitHub Release
-   `all-devices-<nomor-run>`.
+   `all-devices-<nomor-run>`. Contoh hasil lengkap:
+   <https://github.com/farrelfaiziaulhaq/payloadhub-ai/releases/tag/all-devices-4>.
 
 Job **quality** menjalankan `flutter analyze` dan `flutter test` untuk kedua
 aplikasi. Job **ios** bersifat unsigned, jadi untuk memasang di iPhone perlu
