@@ -8,6 +8,7 @@ dokumen teknis dan panduan presentasi sesuai kebutuhan.
 | Urutan | Dokumen | Untuk siapa | Isi |
 |---:|---|---|---|
 | 0 | [Panduan Instalasi](INSTALASI.md) | Semua | Dari komputer kosong sampai Android/desktop berjalan |
+| 0 | [Build semua device (GitHub Actions)](../.github/workflows/build-all-devices.yml) | Pengembang | Satu klik: Android, Windows, Linux, macOS, iOS, web, CRUD |
 | 1 | [Laporan Lengkap (gabungan)](PayloadHub-AI-Laporan-Lengkap.md) | Dosen, pengumpulan | **Satu dokumen utuh** ringkasan Tahap 1–5 + teknis + demo |
 | 1 | [Tahap 1 — Analisis Kebutuhan](Tahap-1-Analisis-Kebutuhan.md) | Dosen, penguji | Latar belakang, persona, kebutuhan, etika, prioritas |
 | 2 | [Tahap 2 — Perancangan Sistem](Tahap-2-Perancangan-Sistem.md) | Dosen, penguji | Arsitektur, navigasi, design system, wireframe |
