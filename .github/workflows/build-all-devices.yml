@@ -71,11 +71,13 @@ jobs:
         run: |
           flutter pub get
           flutter build apk --release
+      - name: Stage PayloadHub-AI APK
+        run: cp frontend/build/app/outputs/flutter-apk/app-release.apk PayloadHub-AI-Android.apk
       - name: Upload PayloadHub-AI APK
         uses: actions/upload-artifact@v4
         with:
           name: PayloadHub-AI-Android
-          path: frontend/build/app/outputs/flutter-apk/app-release.apk
+          path: PayloadHub-AI-Android.apk
           if-no-files-found: error
 
   windows:
@@ -249,11 +251,13 @@ jobs:
         run: |
           flutter pub get
           flutter build apk --release
+      - name: Stage CRUD APK
+        run: cp crud_mahasiswa/build/app/outputs/flutter-apk/app-release.apk CRUD-Mahasiswa-Android.apk
       - name: Upload CRUD APK
         uses: actions/upload-artifact@v4
         with:
           name: CRUD-Mahasiswa-Android
-          path: crud_mahasiswa/build/app/outputs/flutter-apk/app-release.apk
+          path: CRUD-Mahasiswa-Android.apk
           if-no-files-found: error
 
   release:
